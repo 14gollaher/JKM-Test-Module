@@ -47,6 +47,9 @@
     <Compile Include="tango\migrations\__init__.py" />
     <Compile Include="tango\models.py" />
     <Compile Include="tango\tests.py" />
+    <Compile Include="tango\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tango\views.py" />
     <Compile Include="tango\__init__.py" />
   </ItemGroup>
@@ -64,8 +67,12 @@
     <Folder Include="tango\migrations\" />
     <Folder Include="tango\static\" />
     <Folder Include="tango\static\content\" />
+    <Folder Include="tango\static\lib\" />
     <Folder Include="tango\static\scripts\" />
+    <Folder Include="tango\static\scripts\home\" />
+    <Folder Include="tango\static\scripts\tango\" />
     <Folder Include="tango\templates\" />
+    <Folder Include="tango\templates\home\" />
     <Folder Include="tango\templates\tango\" />
   </ItemGroup>
   <ItemGroup>
@@ -97,8 +104,10 @@
     <Content Include="app\templates\index.html" />
     <Content Include="app\templates\layout.html" />
     <Content Include="tango\static\content\site.css" />
-    <Content Include="tango\static\scripts\tango.js" />
+    <Content Include="tango\static\lib\jquery-3.2.1.slim.min.js" />
+    <Content Include="tango\static\scripts\tango\tango.js" />
     <Content Include="tango\templates\tango\index.html" />
+    <Content Include="tango\templates\layout.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">

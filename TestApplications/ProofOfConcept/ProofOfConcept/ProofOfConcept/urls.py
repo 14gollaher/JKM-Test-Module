@@ -3,7 +3,7 @@ Definition of urls for ProofOfConcept.
 """
 
 from datetime import datetime
-from django.conf.urls import url
+from django.conf.urls import url, include
 import django.contrib.auth.views
 
 import app.forms
@@ -17,9 +17,9 @@ import tango.views
 
 urlpatterns = [
     # Examples:
+    url(r'^tango/', include('tango.urls', namespace="tango")),
     url(r'^$', app.views.home, name='home'),
-    url(r'^sampleForm', app.views.sampleForm, name='sampleForm'),
-    url(r'^tango/(?P<viewToTest>\w+|)', tango.views.viewTest, name='home')
+    url(r'^sampleForm', app.views.sampleForm, name='sampleForm')
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

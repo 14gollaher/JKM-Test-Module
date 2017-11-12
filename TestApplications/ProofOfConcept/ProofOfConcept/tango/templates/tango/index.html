@@ -1,26 +1,28 @@
-<link rel="stylesheet" href="../static/content/site.css" />
+{% extends "layout.html" %}
+
+{% block content %}
 <html> 
- 
 <body>
     <div id="main-wrap">
         <h1>Tango</h1>
         <div id="content-left">
-            <div class="btn-group-vertical">
-                <button type="button" class="btn-lg btn-primary tango-button"   id="testButton">Test</button>
-                <button type="button" class="btn-lg btn-primary tango-button" data-toggle="modal" data-target="#passModal" id="passButton">Pass</button>
-                <button type="button" class="btn-lg btn-primary tango-button" data-toggle="modal" data-target="#failModal" id="failButton">Fail</button>
-            </div>
+            <button type="button" class="tango-button" id="testButton">Test</button>
+            <button type="button" class="tango-button" data-toggle="modal" data-target="#passModal" id="passButton">Pass</button>
+            <button type="button" class="tango-button" data-toggle="modal" data-target="#failModal" id="failButton">Fail</button>
         </div>
-        
         <div id="content-right">
             <div class="row">
-                <iframe id="userAppIframe" src="http://{{ request.get_host }}/{{viewToTest}}" ></iframe>
+                <iframe id="viewTestIFrame" src="http://{{ request.get_host }}/{{viewToTest}}" ></iframe>
             </div>
         </div>
    </div>
 </body>
-
 </html>
+{% endblock %}
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="../../static/scripts/tango.js"></script>
+{% block scripts %}
+{% load staticfiles %}
+<script src="{% static 'scripts/tango/tango.js' %}"></script>
+{% endblock %}
+
+

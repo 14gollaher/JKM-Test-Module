@@ -1,38 +1,28 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<link rel="stylesheet" href="../static/content/styles.css" />
+{% extends "layout.html" %}
+
+{% block content %}
 <html> 
-<head><title>Tango</title></head> 
 <body>
     <div id="main-wrap">
+        <h1>Tango</h1>
         <div id="content-left">
-            <button type="button" class="btn-lg btn-primary" id="testButton">Test</button>
-            <button type="button" class="btn-lg btn-primary" id="passButton">Pass</button>
-            <button type="button" class="btn-lg btn-primary" id="failButton">Fail</button>
+            <button type="button" class="tango-button" id="testButton">Test</button>
+            <button type="button" class="tango-button" data-toggle="modal" data-target="#passModal" id="passButton">Pass</button>
+            <button type="button" class="tango-button" data-toggle="modal" data-target="#failModal" id="failButton">Fail</button>
         </div>
-      
         <div id="content-right">
-            <iframe id="userAppIframe" src="http://{{ request.get_host }}/" style="width: 800px; height: 900px"></iframe>
+            <div class="row">
+                <iframe id="viewTestIFrame" src="http://{{ request.get_host }}/{{viewToTest}}" ></iframe>
+            </div>
         </div>
    </div>
-     
-</body> 
+</body>
 </html>
+{% endblock %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% block scripts %}
+{% load staticfiles %}
+<script src="{% static 'scripts/tango/tango.js' %}"></script>
+{% endblock %}
 
-<script>
 
-   $('#testButton').click(function () {
-        $("#userAppIframe").contents().find("#hello").val("Yo yo");
-    });
-
-   $('#passButton').click(function () {
-
-   });
-
-   $('#testButton').click(function () {
-        
-   });
-
-</script>
