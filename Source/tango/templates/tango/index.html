@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../static/content/styles.css" />
+<html> 
+<head><title>Tango</title></head> 
+<body>
+    <div id="main-wrap">
+        <div id="content-left">
+            <button type="button" class="btn-lg btn-primary" id="testButton">Test</button>
+            <button type="button" class="btn-lg btn-primary" id="passButton">Pass</button>
+            <button type="button" class="btn-lg btn-primary" id="failButton">Fail</button>
+        </div>
+      
+        <div id="content-right">
+            <iframe id="userAppIframe" src="http://{{ request.get_host }}/" style="width: 800px; height: 900px"></iframe>
+        </div>
+   </div>
+     
+</body> 
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+
+   $('#testButton').click(function () {
+        $("#userAppIframe").contents().find("#hello").val("Yo yo");
+    });
+
+   $('#passButton').click(function () {
+
+   });
+
+   $('#testButton').click(function () {
+        
+   });
+
+</script>
