@@ -11,6 +11,18 @@ def home(request):
         'index.html',
         {
             'title':'Home Page',
-            'year':datetime.now().year,
+            'year': datetime.now().year,
+        }
+    )
+
+def sampleForm(request):
+    """Renders the home page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'sampleForm.html',
+        {
+            'title':'Home Page',
+            'year': datetime.now().year,
         }
     )

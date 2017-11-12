@@ -18,7 +18,8 @@ import tango.views
 urlpatterns = [
     # Examples:
     url(r'^$', app.views.home, name='home'),
-    url(r'^tango', tango.views.home, name='home')
+    url(r'^sampleForm', app.views.sampleForm, name='sampleForm'),
+    url(r'^tango/(?P<viewToTest>\w+|)', tango.views.viewTest, name='home')
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
