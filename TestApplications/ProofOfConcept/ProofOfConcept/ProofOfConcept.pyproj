@@ -107,7 +107,7 @@
     <Content Include="tango\static\lib\jquery-3.2.1.slim.min.js" />
     <Content Include="tango\static\scripts\tango\tango.js" />
     <Content Include="tango\templates\tango\index.html" />
-    <Content Include="tango\templates\layout.html" />
+    <Content Include="tango\templates\tango-layout.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">

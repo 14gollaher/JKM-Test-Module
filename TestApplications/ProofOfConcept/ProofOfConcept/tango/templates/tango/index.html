@@ -1,19 +1,16 @@
-{% extends "layout.html" %}
+{% extends "tango-layout.html" %}
 
 {% block content %}
 <html> 
 <body>
     <div id="main-wrap">
-        <h1>Tango</h1>
-        <div id="content-left">
+        <div>
             <button type="button" class="tango-button" id="testButton">Test</button>
-            <button type="button" class="tango-button" data-toggle="modal" data-target="#passModal" id="passButton">Pass</button>
-            <button type="button" class="tango-button" data-toggle="modal" data-target="#failModal" id="failButton">Fail</button>
+            <button type="button" class="tango-button" id="passButton">Pass</button>
+            <button type="button" class="tango-button" id="failButton">Fail</button>
+        <div>
+            <iframe id="tango-frame" src="http://{{ request.get_host }}/{{viewToTest}}" ></iframe>
         </div>
-        <div id="content-right">
-            <div class="row">
-                <iframe id="viewTestIFrame" src="http://{{ request.get_host }}/{{viewToTest}}" ></iframe>
-            </div>
         </div>
    </div>
 </body>

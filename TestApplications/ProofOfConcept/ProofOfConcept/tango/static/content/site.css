@@ -17,12 +17,19 @@
 }
 
 .tango-button {
-    margin-bottom: 10px;
-    margin-left: 10px;
-    width: 100px;
+    background-color: #93C178;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
 }
 
-.container {
+.tango-container {
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
@@ -30,19 +37,70 @@
 }
 
 @media (min-width: 768px) {
-    .container {
+    .tango-container {
         width: 750px;
     }
 }
 
 @media (min-width: 992px) {
-    .container {
+    .tango-container {
         width: 970px;
     }
 }
 
 @media (min-width: 1200px) {
-    .container {
+    .tango-container {
         width: 1170px;
     }
 }
+
+body {
+    background-color: #DFDCE3;
+}
+
+#tango-frame {
+    border-radius: 10px;
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    height: 100%;
+    width: 60%;
+}
+
+#tango-testing-view {
+    border-radius: 10px;
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    height: 100%;
+    width: 40%;
+}
+
+
+.tango-nav {
+    font-weight: 600;
+    background-color: #465C8B;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+    .tango-nav a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+
+        .tango-nav a:hover {
+            background-color: #F7EF6A;
+            color: #465C8B;
+        }
+
+        .tango-nav a.active {
+            background-color: #4CAF50;
+        }
+
+
