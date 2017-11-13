@@ -1,10 +1,5 @@
 var turn = 0;
 
-$(function () {
-    $('#passButton').hide();
-    $('#failButton').hide();
-});
-
 $('#testButton').click(function () {
     if (turn === 0) {
         turn0();

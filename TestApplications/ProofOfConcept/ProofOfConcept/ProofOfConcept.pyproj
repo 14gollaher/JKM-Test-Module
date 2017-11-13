@@ -103,6 +103,7 @@
     <Content Include="app\static\app\scripts\_references.js" />
     <Content Include="app\templates\index.html" />
     <Content Include="app\templates\layout.html" />
+    <Content Include="tango\static\content\grid.css" />
     <Content Include="tango\static\content\site.css" />
     <Content Include="tango\static\lib\jquery-3.2.1.slim.min.js" />
     <Content Include="tango\static\scripts\tango\tango.js" />
