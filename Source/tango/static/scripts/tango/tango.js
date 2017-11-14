@@ -1,4 +1,5 @@
 var turn = 0;
+
 $(function () {
     $('#passButton').hide();
     $('#failButton').hide();
@@ -9,11 +10,11 @@ $('#testButton').click(function () {
         turn0();
         turn = turn + 1;
     }
-    else if (turn === 1){
+    else if (turn === 1) {
         turn1();
         turn = turn + 1;
     }
-    else if(turn === 2){
+    else if (turn === 2) {
         turn2();
         turn = 0;
     }
@@ -37,20 +38,20 @@ $('#failButton').click(function () {
 });
 
 function turn0() {
-    $("#viewTestIFrame").contents().find("#emailInput").val("email@gmail.com");
-    $("#viewTestIFrame").contents().find("#numberInput").val("10");
-    $("#viewTestIFrame").contents().find("#textInput").val("Hello");
+    $("#tango-frame").contents().find("#emailInput").val("email@gmail.com");
+    $("#tango-frame").contents().find("#numberInput").val("10");
+    $("#tango-frame").contents().find("#textInput").val("Hello");
 }
 
 function turn1() {
-    $("#viewTestIFrame").contents().find("#emailInput").val("532");
-    $("#viewTestIFrame").contents().find("#numberInput").val("-11");
-    $("#viewTestIFrame").contents().find("#textInput").val("150");
+    $("#tango-frame").contents().find("#emailInput").val("532");
+    $("#tango-frame").contents().find("#numberInput").val("-11");
+    $("#tango-frame").contents().find("#textInput").val("150");
 }
 
 function turn2() {
-    $("#viewTestIFrame").contents().find("#emailInput").val("Hello");
-    $("#viewTestIFrame").contents().find("#numberInput").val("Hello");
-    $("#viewTestIFrame").contents().find("#textInput").val("email@gmail.com");
+    $("#tango-frame").contents().find("#emailInput").val("Hello");
+    $("#tango-frame").contents().find("#numberInput").val("Hello");
+    $("#tango-frame").contents().find("#textInput").val("email@gmail.com");
 }
 

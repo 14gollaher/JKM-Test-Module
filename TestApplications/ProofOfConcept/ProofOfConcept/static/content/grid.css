@@ -1,0 +1,114 @@
+.tango-container {
+    width: 100%;
+    max-width: 1800px;
+}
+
+.tango-row:before,
+.tango-row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+[class*='tango-col-'] {
+    float: left;
+    min-height: 1px;
+    width: 16.66%;
+    padding: 12px;
+}
+
+.tango-col-1 {
+    width: 16.66%;
+}
+
+.tango-col-2 {
+    width: 33.33%;
+}
+
+.tango-col-3 {
+    width: 50%;
+}
+
+.tango-col-4 {
+    width: 66.66%;
+}
+
+.tango-col-5 {
+    width: 83.33%;
+}
+
+.tango-col-6 {
+    width: 100%;
+}
+
+.tango-outline, .tango-outline * {
+    outline: 1px solid #F6A1A1;
+}
+
+[class*='tango-col-'] > p {
+    background-color: #FFC2C2;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    color: white;
+}
+
+@media all and (max-width:800px) {
+    .tango-col-1 {
+        width: 33.33%;
+    }
+
+    .tango-col-2 {
+        width: 50%;
+    }
+
+    .tango-col-3 {
+        width: 83.33%;
+    }
+
+    .tango-col-4 {
+        width: 100%;
+    }
+
+    .tango-col-5 {
+        width: 100%;
+    }
+
+    .tango-col-6 {
+        width: 100%;
+    }
+
+    .tango-row .tango-col-2:last-of-type {
+        width: 100%;
+    }
+
+    .tango-row .tango-col-5 ~ .tango-col-1 {
+        width: 100%;
+    }
+}
+
+@media all and (max-width:650px) {
+    .tango-col-1 {
+        width: 50%;
+    }
+
+    .tango-col-2 {
+        width: 100%;
+    }
+
+    .tango-col-3 {
+        width: 100%;
+    }
+
+    .tango-col-4 {
+        width: 100%;
+    }
+
+    .tango-col-5 {
+        width: 100%;
+    }
+
+    .tango-col-6 {
+        width: 100%;
+    }
+}
