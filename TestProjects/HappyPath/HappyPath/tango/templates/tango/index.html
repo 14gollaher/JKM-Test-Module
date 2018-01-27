@@ -1,0 +1,25 @@
+{% extends "tango-layout.html" %}
+
+{% block content %}
+<html> 
+<body>
+    <div id="main-wrap">
+        <div>
+            <button type="button" class="tango-button" id="testButton">Test</button>
+            <button type="button" class="tango-button" id="passButton">Pass</button>
+            <button type="button" class="tango-button" id="failButton">Fail</button>
+        <div>
+            <iframe id="tango-frame" src="http://{{ request.get_host }}/{{viewToTest}}" ></iframe>
+        </div>
+        </div>
+   </div>
+</body>
+</html>
+{% endblock %}
+
+{% block scripts %}
+{% load staticfiles %}
+<script src="{% static 'scripts/tango/tango.js' %}"></script>
+{% endblock %}
+
+
