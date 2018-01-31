@@ -109,8 +109,10 @@
     <Content Include="tango\admin.pyc" />
     <Content Include="tango\migrations\__init__.pyc" />
     <Content Include="tango\models.pyc" />
+    <Content Include="tango\static\content\modal.css" />
     <Content Include="tango\static\content\site.css" />
     <Content Include="tango\static\lib\jquery-3.2.1.slim.min.js" />
+    <Content Include="tango\static\scripts\tango\modal.js" />
     <Content Include="tango\static\scripts\tango\tango.js" />
     <Content Include="tango\templates\tango-layout.html" />
     <Content Include="tango\templates\tango\index.html" />
