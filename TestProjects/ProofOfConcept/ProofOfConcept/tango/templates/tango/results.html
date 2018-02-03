@@ -1,0 +1,28 @@
+﻿{% extends "tango-layout.html" %}
+
+{% block content %}
+<html> 
+<head>
+    {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'content/site.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'content/modal.css' %}" />
+</head>
+<body>
+ <div>
+     <table>
+
+
+
+     </table>
+ </div>
+
+</body>
+</html>
+{% endblock %}
+
+{% block scripts %}
+{% load staticfiles %}
+<script src="{% static 'scripts/tango/tango.js' %}"></script>
+{% endblock %}
+
+
