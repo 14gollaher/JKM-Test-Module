@@ -2,56 +2,24 @@
 
 {% block content %}
 <html> 
-
 <body>
-    <div id="main-wrap">
-        <div>
-            <button type="button" class="tango-button" id="testButton">Test</button>
-            <button type="button" class="tango-button" id="passButton">Pass</button>
-            <button type="button" class="tango-button" id="failButton">Fail</button>
-        <div>
-            <iframe id="tango-frame" src="http://{{ request.get_host }}/{{viewToTest}}" ></iframe>
-        </div>
-        </div>
-   </div>
-     <!-- The Modal -->
-        <div id="failModal" class="modal">
-
-          <!-- Modal content -->
-            <div class="modal-content">
-                <div class="modal-body">
-                    <span class="close">&times;</span>
-
-                    <h3 style="margin: 5px">Expected Results</h3>
-                    <textarea class="expected-textarea" id="expectedResultsText" placeholder="Please enter the expected results of the failed test..."></textarea>
-                   
-                    <h3 style="margin: 5px">Actual Results</h3>
-                    <textarea class ="actual-textarea" id="actualResultsText" placeholder="Please enter the actual results of the failed test..."></textarea>
-
-                    <p>Importance (5 = most important)
-                        <select id="importanceSelect">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </p>
-                    
-                </div>
-                <div class="modal-footer">
-                    <button class="submit-button">Submit</button>
-                </div>
+    <div class="uk-flex uk-flex-center">
+        <div class="uk-card uk-card-default uk-card-body">
+            <div>
+                <button type="button" class="uk-button uk-button-default" id="testButton">Test</button>
+                <button type="button" class="uk-button uk-button-default" id="passButton">Pass</button>
+                <button type="button" class="uk-button uk-button-default" id="failButton">Fail</button>
             </div>
         </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-left">
+            <h3>Testing View: {{viewToTest}}</h3>
+            <div id="tango-testing-view">
+                <iframe id="tango-frame" src="http://{{ request.get_host }}/{{viewToTest}}" ></iframe>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-{% endblock %}
-
-{% block scripts %}
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'content/modal.css' %}" />
-<script src="{% static 'scripts/tango/modal.js'%}"></script>
 {% endblock %}
 
 

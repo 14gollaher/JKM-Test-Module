@@ -1,57 +1,26 @@
-var turn = 0;
+//var turn = 0;
 
-$(function () {
-    $('#passButton').hide();
-    $('#failButton').hide();
-});
+//$(function () {
 
-$('#testButton').click(function () {
-    if (turn === 0) {
-        turn0();
-        turn = turn + 1;
-    }
-    else if (turn === 1) {
-        turn1();
-        turn = turn + 1;
-    }
-    else if (turn === 2) {
-        turn2();
-        turn = 0;
-    }
+//    var tangoTest1 = {
+//        id: "P-12345", executionDate: "12/2/2018 8:30pm", associatedView: "sampleForm",
+//        status: "Pass", importance: "5", testData: { id_username: "H123", id_password: "12341234" },
+//        notes: ""
+//    };
 
-    $('#passButton').show();
-    $('#failButton').show();
-    $('#testButton').hide();
-    
-});
+//    var tangoTest2 = {
+//        id: "P-12346", executionDate: "12/3/2018 6:30am", associatedView: "sampleForm",
+//        status: "Pass", importance: "5", testData: { id_username: "!421!", id_password: "cats" },
+//        notes: ""
+//    };
 
-$('#passButton').click(function () {
-    $('#passButton').hide();
-    $('#failButton').hide();
-    $('#testButton').show();
-});
+//    var tangoTest3 = {
+//        id: "P-12347", executionDate: "12/3/2018 6:32am", associatedView: "sampleForm",
+//        status: "Fail", importance: "2", testData: { id_username: "AAca", id_password: "null" },
+//        notes: "The password field should have given an error but didn't"
+//    };
 
-$('#failButton').click(function () {
-    $('#passButton').hide();
-    $('#failButton').hide();
-    $('#testButton').show();
-});
+//    var tangoTests = { tangoTest1, tangoTest2, tangoTest3 };
 
-function turn0() {
-    $("#tango-frame").contents().find("#emailInput").val("email@gmail.com");
-    $("#tango-frame").contents().find("#numberInput").val("10");
-    $("#tango-frame").contents().find("#textInput").val("Hello");
-}
-
-function turn1() {
-    $("#tango-frame").contents().find("#emailInput").val("532");
-    $("#tango-frame").contents().find("#numberInput").val("-11");
-    $("#tango-frame").contents().find("#textInput").val("150");
-}
-
-function turn2() {
-    $("#tango-frame").contents().find("#emailInput").val("Hello");
-    $("#tango-frame").contents().find("#numberInput").val("Hello");
-    $("#tango-frame").contents().find("#textInput").val("email@gmail.com");
-}
-
+//    alert(tangoTest1.testData.id_password);
+//});
