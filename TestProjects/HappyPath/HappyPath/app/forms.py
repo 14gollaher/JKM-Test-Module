@@ -1,19 +1,7 @@
-"""
-Definition of forms.
-"""
-
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
-from django.utils.translation import ugettext_lazy as _
 
-class BootstrapAuthenticationForm(AuthenticationForm):
-    """Authentication form which uses boostrap CSS."""
-    username = forms.CharField(max_length=254,
-                               widget=forms.TextInput({
-                                   'class': 'form-control',
-                                   'placeholder': 'User name'}))
-    password = forms.CharField(label=_("Password"),
-                               widget=forms.PasswordInput({
-                                   'class': 'form-control',
-                                   'placeholder':'Password'}))
-
+class HappyPathForm(forms.Form):
+    firstName = forms.CharField(label='First name', max_length=50)
+    lastName = forms.CharField(label='Last name', max_length=50)
+    emailAddress = forms.EmailField(label='E-Mail', max_length=100)
+    age = forms.IntegerField(label='Age', min_value = 10, max_value=100)
