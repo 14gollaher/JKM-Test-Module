@@ -1,18 +1,30 @@
 $("#testButton").click(function () {
     //getPermutations();
-    generatePermutation();
+    generatePermutations();
 });
 
 function generatePermutation() {
-    for (var i = 0; i < forms.length; i++) {
-        $("#tango-frame").contents().find("#id_" + forms[i].name).val(chance.string()); 
+    for (var i = 0; i < form.length; i++) {
+        $("#tango-frame").contents().find("#id_" + form[i].name).val(chance.string()); 
     }
 }
 
-function getPermutations() {
-    var requestUrl = window.location.origin + "/tango/permutations";
-    $.get(requestUrl, function (data) {
-        var existingsTests = data;
+function generatePermutations() {
+    var requestUrl = window.location.origin + "/tango/generate-permutations";
+
+    //$.get(requestUrl, { form: form })
+    //    .done(function (data) {
+    //        alert("Data Loaded: " + data);
+    //    });
+
+    $.ajax({
+        "type": "GET",
+        "dataType": "json",
+        "url": requestUrl,
+        "data": JSON.stringify(form),
+        "success": function (result) {
+            alert("yay!");
+        },
     });
 }
 

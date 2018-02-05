@@ -19,20 +19,24 @@ class TangoUserApplication:
                   model_tuple = (type, name, max_length)
                   self.model_info.append(model_tup)
 
-    # TODO: Make forms be a list of form, and make it not need any "Hardcoding"
+    # TODO: Right now we are just making 1 form in forms. we need to make this gooder
+    # by making the application fill self.forms with all forms in the program
     def populate_forms(self):
         self.forms = []
+        form = []
 
         all_forms = self.get_subclasses(django.forms.Form) 
         happyPathForm = all_forms[6] 
         for row in happyPathForm.base_fields.viewitems():
-            form = {}
-            form['name'] = row[0]
-            form['kind'] = self.get_tango_type((row[1]))
+            form_property = {}
+            form_property['name'] = row[0]
+            form_property['kind'] = self.get_tango_type((row[1]))
             #min = row[1].min_length; 
             #max = row[1].max_length; 
             #model_tup = (kind, name, min, max) 
-            self.forms.append(form)
+            form.append(form_property)
+
+        self.forms.append(form)
 
     def get_tango_type(self, djangoType):
         if type(djangoType) is django.forms.fields.CharField: return TangoType.string

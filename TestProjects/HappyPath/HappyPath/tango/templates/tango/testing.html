@@ -73,7 +73,7 @@
 {% block scripts %}
 
 <script>
-    var forms = JSON.parse('{{ forms | escapejs | safe}}');
+    var form = JSON.parse('{{ form | escapejs | safe}}');
 </script>
 {% load staticfiles %}
 <script src="{% static 'lib/chance.min.js' %}"></script>

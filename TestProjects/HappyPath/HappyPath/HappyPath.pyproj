@@ -47,6 +47,9 @@
     <Compile Include="tango\apps.py" />
     <Compile Include="tango\migrations\__init__.py" />
     <Compile Include="tango\models.py" />
+    <Compile Include="tango\TangoComponents\TangoPermutationGenerator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tango\TangoComponents\TangoUserApplication.py" />
     <Compile Include="tango\TangoComponents\TangoRepository.py">
       <SubType>Code</SubType>

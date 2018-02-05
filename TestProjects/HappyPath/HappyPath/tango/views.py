@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from TangoComponents.TangoRepository import *
 from TangoComponents.TangoUserApplication import *
+from TangoComponents.TangoPermutationGenerator import *
 from django.http import JsonResponse
 import json
 from django.core.serializers.json import DjangoJSONEncoder
@@ -16,7 +17,8 @@ def testing(request, test_view_name):
         'tango/testing.html',
         {
             'test_view_name': test_view_name,
-            'forms': json.dumps(list(tangoUserApplication.forms), cls = DjangoJSONEncoder)
+            #TODO: Don't want to call forms[0] here anymore, need to pick form based on test_view_name
+            'form': json.dumps(list(tangoUserApplication.forms[0]), cls = DjangoJSONEncoder)
         }
     )
 
@@ -27,6 +29,10 @@ def results(request):
     )
 
 def get_permutations(request):
-    tangoRepository = TangoRepository()
+    tango_repository = TangoRepository()
     permutations = tangoRepository.get_test_permutations('index')
     return JsonResponse(permutations, safe = False)
+
+def generate_permutations(form):
+    tango_permutations_generator = TangoPermutationGenerator(form)
+    return JsonResponse(Ok)
