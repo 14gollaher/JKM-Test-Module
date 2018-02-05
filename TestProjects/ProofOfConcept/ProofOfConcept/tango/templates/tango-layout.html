@@ -15,18 +15,17 @@
             <nav class="uk-navbar-container" uk-navbar="dropbar: true;" style="position: relative; z-index: 980;">
                 <div class="uk-navbar-left">
                     <ul class="uk-navbar-nav">
-                        <li class="uk-active"><a href="#">Active</a></li>
-                        <li><a href="#">Item</a></li>
+                        <li class="uk-active"><a href="">Test</a></li>
+                        <li><a href="results">Results</a></li>
                     </ul>
                 </div>
             </nav>
-        </div>
-
-        {% block content %}
-        {% endblock %}
-
-        <script src="{% static 'lib/uikit.min.js' %}"></script>
-        <script src="{% static 'lib/uikit-icons.min.js' %}"></script>
+        </div>   
     </body>
 </html>
 
+{% block content %}
+{% endblock %}
+
+<script src="{% static 'lib/uikit.min.js' %}"></script>
+<script src="{% static 'lib/uikit-icons.min.js' %}"></script>
