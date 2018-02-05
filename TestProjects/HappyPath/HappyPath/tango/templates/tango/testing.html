@@ -40,9 +40,9 @@
         </div>
  
         <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-margin-top">
-            <h3>Testing View: {{viewToTest}}</h3>
+            <h3>Testing View: {{test_view_name}}</h3>
             <div id="tango-testing-view">
-                <iframe id="tango-frame" src="http://{{ request.get_host }}/{{viewToTest}}" ></iframe>
+                <iframe id="tango-frame" src="http://{{ request.get_host }}/{{test_view_name}}" ></iframe>
             </div>
         </div>
     </div>
@@ -71,6 +71,11 @@
 </html>
 {% endblock %}
 {% block scripts %}
+
+<script>
+    var forms = JSON.parse('{{ forms | escapejs | safe}}');
+</script>
 {% load staticfiles %}
+<script src="{% static 'lib/chance.min.js' %}"></script>
 <script src="{% static 'scripts/tango/tango.js' %}"></script>
 {% endblock %}

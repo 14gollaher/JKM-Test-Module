@@ -2,27 +2,31 @@ from django.shortcuts import render
 from TangoComponents.TangoRepository import *
 from TangoComponents.TangoUserApplication import *
 from django.http import JsonResponse
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
-def viewTest(request, viewToTest):
-    if viewToTest is None: viewToTest = ''
+def testing(request, test_view_name):
 
-    tangoUserApplication = TangoUserApplication();
+    if test_view_name is None: test_view_name = ''
+
+    tangoUserApplication = TangoUserApplication()
 
     return render(
         request,
         'tango/testing.html',
         {
-            'viewToTest': viewToTest
+            'test_view_name': test_view_name,
+            'forms': json.dumps(list(tangoUserApplication.forms), cls = DjangoJSONEncoder)
         }
     )
 
-def viewResults(request):
+def results(request):
     return render(
         request,
         'tango/results.html'
     )
 
-def getPermutations(request):
+def get_permutations(request):
     tangoRepository = TangoRepository()
-    permutations = tangoRepository.get_test_permutations()
+    permutations = tangoRepository.get_test_permutations('index')
     return JsonResponse(permutations, safe = False)

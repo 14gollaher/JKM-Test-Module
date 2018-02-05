@@ -1,14 +1,11 @@
 $("#testButton").click(function () {
-    getPermutations();
+    //getPermutations();
     generatePermutation();
 });
 
-formFieldNames = ['firstName', 'lastName', 'emailAddress', 'age']
-formFieldTypes = ['string', 'string', 'email', 'integer']
-
 function generatePermutation() {
-    for (var i = 0; i < formFieldNames.length; i++) {
-        $("#tango-frame").contents().find("#id_" + formFieldNames[i]).val(chance.string()); 
+    for (var i = 0; i < forms.length; i++) {
+        $("#tango-frame").contents().find("#id_" + forms[i].name).val(chance.string()); 
     }
 }
 
