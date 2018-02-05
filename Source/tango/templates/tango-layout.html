@@ -1,60 +1,31 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tango</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
         {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'lib/uikit.min.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'content/site.css' %}" />
-        <link rel="stylesheet" type="text/css" href="{% static 'content/modal.css' %}" />
     </head>
-
+ 
     <body>
-        <div class="tango-nav">
-          <a href="#home">Home</a>
-          <a href="#test">Test a View</a>
-          <a href="#results">Results</a>
-          <a href="#about">About</a>
-        </div>
-        <div class="container body-content">
-            {% block content %}
-            {% endblock %}
-        </div>
-
-        <!-- The Modal -->
-        <div id="failModal" class="modal">
-
-          <!-- Modal content -->
-            <div class="modal-content">
-                <div class="modal-body">
-                    <span class="close">&times;</span>
-
-                    <h3 style="margin: 5px">Expected Results</h3>
-                    <textarea class="expected-textarea" id="expectedResultsText" placeholder="Please enter the expected results of the failed test..."></textarea>
-                   
-                    <h3 style="margin: 5px">Actual Results</h3>
-                    <textarea class ="actual-textarea" id="actualResultsText" placeholder="Please enter the actual results of the failed test..."></textarea>
-
-                    <p>Importance (5 = most important)
-                        <select id="importanceSelect">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </p>
-                    
+        <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #transparent-sticky-navbar">
+            <nav class="uk-navbar-container" uk-navbar="dropbar: true;" style="position: relative; z-index: 980;">
+                <div class="uk-navbar-left">
+                    <ul class="uk-navbar-nav">
+                        <li class="uk-active"><a href="">Test</a></li>
+                        <li><a href="results">Results</a></li>
+                    </ul>
                 </div>
-                <div class="modal-footer">
-                    <button class="submit-button">Submit</button>
-                </div>
-            </div>
-        </div>
-    <script src="{% static 'lib/jquery-3.2.1.slim.min.js' %}"></script>
-    <script src="{% static 'scripts/tango/modal.js'%}"></script>
-    {% block scripts %}
-    {% endblock %}
+            </nav>
+        </div>   
     </body>
 </html>
-
+ 
+{% block content %}
+{% endblock %}
+ 
+<script src="{% static 'lib/uikit.min.js' %}"></script>
+<script src="{% static 'lib/uikit-icons.min.js' %}"></script>
