@@ -4,6 +4,7 @@ from TangoComponents.TangoUserApplication import *
 from TangoComponents.TangoPermutationGenerator import *
 from django.http import JsonResponse
 import json
+import ast
 from django.core.serializers.json import DjangoJSONEncoder
 
 def testing(request, test_view_name):
@@ -33,6 +34,7 @@ def get_permutations(request):
     permutations = tangoRepository.get_test_permutations('index')
     return JsonResponse(permutations, safe = False)
 
-def generate_permutations(form):
+def generate_permutations(request):
+    form = ast.literal_eval(request.GET['form'])
     tango_permutations_generator = TangoPermutationGenerator(form)
-    return JsonResponse(Ok)
+    return JsonResponse(tango_permutations_generator.permutations)

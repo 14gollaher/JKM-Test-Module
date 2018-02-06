@@ -30,10 +30,10 @@ class TangoUserApplication:
         for row in happyPathForm.base_fields.viewitems():
             form_property = {}
             form_property['name'] = row[0]
-            form_property['kind'] = self.get_tango_type((row[1]))
+            form_property['type'] = self.get_tango_type((row[1]))
             #min = row[1].min_length; 
             #max = row[1].max_length; 
-            #model_tup = (kind, name, min, max) 
+            #model_tup = (type, name, min, max) 
             form.append(form_property)
 
         self.forms.append(form)
@@ -46,7 +46,8 @@ class TangoUserApplication:
     def get_subclasses(self, cls): 
         return cls.__subclasses__() + [g for s in cls.__subclasses__() 
                                    for g in self.get_subclasses(s)] 
- 
+
+
 class TangoType:
     string = 1
     email = 2

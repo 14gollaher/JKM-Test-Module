@@ -26,28 +26,21 @@ $("#failButton").click(function () {
 
 function generatePermutation() {
     for (var i = 0; i < form.length; i++) {
-        $("#tango-frame").contents().find("#id_" + form[i].name).val(chance.string()); 
+        let caseValue = getCaseValue(form[i].name);
+        $("#tango-frame").contents().find("#id_" + form[i].name).val(caseValue); 
     }
 }
 
 function generatePermutations() {
-    var requestUrl = window.location.origin + "/tango/generate-permutations";
 
-    //$.get(requestUrl, { form: form })
-    //    .done(function (data) {
-    //        alert("Data Loaded: " + data);
-    //    });
-
-    $.ajax({
-        "type": "GET",
-        "dataType": "json",
-        "url": requestUrl,
-        "data": JSON.stringify(form),
-        "success": function (result) {
-            alert("yay!");
-        },
-    });
+    let requestUrl = window.location.origin + "/tango/generate-permutations";
+    $.get(requestUrl, { form: JSON.stringify(form) },
+        function (data) {
+            var permutations = data;
+        });
 }
+
+function
 
 
 
