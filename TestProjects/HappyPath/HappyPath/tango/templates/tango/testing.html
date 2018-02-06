@@ -13,32 +13,21 @@
         <div class="uk-flex uk-flex-column">
             <div class="uk-backgrounduk-card uk-card-default uk-card-body uk-margin-top">
                 <div>
-                    <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" id="testButton">Generate Permutation</button>
-                    <button type="button" class="uk-button uk-button-default uk-button-large" id="passButton">Pass</button>
-                    <button type="button" class="uk-button uk-button-default uk-button-large" id="failButton" href="#modal-center" uk-toggle>Fail</button>
+                    <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" disabled id="test-case-button">Run Next Case</button>
+                    <button type="button" class="uk-button uk-button-default uk-button-large" id="pass-button">Pass</button>
+                    <button type="button" class="uk-button uk-button-default uk-button-large" id="fail-button" href="#modal-center" uk-toggle>Fail</button>
                 </div>   
             </div>
  
             <div class="uk-card uk-card-default uk-card-body uk-margin-top">
-                <div>
-                    <table id="testTable" class="uk-table uk-table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Status</th>
-                                <th>Importance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                
-                            </tr>
-                        </tbody>
-                    </table>
+                <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" id="generate-permutations-button">Generate New Permutations</button>
+                <div id="current-permutation" style="padding-top: 10px;">
                 </div>
+                <div id="results-table" style="padding-top: 10px;">
+                </div>
+  
             </div>
         </div>
- 
         <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-margin-top">
             <h3>Testing View: {{test_view_name}}</h3>
             <div id="tango-testing-view">
@@ -74,6 +63,7 @@
 
 <script>
     var form = JSON.parse('{{ form | escapejs | safe}}');
+    var permutations = [];
 </script>
 {% load staticfiles %}
 <script src="{% static 'lib/chance.min.js' %}"></script>

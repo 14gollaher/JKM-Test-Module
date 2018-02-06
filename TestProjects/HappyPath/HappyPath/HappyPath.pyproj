@@ -133,7 +133,6 @@
     <Content Include="tango\static\scripts\tango\tango.js" />
     <Content Include="tango\templates\tango-layout.html" />
     <Content Include="tango\templates\tango\testing.html" />
-    <Content Include="tango\templates\tango\results.html" />
     <Content Include="tango\urls.pyc" />
     <Content Include="tango\views.pyc" />
     <Content Include="tango\__init__.pyc" />
@@ -142,9 +141,6 @@
     <None Include="readme.html">
       <SubType>WebBrowser</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <InterpreterReference Include="Global|PythonCore|2.7" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">

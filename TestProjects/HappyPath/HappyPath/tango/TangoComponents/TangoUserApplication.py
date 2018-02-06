@@ -27,10 +27,11 @@ class TangoUserApplication:
 
         all_forms = self.get_subclasses(django.forms.Form) 
         happyPathForm = all_forms[6] 
+        
         for row in happyPathForm.base_fields.viewitems():
             form_property = {}
-            form_property['name'] = row[0]
-            form_property['type'] = self.get_tango_type((row[1]))
+            form_property['tango_name'] = row[0]
+            form_property['tango_type'] = self.get_tango_type((row[1]))
             #min = row[1].min_length; 
             #max = row[1].max_length; 
             #model_tup = (type, name, min, max) 

@@ -36,5 +36,8 @@ def get_permutations(request):
 
 def generate_permutations(request):
     form = ast.literal_eval(request.GET['form'])
-    tango_permutations_generator = TangoPermutationGenerator(form)
+
+    tango_permutations_generator = TangoPermutationGenerator()
+    tango_permutations_generator.process_form(form)
+
     return JsonResponse(tango_permutations_generator.permutations)
