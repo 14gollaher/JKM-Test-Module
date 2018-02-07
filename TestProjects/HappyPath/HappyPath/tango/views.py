@@ -29,12 +29,6 @@ def results(request):
         'tango/results.html'
     )
 
-# Unused for now
-def get_cases(request):
-    tango_repository = TangoRepository()
-    cases = tangoRepository.get_test_cases('index')
-    return JsonResponse(cases, safe = False)
-
 def save_cases(request):
     view_name = request.GET['viewName']
     cases = ast.literal_eval(request.GET['cases'])
@@ -42,6 +36,13 @@ def save_cases(request):
     tango_repository = TangoRepository()
     tango_repository.insert_cases(view_name, cases)
     return HttpResponse('')
+
+def get_cases(request):
+    view_name = request.GET['viewName']
+
+    tango_repository = TangoRepository()
+    cases = tango_repository.get_cases(view_name)
+    return JsonResponse(cases,  safe = False)
 
 def generate_cases(request):
     form = ast.literal_eval(request.GET['form'])

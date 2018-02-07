@@ -1,6 +1,8 @@
 $(function () {
     $('#pass-button').hide();
     $('#fail-button').hide();
+    getStoredCases();
+    if (cases) $("#test-case-button").prop('disabled', true);
 });
 
 $("#test-case-button").click(function () {
@@ -35,16 +37,16 @@ $("#generate-cases-button").click(function () {
         function (data) {
             allocateCases(data);
             updateCasesTable();
-            $("#test-case-button").prop('disabled', false);
             updateCurrentCase();
-    });
+            $("#test-case-button").prop('disabled', false);
+        });
 });
 
 $("#add-case-button").click(function () {
     submitCustomCase();
     updateCasesTable();
-    $("#test-case-button").prop('disabled', false);
     updateCurrentCase();
+    $("#test-case-button").prop('disabled', false);
 });
 
 $("#results-table").on("click", "tr", function () {
@@ -57,6 +59,7 @@ $("#delete-case-button").click(function () {
     updateCasesTable();
     updateStoredCases();
     updateCurrentCase();
+    if (cases) $("#test-case-button").prop('disabled', true);
 });
 
 $("#generate-manual-case-button").click(function () {
@@ -87,9 +90,17 @@ function updateStoredCases() {
     $.get(requestUrl, { cases: JSON.stringify(savedCases), viewName: viewName })
 }
 
-function createCustomCase() {
+function getStoredCases() {
+    let requestUrl = window.location.origin + "/tango/get-cases";
+    $.get(requestUrl, { viewName: viewName },
+        function (data) {
+            cases = data;
+            updateCasesTable();
+            updateCurrentCase();
+        });
+}
 
-    //TODO: Don't make Id's this way....maybe. it's easy but bad. Or at least check if the id exists first in the function
+function createCustomCase() {
     newTestCase['tango_id'] = createNewId();
     newTestCase['tango_last_ran'] = "-";
     newTestCase['tango_importance'] = "-";
@@ -106,7 +117,10 @@ function createCustomCase() {
 }
 
 function allocateCases(data) {
-    cases = [];
+    cases = cases.filter(function (item) {
+        return item['tango_save'] == "true";
+    });
+
     while (!isEmpty(data)) {
         let testCase = {}
         $.each(data, function (key, value) {
@@ -151,15 +165,12 @@ function createCustomCaseTable(caseId) {
     html += '<th>Form Item</th>';
     html += '<th>Test Value</th>';
     html += '</tr>';
-    console.log(form);
-    let j = 1;
-    for (i in newTestCase) {
-        if (!isTangoProperty(i)) {
+    for (item in newTestCase) {
+        if (!isTangoProperty(item)) {
             html += '<tr>';
-            html += '<td>' + i + '</td>';
-            html += '<td> <input id="testValue' + j + '" class="uk-input" type="text" placeholder="Input"> </td>';
+            html += '<td>' + item + '</td>';
+            html += '<td> <input id="custom_value_' + item + '" class="uk-input" type="text" placeholder="Input"> </td>';
             html += '</tr>';
-            j = j + 1;
         }
     }
 
@@ -168,7 +179,11 @@ function createCustomCaseTable(caseId) {
 }
 
 function submitCustomCase() {
-   
+    for (let i = 0; i < form.length; i++) {
+        newTestCase[form[i]['tango_name']] = $('#custom_value_' + form[i]['tango_name']).val();
+    }
+    cases.unshift(newTestCase);
+    newTestCase = {};
 }
 
 function updateCasesTable() {
@@ -215,7 +230,6 @@ function updateCasesTable() {
 }
 
 function updateCurrentCase() {
-
     if (cases.length === 0) {
         document.getElementById('current-case').innerHTML = "";
         return;
@@ -242,7 +256,6 @@ function updateCurrentCase() {
 }
 
 function updateSelectedPermutation() {
-
     var html = '<h3 class="uk-heading-divider">Selected Case - ' + cases[selectedPermutationIndex]['tango_id'] + '</h1>';
     html += '<table class="uk-table uk-table-striped">';
 
