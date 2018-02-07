@@ -20,7 +20,9 @@ class TangoRepository:
         return self.database.table(view_name).all()
 
     def insert_cases(self, view_name, cases):
-        if not view_name: view_name = 'index'
+        if not view_name: view_name = 'tango_index'
+
+        self.database.purge_table(view_name)
 
         table = self.database.table(view_name)
         table.insert_multiple(cases)

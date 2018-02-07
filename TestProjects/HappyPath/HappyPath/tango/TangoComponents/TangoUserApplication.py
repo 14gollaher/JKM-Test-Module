@@ -12,6 +12,8 @@ class TangoUserApplication:
         #self.populate_views()
 
     def populate_models(self):
+        #TODO: 'app' should come from a config file somewhere
+        #TODO: Re-test this!
         models = apps.get_app_config('app').get_models();
         for model in models:
             fields = model._meta.get_fields()
@@ -22,7 +24,7 @@ class TangoUserApplication:
                   max_length = field.max_length
 
                   model_tuple = (type, name, max_length)
-                  self.model_info.append(model_tup)
+                  self.model_info.append(model_tuple)
 
     # TODO: Right now we are just making 1 form in forms. we need to make this gooder
     # by making the application fill self.forms with all forms in the program
