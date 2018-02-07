@@ -31,15 +31,24 @@ $("#fail-button").click(function () {
     updateCases();
 });
 
+$("#update-fail-button").click(function () {
+    updateFailedCase();
+    updateCasesTable();
+    updateStoredCases();
+});
+
+
 $("#generate-cases-button").click(function () {
-    let requestUrl = window.location.origin + "/tango/generate-cases";
-    $.get(requestUrl, { form: JSON.stringify(form) },
-        function (data) {
-            allocateCases(data);
-            updateCasesTable();
-            updateCurrentCase();
-            $("#test-case-button").prop('disabled', false);
-        });
+    if (confirm("Generating new cases will overwrite unsaved cases.")) {
+        let requestUrl = window.location.origin + "/tango/generate-cases";
+        $.get(requestUrl, { form: JSON.stringify(form) },
+            function (data) {
+                allocateCases(data);
+                updateCasesTable();
+                updateCurrentCase();
+                $("#test-case-button").prop('disabled', false);
+            });
+    }
 });
 
 $("#add-case-button").click(function () {
@@ -65,6 +74,12 @@ $("#delete-case-button").click(function () {
 $("#generate-manual-case-button").click(function () {
     let newCaseId = createCustomCase();
     createCustomCaseTable(newCaseId);
+});
+
+$("#display-notes-button").click(function () {
+    selectedPermutationIndex = $(this).index() - 1;
+    console.log("hello");
+    updateNotesModal(selectedPermutationIndex);
 });
 
 function runTestCase() {
@@ -178,6 +193,11 @@ function createCustomCaseTable(caseId) {
     document.getElementById('custom-case-details').innerHTML = html;
 }
 
+function updateNotesModal(index) {
+    let html = '<h3 class="uk-heading-divider">Selected Case - ' + caseId + '</h1>';
+    html += '<p>' + cases[index]['tango_notes'] + '</p>';
+}
+
 function submitCustomCase() {
     for (let i = 0; i < form.length; i++) {
         newTestCase[form[i]['tango_name']] = $('#custom_value_' + form[i]['tango_name']).val();
@@ -216,7 +236,13 @@ function updateCasesTable() {
         html += '<td>' + cases[i]['tango_id'] + '</td>';
         html += '<td>' + cases[i]['tango_last_ran'] + '</td>';
         html += '<td>' + cases[i]['tango_importance'] + '</td>';
-        html += '<td>' + cases[i]['tango_notes'] + '</td>';
+        if (cases[i]['tango_notes'] == '-') { //if tango_notes is empty
+            html += '<td>' + cases[i]['tango_notes'] + '</td>';
+        }
+        else
+        {
+            html += '<td> <span id="display-notes-button" class="uk-icon-button" uk-icon="warning"></span> </td > ';
+        }
 
         if (cases[i]['tango_save'] == "true") html += '<td> <input checked '
         else html += '<td> <input '
@@ -286,4 +312,9 @@ function isTangoProperty(property) {
 
 function createNewId() {
     return Math.random().toString(36).substr(2, 8);
+}
+
+function updateFailedCase() {
+    cases[cases.length - 1]['tango_importance'] = $("input[name=importanceRating]:checked").val()
+    cases[cases.length - 1]['tango_notes'] = $("#case-fail-notes").val()
 }

@@ -3,6 +3,7 @@
 {% block content %}
 <html> 
 <head>
+    
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'content/site.css' %}" />
 </head>
@@ -37,18 +38,18 @@
     <div id="case-fail-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <h3>Notes</h3>
-                <textarea class="uk-textarea" rows="5" placeholder="Please enter the results of the test..."></textarea>
+                <textarea id="case-fail-notes"class="uk-textarea" rows="5" placeholder="Please enter the results of the test..."></textarea>
             <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                 <h5>Importance: </h5>
-                <label><input class="uk-radio" type="radio" name="radio2" checked> 1</label>
-                <label><input class="uk-radio" type="radio" name="radio2"> 2</label>
-                <label><input class="uk-radio" type="radio" name="radio2"> 3</label>
-                <label><input class="uk-radio" type="radio" name="radio2"> 4</label>
-                <label><input class="uk-radio" type="radio" name="radio2"> 5</label>
+                <label><input class="uk-radio" type="radio" name="importanceRating" value ="1" checked> 1</label>
+                <label><input class="uk-radio" type="radio" name="importanceRating" value ="2"> 2</label>
+                <label><input class="uk-radio" type="radio" name="importanceRating" value ="3"> 3</label>
+                <label><input class="uk-radio" type="radio" name="importanceRating" value ="4"> 4</label>
+                <label><input class="uk-radio" type="radio" name="importanceRating" value ="5"> 5</label>
             </div>
             <div class="uk-modal-footer uk-text-right">
                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                <button class="uk-button uk-button-primary" type="button">Save</button>
+                <button id="update-fail-button" class="uk-button uk-button-primary uk-modal-close" type="button">Save</button>
             </div>                       
         </div>
     </div>
@@ -77,6 +78,13 @@
         </div>
     </div>
 
+    <div id="case-notes-modal" class="uk-flex-top" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+            <div style="display: inline">
+            </div>
+            <div id="notes-case-details" style="padding-top: 10px;"></div>                    
+        </div>
+    </div>
 </body>
 </html>
 {% endblock %}
@@ -92,4 +100,5 @@
 </script>
 {% load staticfiles %}
 <script src="{% static 'scripts/tango/tango.js' %}"></script>
+
 {% endblock %}
