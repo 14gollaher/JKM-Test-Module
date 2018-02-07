@@ -1,13 +1,14 @@
+$(function () {
+    $('#pass-button').hide();
+    $('#fail-button').hide();
+});
+
 $("#test-case-button").click(function () {
     $('#test-case-button').hide();
     $('#pass-button').show();
     $('#fail-button').show();
     runTestCase();
-});
-
-$(function () {
-    $('#pass-button').hide();
-    $('#fail-button').hide();
+    updateCurrentCase();
 });
 
 $("#pass-button").click(function () {
@@ -15,105 +16,199 @@ $("#pass-button").click(function () {
     $('#fail-button').hide();
     $('#test-case-button').show();
 
+    cases[0]['tango_status'] = 'Pass';
+    updateCases();
 });
 
 $("#fail-button").click(function () {
     $('#pass-button').hide();
     $('#fail-button').hide();
     $('#test-case-button').show();
+
+    cases[0]['tango_status'] = 'Fail';
+    updateCases();
 });
 
-$("#generate-permutations-button").click(function () {
-    generatePermutations();
-});
-
-
-function runTestCase() {
-    updateCurrentPermutation();
-    for (var i = 0; i < form.length; i++) {
-        $("#tango-frame").contents().find("#id_" + form[i]['tango_name']).val(permutations[0][form[i]['tango_name']]); 
-        permutations.push(permutations.splice(0, 1)[0]);
-    }
-}
-
-function generatePermutations() {
-    let requestUrl = window.location.origin + "/tango/generate-permutations";
+$("#generate-cases-button").click(function () {
+    let requestUrl = window.location.origin + "/tango/generate-cases";
     $.get(requestUrl, { form: JSON.stringify(form) },
         function (data) {
-            allocatePermutations(data);
-            updatePermutationsTable();
+            allocateCases(data);
+            updateCasesTable();
             $("#test-case-button").prop('disabled', false);
-        });
+            updateCurrentCase();
+    });
+});
+
+$("#results-table").on("click", "tr", function () {
+    selectedPermutationIndex = $(this).index() - 1;
+    updateSelectedPermutation(selectedPermutationIndex);
+});
+
+$("#delete-case-button").click(function () {
+    cases.splice(selectedPermutationIndex, 1);
+    updateCasesTable();
+    updateStoredCases();
+    updateCurrentCase();
+});
+
+$("#generate-manual-case-button").click(function () {
+    alert("Do this one Mr. Kyle!!");
+});
+
+function runTestCase() {
+    for (var i = 0; i < form.length; i++) {
+        $("#tango-frame").contents().find("#id_" + form[i]['tango_name']).val(cases[0][form[i]['tango_name']]);
+    }
 }
 
-function allocatePermutations(data) {
-    permutations = [];
+function updateCases() {
+    cases.push(cases.splice(0, 1)[0]); // Moves array position 0 to back
+    updateCasesTable();
+    updateStoredCases();
+}
+
+// TODO: Make this work as a POST
+function updateStoredCases() {
+    let requestUrl = window.location.origin + "/tango/save-cases";
+
+    let savedCases = cases.filter(function (item) {
+        return item['tango_save'];
+    });
+
+    $.get(requestUrl, { cases: JSON.stringify(savedCases), viewName: viewName })
+}
+
+function allocateCases(data) {
+    cases = [];
     while (!isEmpty(data)) {
-        let permutation = {}
+        let testCase = {}
         $.each(data, function (key, value) {
-            permutation[key] = value[0];
+            testCase[key] = value[0];
             value.shift();
         });
-        permutation['tango_id'] = createNewId();
-        permutation['tango_last_ran'] = "-"
-        permutation['tango_notes'] = ""
-        permutation['tango_test_data'] = "!"
-        permutation['tango_status'] = "Not Ran"
-        permutations.push(permutation);
+        //TODO: Don't make Id's this way....maybe. it's easy but bad. Or at least check if the id exists first in the function
+        testCase['tango_id'] = createNewId();
+        testCase['tango_last_ran'] = "-";
+        testCase['tango_importance'] = "-";
+        testCase['tango_notes'] = "-";
+        testCase['tango_test_data'] = "!";
+        testCase['tango_status'] = "Not Ran";
+        testCase['tango_save'] = false;
+        cases.push(testCase);
     }
-}
 
-function isEmpty(object) {
-    for (var key in object) {
-        if (object[key].length) {
-            return false;
+    function isEmpty(object) {
+        for (var key in object) {
+            if (object[key].length) {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
 }
 
-function updatePermutationsTable() {
+function updateCaseSaveStatus(data) {
+    let caseIndex = data.parent().parent().index();
 
-    var html = '<h3 class="uk-heading-divider">All Permutations</h1>';
+    if (data[0].checked) cases[caseIndex]['tango_save'] = true;
+    else cases[caseIndex]['tango_save'] = false;
+
+    updateStoredCases();
+}
+
+function updateCasesTable() {
+    if (cases.length === 0) {
+        document.getElementById('results-table').innerHTML = "";
+        return;
+    }
+
+    var html = '<h3 class="uk-heading-divider">All Cases</h1>';
     html += '<table class="uk-table uk-table-striped">';
-    html += '<tr>';
 
+    html += '<tr>';
     html += '<th>ID</th>';
     html += '<th>Last Ran</th>';
+    html += '<th>Importance</th>';
     html += '<th>Notes</th>';
-    html += '<th>Test Data</th>';
-
+    html += '<th>Save</th>';
     html += '</tr>';
-    for (var i = 0; i < permutations.length; i++) {
-        html += '<tr>';
-        html += '<td>' + permutations[i]['tango_id'] + '</td>';
-        html += '<td>' + permutations[i]['tango_last_ran'] + '</td>';
-        html += '<td>' + permutations[i]['tango_notes'] + '</td>';
-        html += '<td>' + permutations[i]['tango_test_data'] + '</td>';
+
+    for (let i = 0; i < cases.length; i++) {
+        if (cases[i]['tango_status'] == "Pass") {
+            html += '<tr style="background-color: #CCFFCC; cursor: pointer" href="#case-details-modal" uk-toggle>';
+        }
+        else if (cases[i]['tango_status'] == "Fail") {
+            html += '<tr style="background-color: #FFAD99; cursor: pointer" href="#case-details-modal" uk-toggle>';
+        }
+        else {
+            html += '<tr href="#case-details-modal" style="cursor: pointer" uk-toggle>';
+        }
+        html += '<td>' + cases[i]['tango_id'] + '</td>';
+        html += '<td>' + cases[i]['tango_last_ran'] + '</td>';
+        html += '<td>' + cases[i]['tango_importance'] + '</td>';
+        html += '<td>' + cases[i]['tango_notes'] + '</td>';
+        html += '<td> <input class="uk-checkbox" type="checkbox" onclick="updateCaseSaveStatus($(this)); event.stopPropagation()"/> </td>';
         html += '</tr>';
     }
+
     html += '</table>';
     document.getElementById('results-table').innerHTML = html;
 }
 
-function updateCurrentPermutation() {
+function updateCurrentCase() {
 
-    var html = '<h3 class="uk-heading-divider">Current Permutation</h1>';
+    if (cases.length === 0) {
+        document.getElementById('current-case').innerHTML = "";
+        return;
+    }
 
-    html += '<ul class="uk-list uk-list-striped">';
+    var html = '<h3 class="uk-heading-divider">Current Case - ' + cases[0]['tango_id'] + '</h1>';
+    html += '<table class="uk-table uk-table-striped">';
 
-    for (i in permutations[0]) {
+    html += '<tr>';
+    html += '<th>Form Item</th>';
+    html += '<th>Test Value</th>';
+    html += '</tr>';
+    for (i in cases[0]) {
         if (!isTangoProperty(i)) {
-            html += '<li>' + i + '  -  ' + permutations[0][i] + '</li>';
+            html += '<tr>';
+            html += '<td>' + i + '</td>';
+            html += '<td>' + cases[0][i] + '</td>';
+            html += '</tr>';
         }
     }
 
-    html += '</ul';
-    document.getElementById('current-permutation').innerHTML = html;
+    html += '</table>';
+    document.getElementById('current-case').innerHTML = html;
+}
+
+function updateSelectedPermutation() {
+
+    var html = '<h3 class="uk-heading-divider">Selected Case - ' + cases[selectedPermutationIndex]['tango_id'] + '</h1>';
+    html += '<table class="uk-table uk-table-striped">';
+
+    html += '<tr>';
+    html += '<th>Form Item</th>';
+    html += '<th>Test Value</th>';
+    html += '</tr>';
+
+    for (i in cases[selectedPermutationIndex]) {
+        if (!isTangoProperty(i)) {
+            html += '<tr>';
+            html += '<td>' + i + '</td>';
+            html += '<td>' + cases[selectedPermutationIndex][i] + '</td>';
+            html += '</tr>';
+        }
+    }
+
+    html += '</table>';
+    document.getElementById('selected-case-details').innerHTML = html;
 }
 
 function isTangoProperty(property) {
-    let tangoProperties = ['tango_id', 'tango_last_ran', 'tango_notes', 'tango_test_data', 'tango_status'];
+    let tangoProperties
+        = ['tango_id', 'tango_last_ran', 'tango_notes', 'tango_test_data', 'tango_status', 'tango_importance', 'tango_save'];
 
     return tangoProperties.indexOf(property) > -1;
 }

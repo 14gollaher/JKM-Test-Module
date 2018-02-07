@@ -8,7 +8,7 @@ from tango.tinydb.queries import Query, where
 class TangoRepository:
     def __init__(self):
         self.directory = os.path.dirname(__file__) 
-        self.filePath = os.path.join(self.directory, 'tango-permutations.json')
+        self.filePath = os.path.join(self.directory, 'tango-cases.json')
         self.initialize_database()
         
     def initialize_database(self):
@@ -19,8 +19,8 @@ class TangoRepository:
         
         return self.database.table(view_name).all()
 
-    def insert_permutations(self, view_name, permutations):
+    def insert_cases(self, view_name, cases):
         if not view_name: view_name = 'index'
 
         table = self.database.table(view_name)
-        table.insert_multiple(permutations)
+        table.insert_multiple(cases)

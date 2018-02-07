@@ -3,6 +3,7 @@ from django.conf.urls import include, url
 import tango.views
 
 urlpatterns = [
-    url(r'^generate-permutations', tango.views.generate_permutations, name = "generate_permutations"),
-    url(r'^(?P<test_view_name>\w+|)', tango.views.testing, name = "testing")
+    url(r'^generate-cases', tango.views.generate_cases, name = "generate_cases"),
+    url(r'^save-cases', tango.views.save_cases, name = "save_cases"),
+    url(r'^(?P<test_view_name>\'?\w+([-]\w+)*\'?)', tango.views.testing, name = "testing")
 ]

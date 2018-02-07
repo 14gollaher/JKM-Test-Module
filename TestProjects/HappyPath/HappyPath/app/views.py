@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
 from forms import HappyPathForm
+from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 def home(request):
-    """Renders the home page."""
     assert isinstance(request, HttpRequest)
     return render(
         request,
@@ -14,7 +15,12 @@ def home(request):
         }
     )
 
-def sampleForm(request):
-    """Renders the home page."""
-    assert isinstance(request, HttpRequest)
-    return render(request, 'sampleForm.html', {'form': HappyPathForm})
+def sample_form(request):
+    if request.method == 'POST':
+        form = HappyPathForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = HappyPathForm()
+
+    return render(request, 'sample-form.html', {'form': form})

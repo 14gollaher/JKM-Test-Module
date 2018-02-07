@@ -47,7 +47,7 @@
     <Compile Include="tango\apps.py" />
     <Compile Include="tango\migrations\__init__.py" />
     <Compile Include="tango\models.py" />
-    <Compile Include="tango\TangoComponents\TangoPermutationGenerator.py">
+    <Compile Include="tango\TangoComponents\TangoCaseGenerator.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tango\TangoComponents\TangoUserApplication.py" />
@@ -95,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\static\app\scripts\CustomScripts\site.js" />
-    <Content Include="app\templates\sampleForm.html" />
+    <Content Include="app\templates\sample-form.html" />
     <Content Include="requirements.txt" />
     <Content Include="app\static\app\content\bootstrap.css" />
     <Content Include="app\static\app\content\bootstrap.min.css" />
@@ -125,13 +125,13 @@
     <Content Include="tango\migrations\__init__.pyc" />
     <Content Include="tango\models.pyc" />
     <Content Include="tango\static\content\site.css" />
-    <Content Include="tango\static\lib\chance.min.js" />
     <Content Include="tango\static\lib\jquery-3.3.1.min.js" />
     <Content Include="tango\static\lib\uikit-icons.min.js" />
     <Content Include="tango\static\lib\uikit.min.css" />
     <Content Include="tango\static\lib\uikit.min.js" />
     <Content Include="tango\static\scripts\tango\tango.js" />
     <Content Include="tango\templates\tango-layout.html" />
+    <Content Include="tango\templates\tango\view-select.html" />
     <Content Include="tango\templates\tango\testing.html" />
     <Content Include="tango\urls.pyc" />
     <Content Include="tango\views.pyc" />
