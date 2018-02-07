@@ -73,7 +73,7 @@ function updateStoredCases() {
     let requestUrl = window.location.origin + "/tango/save-cases";
 
     let savedCases = cases.filter(function (item) {
-        return item['tango_save'];
+        return item['tango_save'] == "true";
     });
 
     $.get(requestUrl, { cases: JSON.stringify(savedCases), viewName: viewName })
@@ -94,7 +94,7 @@ function allocateCases(data) {
         testCase['tango_notes'] = "-";
         testCase['tango_test_data'] = "!";
         testCase['tango_status'] = "Not Ran";
-        testCase['tango_save'] = false;
+        testCase['tango_save'] = 'false';
         cases.push(testCase);
     }
 
@@ -109,10 +109,10 @@ function allocateCases(data) {
 }
 
 function updateCaseSaveStatus(data) {
-    let caseIndex = data.parent().parent().index();
+    let caseIndex = data.parent().parent().index() - 1;
 
-    if (data[0].checked) cases[caseIndex]['tango_save'] = true;
-    else cases[caseIndex]['tango_save'] = false;
+    if (data[0].checked) cases[caseIndex]['tango_save'] = "true";
+    else cases[caseIndex]['tango_save'] = "false";
 
     updateStoredCases();
 }
@@ -148,7 +148,11 @@ function updateCasesTable() {
         html += '<td>' + cases[i]['tango_last_ran'] + '</td>';
         html += '<td>' + cases[i]['tango_importance'] + '</td>';
         html += '<td>' + cases[i]['tango_notes'] + '</td>';
-        html += '<td> <input class="uk-checkbox" type="checkbox" onclick="updateCaseSaveStatus($(this)); event.stopPropagation()"/> </td>';
+
+        if (cases[i]['tango_save'] == "true") html += '<td> <input checked '
+        else html += '<td> <input '
+
+        html += 'class="uk-checkbox" type= "checkbox" onclick= "updateCaseSaveStatus($(this)); event.stopPropagation()" /> </td > ';
         html += '</tr>';
     }
 
