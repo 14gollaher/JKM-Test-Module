@@ -29,6 +29,7 @@ $("#fail-button").click(function () {
 
     cases[0]['tango_status'] = 'Fail';
     updateCases();
+    $("#case-fail-notes").val("");
 });
 
 $("#update-fail-button").click(function () {
@@ -39,7 +40,7 @@ $("#update-fail-button").click(function () {
 
 
 $("#generate-cases-button").click(function () {
-    if (confirm("Generating new cases will overwrite unsaved cases.")) {
+    if (UIkit.modal.confirm("Generating new cases will overwrite unsaved cases.")) {
         let requestUrl = window.location.origin + "/tango/generate-cases";
         $.get(requestUrl, { form: JSON.stringify(form) },
             function (data) {
@@ -74,12 +75,6 @@ $("#delete-case-button").click(function () {
 $("#generate-manual-case-button").click(function () {
     let newCaseId = createCustomCase();
     createCustomCaseTable(newCaseId);
-});
-
-$("#display-notes-button").click(function () {
-    selectedPermutationIndex = $(this).index() - 1;
-    console.log("hello");
-    updateNotesModal(selectedPermutationIndex);
 });
 
 function runTestCase() {
@@ -193,9 +188,12 @@ function createCustomCaseTable(caseId) {
     document.getElementById('custom-case-details').innerHTML = html;
 }
 
-function updateNotesModal(index) {
-    let html = '<h3 class="uk-heading-divider">Selected Case - ' + caseId + '</h1>';
-    html += '<p>' + cases[index]['tango_notes'] + '</p>';
+function openNotesModal(data) {
+    let caseIndex = data.parent().parent().index() - 1;
+    let html = '<h3 class="uk-heading-divider">Notes for Case - ' + cases[caseIndex]['tango_id'] + '</h1>';
+    html += '<p>' + cases[caseIndex]['tango_notes'] + '</p>';
+    document.getElementById('notes_text').innerHTML = html;
+    UIkit.modal('#case-notes-modal').show();
 }
 
 function submitCustomCase() {
@@ -241,7 +239,7 @@ function updateCasesTable() {
         }
         else
         {
-            html += '<td> <span id="display-notes-button" class="uk-icon-button" uk-icon="warning"></span> </td > ';
+            html += '<td> <a uk-icon="warning" onclick= "openNotesModal($(this)); event.stopPropagation()" /> </td > ';
         }
 
         if (cases[i]['tango_save'] == "true") html += '<td> <input checked '
