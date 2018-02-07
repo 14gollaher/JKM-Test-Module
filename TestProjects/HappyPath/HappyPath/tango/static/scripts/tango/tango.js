@@ -40,6 +40,13 @@ $("#generate-cases-button").click(function () {
     });
 });
 
+$("#add-case-button").click(function () {
+    submitCustomCase();
+    updateCasesTable();
+    $("#test-case-button").prop('disabled', false);
+    updateCurrentCase();
+});
+
 $("#results-table").on("click", "tr", function () {
     selectedPermutationIndex = $(this).index() - 1;
     updateSelectedPermutation(selectedPermutationIndex);
@@ -53,7 +60,8 @@ $("#delete-case-button").click(function () {
 });
 
 $("#generate-manual-case-button").click(function () {
-    alert("Do this one Mr. Kyle!!");
+    let newCaseId = createCustomCase();
+    createCustomCaseTable(newCaseId);
 });
 
 function runTestCase() {
@@ -77,6 +85,24 @@ function updateStoredCases() {
     });
 
     $.get(requestUrl, { cases: JSON.stringify(savedCases), viewName: viewName })
+}
+
+function createCustomCase() {
+
+    //TODO: Don't make Id's this way....maybe. it's easy but bad. Or at least check if the id exists first in the function
+    newTestCase['tango_id'] = createNewId();
+    newTestCase['tango_last_ran'] = "-";
+    newTestCase['tango_importance'] = "-";
+    newTestCase['tango_notes'] = "-";
+    newTestCase['tango_test_data'] = "!";
+    newTestCase['tango_status'] = "Not Ran";
+    newTestCase['tango_save'] = false;
+
+    for (let i = 0; i < form.length; i++) {
+        newTestCase[form[i]['tango_name']] = form[i]['tango_name'];
+    }
+
+    return newTestCase["tango_id"];
 }
 
 function allocateCases(data) {
@@ -115,6 +141,34 @@ function updateCaseSaveStatus(data) {
     else cases[caseIndex]['tango_save'] = false;
 
     updateStoredCases();
+}
+
+function createCustomCaseTable(caseId) {
+    let html = '<h3 class="uk-heading-divider">Selected Case - ' + caseId + '</h1>';
+    html += '<table class="uk-table uk-table-striped">';
+
+    html += '<tr>';
+    html += '<th>Form Item</th>';
+    html += '<th>Test Value</th>';
+    html += '</tr>';
+    console.log(form);
+    let j = 1;
+    for (i in newTestCase) {
+        if (!isTangoProperty(i)) {
+            html += '<tr>';
+            html += '<td>' + i + '</td>';
+            html += '<td> <input id="testValue' + j + '" class="uk-input" type="text" placeholder="Input"> </td>';
+            html += '</tr>';
+            j = j + 1;
+        }
+    }
+
+    html += '</table>';
+    document.getElementById('custom-case-details').innerHTML = html;
+}
+
+function submitCustomCase() {
+   
 }
 
 function updateCasesTable() {
@@ -208,7 +262,7 @@ function updateSelectedPermutation() {
 
 function isTangoProperty(property) {
     let tangoProperties
-        = ['tango_id', 'tango_last_ran', 'tango_notes', 'tango_test_data', 'tango_status', 'tango_importance', 'tango_save'];
+        = ['tango_id', 'tango_last_ran', 'tango_notes', 'tango_test_data', 'tango_status', 'tango_importance', 'tango_save', 'tango_name'];
 
     return tangoProperties.indexOf(property) > -1;
 }

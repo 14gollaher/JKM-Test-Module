@@ -21,7 +21,7 @@
  
             <div class="uk-card uk-card-default uk-card-body uk-margin-top">
                 <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" id="generate-cases-button">Generate New Cases</button>
-                <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" id="generate-manual-case-button">Generate New Case Manually</button>
+                <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" id="generate-manual-case-button" href="#case-custom-modal" uk-toggle>Generate New Case Manually</button>
                 <div id="current-case" style="padding-top: 15px;"></div>
                 <div id="results-table" style="padding-top: 10px;"></div>
             </div>
@@ -65,6 +65,18 @@
         </div>
     </div>
 
+    <div id="case-custom-modal" class="uk-flex-top" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+            <div style="display: inline">
+            </div>
+            <div id="custom-case-details" style="padding-top: 10px;"></div>                    
+            <div class="uk-modal-footer uk-text-right">
+                <button style="float: left"class="uk-button uk-button-default uk-modal-close uk-button-primary" type="button" id="add-case-button">Add Case</button>
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+            </div> 
+        </div>
+    </div>
+
 </body>
 </html>
 {% endblock %}
@@ -75,6 +87,7 @@
     var cases = [];
     var viewName =  '{{test_view_name}}' || 'index';
     var selectedPermutationIndex = 0;
+    var newTestCase = {};
     
 </script>
 {% load staticfiles %}
