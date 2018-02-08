@@ -38,9 +38,10 @@ $("#update-fail-button").click(function () {
     updateStoredCases();
 });
 
-
-$("#generate-cases-button").click(function () {
-    if (UIkit.modal.confirm("Generating new cases will overwrite unsaved cases.")) {
+UIkit.util.on('#generate-cases-button', 'click', function (e) {
+    e.preventDefault();
+    e.target.blur();
+    UIkit.modal.confirm('Previous unsaved cases will be overwritten!').then(function () {
         let requestUrl = window.location.origin + "/tango/generate-cases";
         $.get(requestUrl, { form: JSON.stringify(form) },
             function (data) {
@@ -49,7 +50,8 @@ $("#generate-cases-button").click(function () {
                 updateCurrentCase();
                 $("#test-case-button").prop('disabled', false);
             });
-    }
+    }, function () {
+    });
 });
 
 $("#add-case-button").click(function () {
