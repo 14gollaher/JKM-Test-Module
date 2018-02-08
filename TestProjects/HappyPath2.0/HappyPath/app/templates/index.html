@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<!-- JavaScript Code -->
+
+
+<!--<body>
+    <form id="inputform" method="post" action="">
+    <div>
+        <label for="input-email">Email</label>
+        <input type="text" id="input-email" name="name" />
+        <span id="emailerror"class="error">This field is required</span>
+   </div>
+    <div>
+        <label for="input-number">Number</label>
+        <input type="email" id="input-number" name="email" />
+        <span id="numbererror"class="error">A valid email address is required</span>			
+    </div>
+    <div>
+        <label for="input-text">Text</label>
+        <input type="url" id="input-text" name="website" />
+        <span id="texterror" class="error">A valid url is required</span>								
+    </div>
+   </form>
+        <div>
+         <button id="submitbutton">Submit</button>
+    </div>
+</body>
+    -->
+
+<div class="container">
+  <h2>Test Application</h2>
+  <form id="inputform" class="form-horizontal" action="/action_page.php">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="input-number">Number:</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="text" id="input-number" placeholder="Enter a number" name="number">
+      <!--  <span id="numbererror" class="error">Must entere a number</span>	-->		
+      </div>
+    </div>
+    <div class="form-group">
+       <label class="control-label col-sm-2" for="input-text">Text:</label>
+      <div class="col-sm-6">  
+        <input type="text" class="form-control" id="input-text" placeholder="Enter password" name="pwd">
+        <!--   <span id="texterror" class="error">Text must be entered.</span>	-->							
+      </div>
+    </div>
+    <div class="form-group">
+           <label class="control-label col-sm-2" for="input-email">Email:</label>
+            <div class="col-sm-6">  
+              <input type="text" class="form-control" id="input-email" placeholder="Enter email" name="email">
+          <!--    <span id="emailerror"class="error">A valid email address is required</span>	-->		
+        </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+        <button id="submitbutton" class="btn btn-default">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,20 +1,28 @@
 import os
 import json
 from tango.tinydb.database import TinyDB
-from tango.tinydb.queries import Query
+from tango.tinydb.queries import Query, where
+
+
 
 class TangoRepository:
     def __init__(self):
         self.directory = os.path.dirname(__file__) 
-        self.filePath = os.path.join(self.directory, 'tango-permutations.json')
-        self.create_database()
+        self.filePath = os.path.join(self.directory, 'tango-cases.json')
+        self.initialize_database()
+        
+    def initialize_database(self):
+        self.database = TinyDB(self.filePath)
 
-    def get_test_permutations(self):
-        with open(self.filePath, 'r') as file:
-            return json.load(file)
+    def insert_cases(self, view_name, cases):
+        if not view_name: view_name = 'tango_index'
 
-    def create_database(self):
-        db = TinyDB(self.filePath)
-        x = 5
-        #file = open(self.filePath, "w+")
-        #file.close() 
+        self.database.purge_table(view_name)
+
+        table = self.database.table(view_name)
+        table.insert_multiple(cases)
+
+    def get_cases(self, view_name):
+        if not view_name: view_name = 'tango_index'
+
+        return self.database.table(view_name).all()

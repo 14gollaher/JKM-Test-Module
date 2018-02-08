@@ -1,0 +1,71 @@
+{% extends "tango-layout.html" %}
+ 
+{% block content %}
+<html> 
+<head>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'content/site.css' %}" />
+</head>
+ 
+<body>
+    <div class="uk-flex uk-flex-center">
+ 
+        <div class="uk-flex uk-flex-column">
+            <div class="uk-backgrounduk-card uk-card-default uk-card-body uk-margin-top">
+                <div>
+                    <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" disabled id="test-case-button">Run Next Case</button>
+                    <button type="button" class="uk-button uk-button-default uk-button-large" id="pass-button">Pass</button>
+                    <button type="button" class="uk-button uk-button-default uk-button-large" id="fail-button" href="#modal-center" uk-toggle>Fail</button>
+                </div>   
+            </div>
+ 
+            <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+                <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" id="generate-cases-button">Generate New Cases</button>
+                <div id="current-case" style="padding-top: 10px;">
+                </div>
+                <div id="results-table" style="padding-top: 10px;">
+                </div>
+  
+            </div>
+        </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-margin-top">
+            <h3>Testing View: {{test_view_name}}</h3>
+            <div id="tango-testing-view">
+                <iframe id="tango-frame" src="http://{{ request.get_host }}/{{test_view_name}}" ></iframe>
+            </div>
+        </div>
+    </div>
+ 
+    <div id="modal-center" class="uk-flex-top" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+            <h3>Notes</h3>
+            <textarea class="uk-textarea" rows="5" placeholder="Please enter the results of the test..."></textarea>
+ 
+            <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                <h5>Importance: </h5>
+                <label><input class="uk-radio" type="radio" name="radio2" checked> 1</label>
+                <label><input class="uk-radio" type="radio" name="radio2"> 2</label>
+                <label><input class="uk-radio" type="radio" name="radio2"> 3</label>
+                <label><input class="uk-radio" type="radio" name="radio2"> 4</label>
+                <label><input class="uk-radio" type="radio" name="radio2"> 5</label>
+            </div>
+ 
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button class="uk-button uk-button-primary" type="button">Save</button>
+            </div>                       
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
+{% block scripts %}
+
+<script>
+    var form = JSON.parse('{{ form | escapejs | safe}}');
+    var cases = [];
+</script>
+{% load staticfiles %}
+<script src="{% static 'lib/chance.min.js' %}"></script>
+<script src="{% static 'scripts/tango/tango.js' %}"></script>
+{% endblock %}
