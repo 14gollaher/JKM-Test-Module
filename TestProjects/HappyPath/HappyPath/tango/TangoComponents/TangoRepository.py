@@ -14,11 +14,6 @@ class TangoRepository:
     def initialize_database(self):
         self.database = TinyDB(self.filePath)
 
-    def get_permutation(self, view_name):
-        if not view_name: test_view_name = 'index'
-        
-        return self.database.table(view_name).all()
-
     def insert_cases(self, view_name, cases):
         if not view_name: view_name = 'tango_index'
 

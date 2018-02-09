@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <title>Tango</title>
@@ -15,8 +15,8 @@
             <nav class="uk-navbar-container" uk-navbar="dropbar: true;" style="position: relative; z-index: 980;">
                 <div class="uk-navbar-left">
                     <ul class="uk-navbar-nav">
-                        <li class="uk-active"><a href="">Test</a></li>
-                        <li><a href="results">Results</a></li>
+                        <li class="uk-active"><a href="../tango">Tango</a></li>
+                        <li><a href="#">Select View</a></li>
                     </ul>
                 </div>
             </nav>
@@ -24,8 +24,9 @@
     </body>
 </html>
  
-{% block content %}
-{% endblock %}
- 
+{% block content %}{% endblock %}
+<script src="{% static 'lib/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'lib/uikit.min.js' %}"></script>
 <script src="{% static 'lib/uikit-icons.min.js' %}"></script>
+{% block scripts %}{% endblock %}
+

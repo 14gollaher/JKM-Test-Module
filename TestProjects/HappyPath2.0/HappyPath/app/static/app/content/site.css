@@ -1,0 +1,61 @@
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#contact label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+}
+
+#contact_submit {
+    padding-left: 100px;
+}
+
+#contact div {
+    margin-top: 1em;
+}
+
+textarea {
+    vertical-align: top;
+    height: 5em;
+}
+
+.error {
+    display: none;
+    margin-left: 10px;
+}
+
+.error_show {
+    color: red;
+    margin-left: 10px;
+}
+
+input.invalid, textarea.invalid {
+    border: 2px solid red;
+}
+
+input.valid, textarea.valid {
+    border: 2px solid green;
+}
+
+
+label {
+    display: inline-block;
+    float: left;
+    clear: left;
+    width: 250px;
+    text-align: right;
+}
+
+input {
+    display: inline-block;
+    float: left;
+}

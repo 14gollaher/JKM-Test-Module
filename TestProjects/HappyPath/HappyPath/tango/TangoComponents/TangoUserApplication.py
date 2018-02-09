@@ -41,7 +41,7 @@ class TangoUserApplication:
             form_property['tango_type'] = self.get_tango_type((row[1]))
             # TODO: Eventually we'll maybe do something like this.... need to address these things in case generator
             #form_property['min_length'] = row[1].min_length if row[1].min_length else None
-            #form_property['max_length'] = row[1].max_length if row[1].max_length else None
+            if hasattr(row[1], 'max_length'): form_property['max_length'] = row[1].max_length
             form.append(form_property)
 
         self.forms.append(form)
