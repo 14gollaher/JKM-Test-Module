@@ -213,7 +213,7 @@ function updateCasesTable() {
     }
 
     var html = '<h3 class="uk-heading-divider">All Cases</h1>';
-    html += '<table class="uk-table uk-table-striped">';
+    html += '<table class="uk-table uk-table-striped ">';
 
     html += '<tr>';
     html += '<th>ID</th>';

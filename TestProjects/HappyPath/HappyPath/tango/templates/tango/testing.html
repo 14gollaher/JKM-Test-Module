@@ -11,18 +11,20 @@
 <body>
     <div class="uk-flex uk-flex-center">
  
-        <div class="uk-flex uk-flex-column">
-            <div class="uk-backgrounduk-card uk-card-default uk-card-body uk-margin-top">
+        <div class="uk-flex uk-flex-column ">
+            <div class="uk-background  uk-card uk-card-default uk-card-body uk-margin-top">
                 <div>
-                    <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" id="test-case-button">Run Next Case</button>
-                    <button type="button" class="uk-button uk-button-default uk-button-large" id="pass-button">Pass</button>
-                    <button type="button" class="uk-button uk-button-default uk-button-large" id="fail-button" href="#case-fail-modal" uk-toggle>Fail</button>
+                    <button type="button" class="uk-button uk-button-primary uk-button-large uk-align-center uk-margin-auto-vertical" id="test-case-button">Run Next Case</button>
+                    <div class="uk-grid-small uk-child-width-1-4@s uk-flex-center uk-text-center uk-flex-first" uk-grid>
+                        <button type="button" class="uk-button uk-button-large uk-button-primary uk-margin-right" id="pass-button">Pass</button>
+                        <button type="button" class="uk-button uk-button-large uk-button-danger" id="fail-button" href="#case-fail-modal" uk-toggle>Fail</button>
+                    </div>
                 </div>   
             </div>
  
             <div class="uk-card uk-card-default uk-card-body uk-margin-top">
                 <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" id="generate-cases-button">Generate New Cases</button>
-                <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large" id="generate-manual-case-button" href="#case-custom-modal" uk-toggle>Generate New Case Manually</button>
+                <button type="button" class="uk-button uk-button-default uk-width-1-1 uk-button-large uk-margin-top" id="generate-manual-case-button" href="#case-custom-modal" uk-toggle>Generate Case Manually</button>
                 <div id="current-case" style="padding-top: 15px;"></div>
                 <div id="results-table" style="padding-top: 10px;"></div>
             </div>
@@ -34,7 +36,7 @@
             </div>
         </div>
     </div>
- 
+    
     <div id="case-fail-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <h3>Notes</h3>
