@@ -41,7 +41,20 @@ $("#update-fail-button").click(function () {
 UIkit.util.on('#generate-cases-button', 'click', function (e) {
     e.preventDefault();
     e.target.blur();
-    UIkit.modal.confirm('Previous unsaved cases will be overwritten!').then(function () {
+    if (cases.length > 0) {
+        UIkit.modal.confirm('Previous unsaved cases will be overwritten!').then(function () {
+            let requestUrl = window.location.origin + "/tango/generate-cases";
+            $.get(requestUrl, { form: JSON.stringify(form) },
+                function (data) {
+                    allocateCases(data);
+                    updateCasesTable();
+                    updateCurrentCase();
+                    $("#test-case-button").prop('disabled', false);
+                });
+        }, function () {
+        });
+    }
+    else {
         let requestUrl = window.location.origin + "/tango/generate-cases";
         $.get(requestUrl, { form: JSON.stringify(form) },
             function (data) {
@@ -50,8 +63,7 @@ UIkit.util.on('#generate-cases-button', 'click', function (e) {
                 updateCurrentCase();
                 $("#test-case-button").prop('disabled', false);
             });
-    }, function () {
-    });
+    }
 });
 
 $("#add-case-button").click(function () {
