@@ -1,8 +1,8 @@
 $(function () {
     $('#pass-button').hide();
     $('#fail-button').hide();
+    $("#test-case-button").prop('disabled', true);
     getStoredCases();
-    if (cases) $("#test-case-button").prop('disabled', true);
 });
 
 $("#test-case-button").click(function () {
@@ -14,9 +14,8 @@ $("#test-case-button").click(function () {
 });
 
 $("#pass-button").click(function () {
-    $('#pass-button').hide();
-    $('#fail-button').hide();
-    $('#test-case-button').show();
+    runTestCase();
+    updateCurrentCase();
 
     cases[0]['tango_status'] = 'Pass';
     updateCases();
@@ -83,7 +82,9 @@ $("#delete-case-button").click(function () {
     updateCasesTable();
     updateStoredCases();
     updateCurrentCase();
-    if (cases) $("#test-case-button").prop('disabled', true);
+    $("#test-case-button").prop('disabled', true);
+    if (cases.length) $("#test-case-button").prop('disabled', false);
+    
 });
 
 $("#generate-manual-case-button").click(function () {
@@ -121,6 +122,8 @@ function getStoredCases() {
             cases = data;
             updateCasesTable();
             updateCurrentCase();
+            console.log(cases);
+            if (cases.length) $("#test-case-button").prop('disabled', false);
         });
 }
 
@@ -129,7 +132,6 @@ function createCustomCase() {
     newTestCase['tango_last_ran'] = "-";
     newTestCase['tango_importance'] = "-";
     newTestCase['tango_notes'] = "-";
-    newTestCase['tango_test_data'] = "!";
     newTestCase['tango_status'] = "Not Ran";
     newTestCase['tango_save'] = false;
 
@@ -151,12 +153,11 @@ function allocateCases(data) {
             testCase[key] = value[0];
             value.shift();
         });
-        //TODO: Don't make Id's this way....maybe. it's easy but bad. Or at least check if the id exists first in the function
+
         testCase['tango_id'] = createNewId();
         testCase['tango_last_ran'] = "-";
         testCase['tango_importance'] = "-";
         testCase['tango_notes'] = "-";
-        testCase['tango_test_data'] = "!";
         testCase['tango_status'] = "Not Ran";
         testCase['tango_save'] = 'false';
         cases.push(testCase);
@@ -206,7 +207,7 @@ function openNotesModal(data) {
     let caseIndex = data.parent().parent().index() - 1;
     let html = '<h3 class="uk-heading-divider">Notes for Case - ' + cases[caseIndex]['tango_id'] + '</h1>';
     html += '<p>' + cases[caseIndex]['tango_notes'] + '</p>';
-    document.getElementById('notes_text').innerHTML = html;
+    document.getElementById('notes-text').innerHTML = html;
     UIkit.modal('#case-notes-modal').show();
 }
 
@@ -248,7 +249,7 @@ function updateCasesTable() {
         html += '<td>' + cases[i]['tango_id'] + '</td>';
         html += '<td>' + cases[i]['tango_last_ran'] + '</td>';
         html += '<td>' + cases[i]['tango_importance'] + '</td>';
-        if (cases[i]['tango_notes'] == '-') { //if tango_notes is empty
+        if (cases[i]['tango_notes'] == '-') { 
             html += '<td>' + cases[i]['tango_notes'] + '</td>';
         }
         else
@@ -306,7 +307,7 @@ function updateSelectedPermutation() {
         if (!isTangoProperty(i)) {
             html += '<tr>';
             html += '<td>' + i + '</td>';
-            html += '<td>' + cases[selectedPermutationIndex][i] + '</td>';
+            html += '<td class="uk-panel uk-panel-box uk-text-truncate">' + cases[selectedPermutationIndex][i] + '</td>';
             html += '</tr>';
         }
     }
@@ -317,7 +318,8 @@ function updateSelectedPermutation() {
 
 function isTangoProperty(property) {
     let tangoProperties
-        = ['tango_id', 'tango_last_ran', 'tango_notes', 'tango_test_data', 'tango_status', 'tango_importance', 'tango_save', 'tango_name'];
+        = ['tango_id', 'tango_last_ran', 'tango_notes'
+            , 'tango_status', 'tango_importance', 'tango_save', 'tango_name'];
 
     return tangoProperties.indexOf(property) > -1;
 }
