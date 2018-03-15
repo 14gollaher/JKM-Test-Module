@@ -118,7 +118,7 @@ function failedCaseNotification() {
 
 function runTestCase() {
     for (var i = 0; i < form.length; i++) {
-        $("#tango-frame").contents().find("#id_" + form[i]['tango_name']).val(cases[0][form[i]['tango_name']]);
+        $("#tango-frame").contents().find(form[i]['tango_selector']).val(cases[0][form[i]['tango_name']]);
     }
 }
 

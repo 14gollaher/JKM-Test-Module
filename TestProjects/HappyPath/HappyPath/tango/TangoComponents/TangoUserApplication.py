@@ -38,10 +38,11 @@ class TangoUserApplication:
         for row in happyPathForm.base_fields.viewitems():
             form_property = {}
             form_property['tango_name'] = row[0]
+            form_property['tango_selector'] = "#id_" + form_property['tango_name']
             form_property['tango_type'] = self.get_tango_type((row[1]))
 
-            if hasattr(row[1], 'max_length'): form_property['max_length'] = row[1].max_length
-            if hasattr(row[1], 'min_length'): form_property['min_length'] = row[1].min_length
+            if hasattr(row[1], 'max_length') and row[1].max_length: form_property['max_length'] = row[1].max_length
+            if hasattr(row[1], 'min_length') and row[1].min_length: form_property['min_length'] = row[1].min_length
 
             form.append(form_property)
 

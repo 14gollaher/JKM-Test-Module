@@ -20,7 +20,6 @@ class TangoCaseGenerator:
             elif type is TangoType.float: self.process_float_attribute(property)
             elif type is TangoType.boolean: self.process_boolean_attribute(property)
 
-
     def process_string_attribute(self, property):
         name = property['tango_name']
         self.cases[name] = []
