@@ -19,22 +19,24 @@ $("#pass-button").click(function () {
 
     cases[0]['tango_status'] = 'Pass';
     updateCases();
+    passedCaseNotification();
 });
 
 $("#fail-button").click(function () {
     $('#pass-button').hide();
     $('#fail-button').hide();
     $('#test-case-button').show();
-
-    cases[0]['tango_status'] = 'Fail';
-    updateCases();
     $("#case-fail-notes").val("");
 });
 
 $("#update-fail-button").click(function () {
+    cases[0]['tango_status'] = 'Fail';
+    updateCases();
+    
     updateFailedCase();
     updateCasesTable();
     updateStoredCases();
+    failedCaseNotification();
 });
 
 UIkit.util.on('#generate-cases-button', 'click', function (e) {
@@ -72,6 +74,11 @@ $("#add-case-button").click(function () {
     $("#test-case-button").prop('disabled', false);
 });
 
+$("#update-notes-button").click(function () {
+    updateCurrentNote();
+});
+
+
 $("#results-table").on("click", "tr", function () {
     selectedPermutationIndex = $(this).index() - 1;
     updateSelectedPermutation(selectedPermutationIndex);
@@ -91,6 +98,23 @@ $("#generate-manual-case-button").click(function () {
     let newCaseId = createCustomCase();
     createCustomCaseTable(newCaseId);
 });
+
+function passedCaseNotification() {
+    UIkit.notification({
+        message: 'Test Passed!',
+        status: 'success',
+        pos: 'bottom-right',
+        timeout: 1000
+    });
+}
+function failedCaseNotification() {
+    UIkit.notification({
+        message: 'Test Failed!',
+        status: 'danger',
+        pos: 'bottom-right',
+        timeout: 1000
+    });
+}
 
 function runTestCase() {
     for (var i = 0; i < form.length; i++) {
@@ -204,10 +228,16 @@ function createCustomCaseTable(caseId) {
 }
 
 function openNotesModal(data) {
-    let caseIndex = data.parent().parent().index() - 1;
+    var caseIndex = data.parent().parent().index() - 1;
     let html = '<h3 class="uk-heading-divider">Notes for Case - ' + cases[caseIndex]['tango_id'] + '</h1>';
-    html += '<p>' + cases[caseIndex]['tango_notes'] + '</p>';
     document.getElementById('notes-text').innerHTML = html;
+
+    html = ' <button onclick= "updateCurrentNote(' + caseIndex + ')" style= "float: left"class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-notes-button" > Update</button >';
+    html += ' <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>';
+    document.getElementById('notes-footer').innerHTML = html;
+
+    $('#notes-textarea').val(cases[caseIndex]['tango_notes']);
+
     UIkit.modal('#case-notes-modal').show();
 }
 
@@ -249,13 +279,7 @@ function updateCasesTable() {
         html += '<td>' + cases[i]['tango_id'] + '</td>';
         html += '<td>' + cases[i]['tango_last_ran'] + '</td>';
         html += '<td>' + cases[i]['tango_importance'] + '</td>';
-        if (cases[i]['tango_notes'] == '-') { 
-            html += '<td>' + cases[i]['tango_notes'] + '</td>';
-        }
-        else
-        {
-            html += '<td> <a uk-icon="warning" onclick= "openNotesModal($(this)); event.stopPropagation()" /> </td > ';
-        }
+        html += '<td> <a uk-icon="warning" onclick= "openNotesModal($(this)); event.stopPropagation()" /> </td > ';
 
         if (cases[i]['tango_save'] == "true") html += '<td> <input checked '
         else html += '<td> <input '
@@ -331,4 +355,9 @@ function createNewId() {
 function updateFailedCase() {
     cases[cases.length - 1]['tango_importance'] = $("input[name=importanceRating]:checked").val()
     cases[cases.length - 1]['tango_notes'] = $("#case-fail-notes").val()
+}
+
+function updateCurrentNote(data) {
+    //let caseIndex = data.parent().parent().index() - 1;
+    cases[data]['tango_notes']  = $('#notes-textarea').val();
 }
