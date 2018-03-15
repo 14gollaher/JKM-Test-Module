@@ -11,7 +11,6 @@ def testing(request, test_view_name):
     if test_view_name is None: test_view_name = ''
 
     tangoUserApplication = TangoUserApplication()
-
     return render(
         request,
         'tango/testing.html',

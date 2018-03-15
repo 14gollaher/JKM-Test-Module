@@ -39,9 +39,10 @@ class TangoUserApplication:
             form_property = {}
             form_property['tango_name'] = row[0]
             form_property['tango_type'] = self.get_tango_type((row[1]))
-            # TODO: Eventually we'll maybe do something like this.... need to address these things in case generator
-            #form_property['min_length'] = row[1].min_length if row[1].min_length else None
+
             if hasattr(row[1], 'max_length'): form_property['max_length'] = row[1].max_length
+            if hasattr(row[1], 'min_length'): form_property['min_length'] = row[1].min_length
+
             form.append(form_property)
 
         self.forms.append(form)
@@ -53,6 +54,11 @@ class TangoUserApplication:
         if type(djangoType) is django.forms.fields.CharField: return TangoType.string
         if type(djangoType) is django.forms.fields.EmailField: return TangoType.email
         if type(djangoType) is django.forms.fields.IntegerField: return TangoType.integer
+        if type(djangoType) is django.forms.fields.DateField: return TangoType.date
+        if type(djangoType) is django.forms.fields.DateTimeField: return TangoType.date_time
+        if type(djangoType) is django.forms.fields.FloatField: return TangoType.float
+        if type(djangoType) is django.forms.fields.Decimal: return TangoType.decimal
+        if type(djangoType) is django.forms.fields.BooleanField: return TangoType.boolean
 
     def get_subclasses(self, cls): 
         return cls.__subclasses__() + [g for s in cls.__subclasses__() 
@@ -71,5 +77,9 @@ class TangoType:
     string = 1
     email = 2
     integer = 3
- 
+    date_time = 4
+    date = 5
+    decimal = 6
+    float = 7
+    boolean = 8
 

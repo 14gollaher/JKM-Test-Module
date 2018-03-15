@@ -14,6 +14,11 @@ class TangoCaseGenerator:
             if type is TangoType.string: self.process_string_attribute(property)
             elif type is TangoType.email: self.process_email_attribute(property)
             elif type is TangoType.integer: self.process_integer_attribute(property)
+            elif type is TangoType.date: self.process_date_attribute(property)
+            elif type is TangoType.date_time: self.process_date_time_attribute(property)
+            elif type is TangoType.decimal: self.process_decimal_attribute(property)
+            elif type is TangoType.float: self.process_float_attribute(property)
+            elif type is TangoType.boolean: self.process_boolean_attribute(property)
 
 
     def process_string_attribute(self, property):
@@ -21,7 +26,7 @@ class TangoCaseGenerator:
         self.cases[name] = []
 
         # Happy path example
-        #self.cases[name].append(self.fake.text(max_nb_chars=25, ext_word_list=None))
+        self.cases[name].append(self.fake.text(max_nb_chars=25, ext_word_list=None))
 
         # BLANK
         self.cases[name].append('');
@@ -62,7 +67,6 @@ class TangoCaseGenerator:
             self.cases[name].append(property['max_value'])
             self.cases[name].append(fake.random_int(min=property['max_value'] + 1, max=property['max_value'] + 1))
 
-
     def process_email_attribute(self, property):
         name = property['tango_name']
         self.cases[name] = []
@@ -70,16 +74,28 @@ class TangoCaseGenerator:
         # Happy path
         self.cases[name].append(self.fake.free_email())
 
+        # Blank
+        self.cases[name].append('')
+
         # Company email
         self.cases[name].append(self.fake.company_email())
 
         # Email ending only
         self.cases[name].append(self.fake.tld())
 
-        # Chinese email
-        self.fake = Faker('zh_CN')
-        self.cases[name].append(self.fake.free_email())
-        self.fake = Faker('en-US')
-
         # SQL
         self.cases[name].append(self.fake.free_email() + " OR 1=1")
+
+    def process_boolean_attribute(self, property):
+        name = property['tango_name']
+        self.cases[name] = []
+
+        # True
+        self.cases[name].append(True)
+
+        # False
+        self.cases[name].append(False)
+
+        # Blank
+        self.cases[name].append('')
+
