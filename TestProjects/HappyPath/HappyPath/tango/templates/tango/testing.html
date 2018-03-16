@@ -11,7 +11,7 @@
 <body>
     <div class="uk-flex uk-flex-center">
  
-        <div class="uk-flex uk-flex-column ">
+        <div class="uk-flex uk-flex-column data-uk-flex-margin">
             <div class="uk-background  uk-card uk-card-default uk-card-body uk-margin-top">
                 <div>
                     <button type="button" class="uk-button uk-button-primary uk-button-large uk-align-center uk-margin-auto-vertical" id="test-case-button">Run Next Case</button>
@@ -60,10 +60,20 @@
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <div style="display: inline">
             </div>
-            <div id="selected-case-details" style="padding-top: 10px;"></div>                    
+            <div id="selected-case-details" style="padding-top: 10px;"></div>  
+            
+                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">'
+                    <h5>Importance: </h5>'
+                    <label><input class="uk-radio" type="radio" name="importanceRating" value="1" checked> 1</label>
+                    <label><input class="uk-radio" type="radio" name="importanceRating" value="2"> 2</label>
+                    <label><input class="uk-radio" type="radio" name="importanceRating" value="3"> 3</label>
+                    <label><input class="uk-radio" type="radio" name="importanceRating" value="4"> 4</label>
+                    <label><input class="uk-radio" type="radio" name="importanceRating" value="5"> 5</label>
+                </div>
+
             <div class="uk-modal-footer uk-text-right">
-                <button style="float: left"class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button" id="delete-case-button">Delete Case</button>
-                <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
+                <div id="selected-case-footer" style="padding-top: 10px;"></div>
+                <!--Html generated in tango.js-->
             </div> 
         </div>
     </div>

@@ -154,8 +154,8 @@ function getStoredCases() {
 function createCustomCase() {
     newTestCase['tango_id'] = createNewId();
     newTestCase['tango_last_ran'] = "-";
-    newTestCase['tango_importance'] = "-";
-    newTestCase['tango_notes'] = "-";
+    newTestCase['tango_importance'] = "1";
+    newTestCase['tango_notes'] = "";
     newTestCase['tango_status'] = "Not Ran";
     newTestCase['tango_save'] = false;
 
@@ -180,8 +180,8 @@ function allocateCases(data) {
 
         testCase['tango_id'] = createNewId();
         testCase['tango_last_ran'] = "-";
-        testCase['tango_importance'] = "-";
-        testCase['tango_notes'] = "-";
+        testCase['tango_importance'] = "1";
+        testCase['tango_notes'] = "";
         testCase['tango_status'] = "Not Ran";
         testCase['tango_save'] = 'false';
         cases.push(testCase);
@@ -309,7 +309,7 @@ function updateCurrentCase() {
         if (!isTangoProperty(i)) {
             html += '<tr>';
             html += '<td>' + i + '</td>';
-            html += '<td>' + cases[0][i] + '</td>';
+            html += '<td class="uk-text-truncate">' + cases[0][i]  + '</td>';
             html += '</tr>';
         }
     }
@@ -318,7 +318,7 @@ function updateCurrentCase() {
     document.getElementById('current-case').innerHTML = html;
 }
 
-function updateSelectedPermutation() {
+function updateSelectedPermutation(selectedPermutationIndex) {
     var html = '<h3 class="uk-heading-divider">Selected Case - ' + cases[selectedPermutationIndex]['tango_id'] + '</h1>';
     html += '<table class="uk-table uk-table-striped">';
 
@@ -338,6 +338,15 @@ function updateSelectedPermutation() {
 
     html += '</table>';
     document.getElementById('selected-case-details').innerHTML = html;
+
+    //html generated for the footer of the modal
+    //delete, apply, close
+    html = '<button style="float: left" class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button" id="delete-case-button">Delete Case</button>'
+    html += ' <button style="margin-right:10px" onclick= "updateSelectedCase(' + selectedPermutationIndex + ')" class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-case-button" > Apply</button >'
+    html += '<button class="uk-button uk-button-default uk-modal-close" type= "button" > Close </button>'
+    document.getElementById('selected-case-footer').innerHTML = html;
+    
+
 }
 
 function isTangoProperty(property) {
@@ -357,7 +366,12 @@ function updateFailedCase() {
     cases[cases.length - 1]['tango_notes'] = $("#case-fail-notes").val()
 }
 
+function updateSelectedCase(data) {
+    cases[data]['tango_importance'] = $("input[name=importanceRating]:checked").val()
+    updateCasesTable();
+    updateStoredCases();
+}
+
 function updateCurrentNote(data) {
-    //let caseIndex = data.parent().parent().index() - 1;
     cases[data]['tango_notes']  = $('#notes-textarea').val();
 }
