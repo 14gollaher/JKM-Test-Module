@@ -31,23 +31,25 @@ class TangoUserApplication:
 
     def populate_forms(self):
         self.forms = []
-        form = []
 
         all_forms = self.get_subclasses(django.forms.Form) 
-        happyPathForm = all_forms[6] 
-        
-        for row in happyPathForm.base_fields.viewitems():
-            form_property = {}
-            form_property['tango_name'] = row[0]
-            form_property['tango_selector'] = "#id_" + form_property['tango_name']
-            form_property['tango_type'] = self.get_tango_type((row[1]))
 
-            if hasattr(row[1], 'max_length') and row[1].max_length: form_property['max_length'] = row[1].max_length
-            if hasattr(row[1], 'min_length') and row[1].min_length: form_property['min_length'] = row[1].min_length
+        for x in range(6, len(all_forms) - 1): 
+            thisform = all_forms[x];
+            forms = []
+            forms.append(thisform.__name__)
+            for row in thisform.base_fields.viewitems():
+                form_property = {}
+                form_property['tango_name'] = row[0]
+                form_property['tango_selector'] = "#id_" + form_property['tango_name']
+                form_property['tango_type'] = self.get_tango_type((row[1]))
+                if hasattr(row[1], 'max_length'): 
+                    form_property['max_length'] = row[1].max_length
+                if hasattr(row[1], 'min_length') and row[1].min_length: 
+                    form_property['min_length'] = row[1].min_length
 
-            form.append(form_property)
-
-        self.forms.append(form)
+                forms.append(form_property)
+            self.forms.append(forms)
 
     from django.conf import settings
     from django.core.urlresolvers import RegexURLResolver, RegexURLPattern
