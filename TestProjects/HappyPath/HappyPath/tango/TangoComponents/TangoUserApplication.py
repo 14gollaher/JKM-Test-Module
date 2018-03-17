@@ -12,22 +12,23 @@ class TangoUserApplication:
         #self.populate_views()
 
     def populate_models(self):
-        #TODO: 'app' should come from a config file somewhere
-        #TODO: Re-test this!
+        self.models = [];
         models = apps.get_app_config('app').get_models();
         for model in models:
+            eachmodel = [];
+            eachmodel.append(model.__name__)
             fields = model._meta.get_fields()
             for field in fields:
               if not field.is_relation or field.one_to_one or (field.many_to_one and field.related_model):
-                  type = field.get_internal_type()
-                  name = field.name
-                  max_length = field.max_length
+                  model_property = {}
+                  model_property['tango_name'] = field.get_internal_type()
+                  model_property['tango_type'] = field.name
+                  model_property['max_length'] = field.max_length
 
-                  model_tuple = (type, name, max_length)
-                  self.model_info.append(model_tuple)
+                  eachmodel.append(model_property)
+            self.models.append(eachmodel)
 
-    # TODO: Right now we are just making 1 form in forms. we need to make this gooder
-    # by making the application fill self.forms with all forms in the program
+
     def populate_forms(self):
         self.forms = []
         form = []
