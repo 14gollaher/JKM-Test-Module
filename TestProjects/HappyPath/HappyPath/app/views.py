@@ -15,6 +15,7 @@ def home(request):
         }
     )
 
+#Tango: sample_form HappyPathForm
 def sample_form(request):
     if request.method == 'POST':
         form = HappyPathForm(request.POST)

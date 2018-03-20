@@ -9,7 +9,75 @@ class TangoUserApplication:
     def __init__(self):
         self.populate_models()
         self.populate_forms()
-        #self.populate_views()
+        self.populate_views()
+
+    #format for comments should be '#TANGO: <Name of View> <ModelorForm> <ModelorForm>....
+    #for example
+    #TANGO: sampleview samplemodel1 sampleform1 sampleform2
+    #would be a view with 1 model and 2 forms on it
+    #thought it would be easier to just let them list them, as i can determine from code if they something is a model or form
+    
+    def populate_views(self):
+        self.views = []
+        #TODO: should this be a configuration file thign?
+        with open('C:/Tango/Tango/TestProjects/HappyPath/HappyPath/app/views.py') as f:
+            content = f.readlines()
+        # you may also want to remove whitespace characters like `\n` at the end of each line
+        content = [x.strip() for x in content] 
+        listofcomments = [];
+        modelsandviews = [];
+        
+
+        for line in content:
+            if len(line) > 0 and line[0] == '#':
+                listofcomments.append(line)
+
+        for comment in listofcomments:
+            if(comment.upper().find('#TANGO: ') != -1):
+                individualViews = []
+                parsedString = comment[8:]
+                parsedString = parsedString.strip()
+
+                spaceLocation = parsedString.find(' ')
+                viewName = parsedString[0:spaceLocation]
+                modelsAndFormsString = parsedString[spaceLocation+1:]
+
+                modelsAndFormsString = modelsAndFormsString.strip()
+
+                done = False
+                while(done == False):
+                    spaceLocation = modelsAndFormsString.find(' ')
+
+                    if(spaceLocation != -1):
+                        modelsandviews.append(modelsAndFormsString[0:spaceLocation])
+                        modelsAndFormsString = modelsAndFormsString[spaceLocation+1:]
+
+                    else:
+                        modelsandviews.append(modelsAndFormsString)
+                        done = True
+
+                individualViews.append(viewName)
+                
+
+                for object in modelsandviews:
+                    view_property = {}
+                    view_property['name'] = object
+                    view_property['type'] = 'unknown'
+                    for model in self.models:
+                       if(model[0] == object):
+                          view_property['type'] = 'model'
+                          break
+                    for form in self.forms:
+                       if(form[0] == object):
+                          view_property['type'] = 'form'
+                          break
+
+
+                    individualViews.append(view_property)
+            self.views.append(individualViews)
+
+
+
 
     def populate_models(self):
         self.models = [];
