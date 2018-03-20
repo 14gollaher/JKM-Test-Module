@@ -23,16 +23,20 @@
             </div>
  
             <div class="uk-card uk-card-default uk-card-body uk-margin-top">
-                <button type="button" class="uk-button uk-button-default uk-button-large" id="generate-cases-button">Generate New Cases</button>
-                <button type="button" class="uk-button uk-button-default uk-button-large" id="generate-manual-case-button" href="#case-custom-modal" uk-toggle>Generate Manually</button>
+                <!--<div class="uk-grid-small uk-child-width-1-2@s uk-flex-center uk-text-center" uk-grid>-->
+                    <button type="button" class="uk-button uk-button-default uk-button-large" id="generate-cases-button">Generate New Cases</button>
+                    <button type="button" class="uk-button uk-button-default uk-button-large" id="generate-manual-case-button" href="#case-custom-modal" uk-toggle>Generate Manually</button>
+                <!--</div>-->
                 <div id="current-case" style="padding-top: 15px;"></div>
                 <div id="results-table" style="padding-top: 10px;"></div>
             </div>
         </div>
-        <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-margin-top">
-            <h3>Testing View: {{test_view_name}}</h3>
-            <div id="tango-testing-view">
-                <iframe id="tango-frame" src="http://{{ request.get_host }}/{{test_view_name}}" ></iframe>
+        <div class="uk-flex uk-flex-column data-uk-flex-margin">
+            <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-margin-top">
+                <h3>Testing View: {{test_view_name}}</h3>
+                <div id="tango-testing-view">
+                    <iframe id="tango-frame" src="http://{{ request.get_host }}/{{test_view_name}}" ></iframe>
+                </div>
             </div>
         </div>
     </div>
