@@ -12,7 +12,7 @@
     <div class="uk-flex uk-flex-center">
  
         <div class="uk-flex uk-flex-column data-uk-flex-margin">
-            <div class="uk-background  uk-card uk-card-default uk-card-body uk-margin-top">
+            <div class="uk-background uk-card uk-card-default uk-card-body uk-margin-top">
                 <div>
                     <button type="button" class="uk-button uk-button-primary uk-button-large uk-align-center uk-margin-auto-vertical" id="test-case-button">Run Next Case</button>
                     <div class="uk-grid-small uk-child-width-1-4@s uk-flex-center uk-text-center uk-flex-first" uk-grid>
@@ -73,7 +73,7 @@
 
             <div class="uk-modal-footer uk-text-right">
                 <div id="selected-case-footer" style="padding-top: 10px;"></div>
-                <!--Html generated in tango.js-->
+                <!--Html generated in tango-testing.js-->
             </div> 
         </div>
     </div>
@@ -92,11 +92,11 @@
     <div id="case-notes-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog">
             <div id="notes-text"style="display: inline">
-                <!--Html generated in tango.js-->
+                <!--Html generated in tango-testing.js-->
             </div>   
             <textarea id="notes-textarea" class="uk-textarea" rows="5" placeholder="No notes to show"></textarea>
             <div id="notes-footer" class="uk-modal-footer uk-text-right">
-                <!--Html generated in tango.js-->
+                <!--Html generated in tango-testing.js-->
             </div>    
         </div>
             
@@ -115,6 +115,5 @@
     
 </script>
 {% load staticfiles %}
-<script src="{% static 'scripts/tango/tango.js' %}"></script>
-
+<script src="{% static 'scripts/tango/tango-testing.js' %}"></script>
 {% endblock %}

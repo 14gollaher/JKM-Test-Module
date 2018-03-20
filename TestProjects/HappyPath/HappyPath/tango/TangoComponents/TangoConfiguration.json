@@ -1,0 +1,7 @@
+{
+  "apps_to_test": [ "app" ],
+  "views-to-test": {
+    "sample-form": [ "HappyPathForm", "SadPathForm" ],
+    "sad-form": [ "SadPathForm" ]
+  }
+}

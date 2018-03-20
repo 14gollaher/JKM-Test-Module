@@ -57,7 +57,6 @@
     <Compile Include="tango\TangoComponents\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="tango\tests.py" />
     <Compile Include="tango\tinydb\database.py" />
     <Compile Include="tango\tinydb\middlewares.py" />
     <Compile Include="tango\tinydb\operations.py" />
@@ -129,7 +128,11 @@
     <Content Include="tango\static\lib\uikit-icons.min.js" />
     <Content Include="tango\static\lib\uikit.min.css" />
     <Content Include="tango\static\lib\uikit.min.js" />
-    <Content Include="tango\static\scripts\tango\tango.js" />
+    <Content Include="tango\static\scripts\tango\tango-view-select.js" />
+    <Content Include="tango\static\scripts\tango\tango-testing.js" />
+    <Content Include="tango\TangoComponents\TangoConfiguration.json">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="tango\templates\tango-layout.html" />
     <Content Include="tango\templates\tango\view-select.html" />
     <Content Include="tango\templates\tango\testing.html" />

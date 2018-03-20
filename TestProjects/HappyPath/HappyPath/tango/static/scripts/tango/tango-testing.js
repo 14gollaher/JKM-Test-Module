@@ -78,7 +78,6 @@ $("#update-notes-button").click(function () {
     updateCurrentNote();
 });
 
-
 $("#results-table").on("click", "tr", function () {
     selectedPermutationIndex = $(this).index() - 1;
     updateSelectedPermutation(selectedPermutationIndex);
@@ -107,6 +106,7 @@ function passedCaseNotification() {
         timeout: 1000
     });
 }
+
 function failedCaseNotification() {
     UIkit.notification({
         message: 'Test Failed!',

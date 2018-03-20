@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
-from forms import HappyPathForm
+from forms import HappyPathForm, SadPathForm
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
@@ -15,7 +15,6 @@ def home(request):
         }
     )
 
-#Tango: sample_form HappyPathForm
 def sample_form(request):
     if request.method == 'POST':
         form = HappyPathForm(request.POST)
@@ -23,5 +22,16 @@ def sample_form(request):
             return HttpResponseRedirect('/thanks/')
     else:
         form = HappyPathForm()
+
+    return render(request, 'sample-form.html', {'form': form})
+
+
+def sad_form(request):
+    if request.method == 'POST':
+        form = SadPathForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = SadPathForm()
 
     return render(request, 'sample-form.html', {'form': form})

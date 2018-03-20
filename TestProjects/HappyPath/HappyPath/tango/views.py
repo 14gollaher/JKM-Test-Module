@@ -22,10 +22,15 @@ def testing(request, test_view_name):
         }
     )
 
-def results(request):
+def view_select(request):
+    tangoUserApplication = TangoUserApplication()
+
     return render(
         request,
-        'tango/results.html'
+        'tango/view-select.html',
+        {
+            'views': json.dumps(list(tangoUserApplication.views), cls = DjangoJSONEncoder)
+        }
     )
 
 def save_cases(request):

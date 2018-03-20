@@ -4,6 +4,10 @@ from django.conf import settings
 from django.core.urlresolvers import RegexURLResolver, RegexURLPattern
 import django
 from app import views
+import app
+import os
+import json
+
 
 class TangoUserApplication:
     def __init__(self):
@@ -19,65 +23,28 @@ class TangoUserApplication:
     
     def populate_views(self):
         self.views = []
-        #TODO: should this be a configuration file thign?
-        with open('C:/Tango/Tango/TestProjects/HappyPath/HappyPath/app/views.py') as f:
-            content = f.readlines()
-        # you may also want to remove whitespace characters like `\n` at the end of each line
-        content = [x.strip() for x in content] 
-        listofcomments = [];
-        modelsandviews = [];
+        file_path = os.path.join(os.path.dirname(__file__)) + '\\TangoConfiguration.json'
         
+        with open(file_path) as data_file:    
+            settings = json.load(data_file)
 
-        for line in content:
-            if len(line) > 0 and line[0] == '#':
-                listofcomments.append(line)
-
-        for comment in listofcomments:
-            if(comment.upper().find('#TANGO: ') != -1):
-                individualViews = []
-                parsedString = comment[8:]
-                parsedString = parsedString.strip()
-
-                spaceLocation = parsedString.find(' ')
-                viewName = parsedString[0:spaceLocation]
-                modelsAndFormsString = parsedString[spaceLocation+1:]
-
-                modelsAndFormsString = modelsAndFormsString.strip()
-
-                done = False
-                while(done == False):
-                    spaceLocation = modelsAndFormsString.find(' ')
-
-                    if(spaceLocation != -1):
-                        modelsandviews.append(modelsAndFormsString[0:spaceLocation])
-                        modelsAndFormsString = modelsAndFormsString[spaceLocation+1:]
-
-                    else:
-                        modelsandviews.append(modelsAndFormsString)
-                        done = True
-
-                individualViews.append(viewName)
-                
-
-                for object in modelsandviews:
-                    view_property = {}
-                    view_property['name'] = object
-                    view_property['type'] = 'unknown'
-                    for model in self.models:
-                       if(model[0] == object):
-                          view_property['type'] = 'model'
-                          break
-                    for form in self.forms:
-                       if(form[0] == object):
-                          view_property['type'] = 'form'
-                          break
-
-
-                    individualViews.append(view_property)
-            self.views.append(individualViews)
-
-
-
+        for view, view_value in settings['views-to-test'].iteritems():
+            new_view = {}
+            new_view['name'] = view
+            new_view['components'] = []
+            for view_or_model in view_value:
+                view_component = {}
+                view_component['name'] = view_or_model
+                for model in self.models:
+                    if(model[0] == view_or_model):
+                        view_component['type'] = 'model'
+                        break
+                for form in self.forms:
+                    if(form[0] == view_or_model):
+                        view_component['type'] = 'form'
+                        break
+                new_view['components'].append(view_component)
+            self.views.append(new_view)
 
     def populate_models(self):
         self.models = [];
@@ -101,6 +68,13 @@ class TangoUserApplication:
         self.forms = []
 
         all_forms = self.get_subclasses(django.forms.Form) 
+        happyPathForm = all_forms[6] 
+        
+        for row in happyPathForm.base_fields.viewitems():
+            form_property = {}
+            form_property['tango_name'] = row[0]
+            form_property['tango_type'] = self.get_tango_type((row[1]))
+            form_property['tango_selector'] = "#id_" + form_property['tango_name']
 
         for x in range(6, len(all_forms) - 1): 
             thisform = all_forms[x];
@@ -119,8 +93,6 @@ class TangoUserApplication:
                 forms.append(form_property)
             self.forms.append(forms)
 
-    from django.conf import settings
-    from django.core.urlresolvers import RegexURLResolver, RegexURLPattern
 
     def get_tango_type(self, djangoType):
         if type(djangoType) is django.forms.fields.CharField: return TangoType.string
@@ -144,6 +116,7 @@ class TangoUserApplication:
             all_subclasses.extend(get_all_subclasses(subclass))
 
         return all_subclasses
+
 
 class TangoType:
     string = 1

@@ -19,7 +19,9 @@ urlpatterns = [
     # Examples:
     url(r'^tango/', include('tango.urls', namespace="tango")),
     url(r'^$', app.views.home, name='home'),
-    url(r'^sample-form', app.views.sample_form, name='sample_form')
+    url(r'^sample-form', app.views.sample_form, name='sample_form'),
+    url(r'^sad-form', app.views.sad_form, name='sad_form')
+    # Tango: sample-form HappyPathForm
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
