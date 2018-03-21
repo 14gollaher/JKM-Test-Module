@@ -1,7 +1,7 @@
 $(function () {
     $('#pass-button').hide();
     $('#fail-button').hide();
-    $("#test-case-button").prop('disabled', true);
+    updateNoCases();
     getStoredCases();
 });
 
@@ -43,7 +43,7 @@ $("#add-case-button").click(function () {
     submitCustomCase();
     updateCasesTable();
     updateCurrentCase();
-    $("#test-case-button").prop('disabled', false);
+    updateCasesExist();
 });
 
 $("#update-notes-button").click(function () {
@@ -55,11 +55,16 @@ $("#results-table").on("click", "tr", function () {
     updateSelectedPermutation(selectedPermutationIndex);
 });
 
-
 $("#generate-manual-case-button").click(function () {
     let newCaseId = createCustomCase();
     createCustomCaseTable(newCaseId);
 });
+
+$("#edit-selectors-button").click(function () {
+    UIkit.modal('#edit-selectors-modal').show();
+    updateSelectorsTable();
+});
+
 
 UIkit.util.on('#generate-cases-button', 'click', function (e) {
     e.preventDefault();
@@ -82,7 +87,7 @@ function generatePermutationsAjax() {
             createCases(data);
             updateCasesTable();
             updateCurrentCase();
-            $("#test-case-button").prop('disabled', false);
+            updateCasesExist();
         });
 }
 
@@ -214,25 +219,6 @@ function updateCaseSaveStatus(data) {
     updateStoredCases();
 }
 
-function createCustomCaseTable(caseId) {
-    let html = '<h3 class="uk-heading-divider">Selected Case - ' + caseId + '</h1>';
-    html += '<table class="uk-table uk-table-striped">';
-
-    html += '<tr>';
-    html += '<th>Component</th>';
-    html += '<th>Tasdasdfest Value</th>';
-    html += '</tr>';
-    for (item in newTestCase) {
-        html += '<tr>';
-        html += '<td>' + item + '</td>';
-        html += '<td> <input id="custom_value_' + item + '" class="uk-input" type="text" placeholder="Input"> </td>';
-        html += '</tr>';
-    }
-
-    html += '</table>';
-    document.getElementById('custom-case-details').innerHTML = html;
-}
-
 function openNotesModal(data) {
     var caseIndex = data.parent().parent().index() - 1;
     let html = '<h3 class="uk-heading-divider">Notes for Case - ' + cases[caseIndex]['id'] + '</h1>';
@@ -308,7 +294,7 @@ function updateCurrentCase() {
     html += '<table class="uk-table uk-table-striped">';
 
     html += '<tr>';
-    html += '<th>Component</th>';
+    html += '<th>Field Name</th>';
     html += '<th>Test Value</th>';
     html += '</tr>';
     for (i in cases[selectedPermutationIndex]['test_data']) {
@@ -341,23 +327,48 @@ function updateSelectedPermutation(selectedPermutationIndex) {
     document.getElementById('selected-case-details').innerHTML = html;
 
     //html generated for the footer of the modal
-    //delete, apply, close
     html = '<button onclick="deleteCase()" style="float: left" class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button">Delete Case</button>'
     html += ' <button style="margin-right:10px" onclick= "updateSelectedCase(' + selectedPermutationIndex + ')" class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-case-button" > Apply</button >'
     html += '<button class="uk-button uk-button-default uk-modal-close" type= "button" > Close </button>'
-    document.getElementById('selected-case-footer').innerHTML = html;
-    
 
+    document.getElementById('selected-case-footer').innerHTML = html;
+}
+
+function updateSelectorsTable() {
+    var html = '<h3 class="uk-heading-divider">Selectors</h1>';
+    html += '<table class="uk-table uk-table-striped">';
+    html += '<tr>';
+    html += '<th>Field Name</th>';
+    html += '<th>Selector</th>';
+    html += '</tr>';
+    for (i in cases[0]['test_data']) {
+        html += '<tr>';
+        html += '<td>' + cases[0]['test_data'][i]['name'] + '</td>';
+        html += '<td>' + cases[0]['test_data'][i]['selector'] + '</td>';
+        html += '</tr>';
+    }
+    html += '</table>';
+    document.getElementById('selectors-table').innerHTML = html;
 }
 
 function deleteCase() {
-
     cases.splice(selectedPermutationIndex, 1);
     updateCasesTable();
     updateStoredCases();
     updateCurrentCase();
+    updateCasesExist();
+    if (cases.length) updateNoCases();
+}
+
+function updateNoCases() {
     $("#test-case-button").prop('disabled', true);
-    if (cases.length) $("#test-case-button").prop('disabled', false);
+    $("#edit-selectors-button").prop('disabled', true);
+
+}
+
+function updateCasesExist() {
+    $("#test-case-button").prop('disabled', false);
+    $("#edit-selectors-button").prop('disabled', false);
 }
 
 function createNewId() {

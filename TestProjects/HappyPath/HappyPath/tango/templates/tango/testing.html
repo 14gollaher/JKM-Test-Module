@@ -10,7 +10,6 @@
  
 <body>
     <div class="uk-flex uk-flex-center">
- 
         <div class="uk-flex uk-flex-column data-uk-flex-margin">
             <div class="uk-background uk-card uk-card-default uk-card-body uk-margin-top">
                 <div>
@@ -39,6 +38,7 @@
                 </div>
             </div>
         </div>
+        <button type="button" class="uk-button uk-button-default uk-button-large" id="edit-selectors-button">Selectors</button>
     </div>
     
     <div id="case-fail-modal" class="uk-flex-top" uk-modal>
@@ -65,7 +65,7 @@
             <div style="display: inline">
             </div>
             <div id="selected-case-details" style="padding-top: 10px;"></div>  
-            
+                <!--Html generated in tango-testing.js-->
                 <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                     <h5>Importance: </h5>
                     <label><input class="uk-radio" type="radio" name="importanceRating" value="1" checked> 1</label>
@@ -74,7 +74,6 @@
                     <label><input class="uk-radio" type="radio" name="importanceRating" value="4"> 4</label>
                     <label><input class="uk-radio" type="radio" name="importanceRating" value="5"> 5</label>
                 </div>
-
             <div class="uk-modal-footer uk-text-right">
                 <div id="selected-case-footer" style="padding-top: 10px;"></div>
                 <!--Html generated in tango-testing.js-->
@@ -104,6 +103,13 @@
             </div>    
         </div>
             
+    </div>
+    <div id="edit-selectors-modal" class="uk-flex-top" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+            <div id="selectors-table" style="display: inline">
+                <!--Html generated in tango-testing.js-->
+            </div>   
+        </div>
     </div>
 </body>
 </html>

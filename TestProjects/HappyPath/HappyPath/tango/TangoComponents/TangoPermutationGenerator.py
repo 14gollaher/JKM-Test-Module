@@ -23,6 +23,7 @@ class TangoPermutationGenerator:
             for form in tangoUserApplication.forms:
                 if form['name'] == component['name']:
                     self.generate_form_permutations(form['properties'])
+                    break
             for model in tangoUserApplication.models:
                 pass # TODO
 
