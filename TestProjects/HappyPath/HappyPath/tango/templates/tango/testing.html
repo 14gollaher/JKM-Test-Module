@@ -118,6 +118,7 @@
 <script>
     var cases = [];
     var viewName = '{{test_view_name}}' || 'index';
+    var fieldNames = JSON.parse('{{ field_names | escapejs | safe}}');
     var selectedPermutationIndex = 0;
     var newTestCase = {};
 </script>

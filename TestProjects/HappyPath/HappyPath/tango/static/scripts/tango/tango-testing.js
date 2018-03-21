@@ -167,17 +167,17 @@ function createCustomCase() {
 }
 
 function createCustomCaseTable(caseId) {
-    let html = '<h3 class="uk-heading-divider">Selected Case - ' + caseId + '</h1>';
+    let html = '<h3 class="uk-heading-divider">New Case - ' + caseId + '</h1>';
     html += '<table class="uk-table uk-table-striped">';
 
     html += '<tr>';
     html += '<th>Field Name</th>';
     html += '<th>Value</th>';
     html += '</tr>';
-    for (i in newTestCase['test_data']) {
+    for (i in fieldNames) {
         html += '<tr>';
-        html += '<td>' + i + '</td>';
-        html += '<td> <input id="custom_value_' + i + '" class="uk-input" type="text" placeholder="Input"> </td>';
+        html += '<td>' + fieldNames[i] + '</td>';
+        html += '<td> <input id="custom-case-new-' + fieldNames[i] + '" class="uk-input" type="text" placeholder="Input"> </td>';
         html += '</tr>';
     }
 
@@ -263,12 +263,26 @@ function openNotesModal(data) {
     UIkit.modal('#case-notes-modal').show();
 }
 
-// TODO EDIT MEEE!!!
 function submitCustomCase() {
-    for (let i = 0; i < components.length; i++) {
-        newTestCase[component[i]['name']] = $('#custom_value_' + component[i]['name']).val();
+    let newTestData = [];
+
+    for (i in fieldNames) {
+        let newFieldValue = {};
+        newFieldValue['name'] = fieldNames[i];
+        newFieldValue['test_value'] = $('#custom-case-new-' + newFieldValue['name']).val();
+
+        if (cases.length > 0) {
+            newFieldValue['selector'] = cases[0]['test_data'][i]['selector'];
+        }
+        else {
+            newFieldValue['selector'] = '#id_' + newFieldValue['name'];
+        }
+        newTestData.push(newFieldValue);
     }
+    newTestCase['test_data'] = newTestData;
+    console.log(newTestCase);
     cases.unshift(newTestCase);
+    console.log(cases);
     newTestCase = {};
 }
 
@@ -350,7 +364,7 @@ function updateSelectedPermutation(selectedPermutationIndex) {
     for (i in cases[selectedPermutationIndex]['test_data']) {
         html += '<tr>';
         html += '<td>' + cases[selectedPermutationIndex]['test_data'][i]['name'] + '</td>';
-        html += '<td> <input id="custom_value_' + i + '" class="uk-input" type="text" value="' + cases[selectedPermutationIndex]['test_data'][i]['test_value'] + '"></td>';
+        html += '<td> <input id="custom-case-update-' + cases[selectedPermutationIndex]['test_data'][i]['name'] + '" class="uk-input" type="text" value="' + cases[selectedPermutationIndex]['test_data'][i]['test_value'] + '"></td>';
         html += '</tr>'; 
     }
 
@@ -379,7 +393,7 @@ function updateSelectorsTable() {
     for (i in cases[0]['test_data']) {
         html += '<tr>';
         html += '<td>' + cases[0]['test_data'][i]['name'] + '</td>';
-        html += '<td> <input id="custom_selector' + i + '" class="uk-input" type="text" value="' + cases[0]['test_data'][i]['selector'] + '"></td>';
+        html += '<td> <input id="custom-selector' + i + '" class="uk-input" type="text" value="' + cases[0]['test_data'][i]['selector'] + '"></td>';
         html += '</tr>';
     }
     html += '</table>';
@@ -423,7 +437,7 @@ function updateFailedCase() {
 function updateSelectedCase(data) {
     cases[data]['importance'] = $("input[name=importanceRating]:checked").val()
     for (i in cases[data]['test_data']) {
-        cases[data]['test_data'][i]['test_value'] = document.getElementById("custom_value_" + i).value;
+        cases[data]['test_data'][i]['test_value'] = document.getElementById("custom-case-update-" + cases[data]['test_data'][i]['name']).value;
     }
     updateCasesTable();
     updateStoredCases();
@@ -437,7 +451,7 @@ function updateCurrentNote(data) {
 function updateSelectors() {
     for (i in cases) {
         for (j in cases[i]['test_data']) {
-            cases[i]['test_data'][j]['selector'] = document.getElementById("custom_selector" + j).value;
+            cases[i]['test_data'][j]['selector'] = document.getElementById("custom-selector" + j).value;
         }
     }
 

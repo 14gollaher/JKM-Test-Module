@@ -14,6 +14,23 @@ class TangoUserApplication:
         self.populate_forms()
         self.populate_views()
 
+    def get_view_field_names(self, view_name):
+        for view in self.views:
+            if view['name'] == view_name:
+                test_view = view
+                break
+        
+        view_field_names = []
+        for component in test_view['components']:
+            for form in self.forms:
+                if form['name'] == component['name']:
+                    for property in form['properties']:
+                        view_field_names.append(property['name'])
+            for model in self.models:
+                pass # TODO
+
+        return view_field_names
+
     def populate_views(self):
         self.views = []
         file_path = os.path.join(os.path.dirname(__file__)) + '\\TangoConfiguration.json'

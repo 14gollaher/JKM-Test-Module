@@ -9,11 +9,13 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 def testing(request, test_view_name):
     if test_view_name is None: test_view_name = ''
+    tangoUserApplication = TangoUserApplication()
     return render(
         request,
         'tango/testing.html',
         {
             'test_view_name': test_view_name,
+            'field_names': json.dumps(list(tangoUserApplication.get_view_field_names(test_view_name)), cls = DjangoJSONEncoder)
         }
     )
 
