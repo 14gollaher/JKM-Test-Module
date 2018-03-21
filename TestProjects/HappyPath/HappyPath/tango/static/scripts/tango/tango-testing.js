@@ -55,14 +55,6 @@ $("#results-table").on("click", "tr", function () {
     updateSelectedPermutation(selectedPermutationIndex);
 });
 
-$("#delete-case-button").on("click", function () {
-    cases.splice(selectedPermutationIndex, 1);
-    updateCasesTable();
-    updateStoredCases();
-    updateCurrentCase();
-    $("#test-case-button").prop('disabled', true);
-    if (cases.length) $("#test-case-button").prop('disabled', false);
-});
 
 $("#generate-manual-case-button").click(function () {
     let newCaseId = createCustomCase();
@@ -350,12 +342,22 @@ function updateSelectedPermutation(selectedPermutationIndex) {
 
     //html generated for the footer of the modal
     //delete, apply, close
-    html = '<button style="float: left" class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button" id="delete-case-button">Delete Case</button>'
+    html = '<button onclick="deleteCase()" style="float: left" class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button">Delete Case</button>'
     html += ' <button style="margin-right:10px" onclick= "updateSelectedCase(' + selectedPermutationIndex + ')" class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-case-button" > Apply</button >'
     html += '<button class="uk-button uk-button-default uk-modal-close" type= "button" > Close </button>'
     document.getElementById('selected-case-footer').innerHTML = html;
     
 
+}
+
+function deleteCase() {
+
+    cases.splice(selectedPermutationIndex, 1);
+    updateCasesTable();
+    updateStoredCases();
+    updateCurrentCase();
+    $("#test-case-button").prop('disabled', true);
+    if (cases.length) $("#test-case-button").prop('disabled', false);
 }
 
 function createNewId() {
