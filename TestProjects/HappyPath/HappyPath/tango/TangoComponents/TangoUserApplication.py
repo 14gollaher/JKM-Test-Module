@@ -58,7 +58,21 @@ class TangoUserApplication:
                   model_property = {}
                   model_property['tango_name'] = field.get_internal_type()
                   model_property['tango_type'] = field.name
-                  model_property['max_length'] = field.max_length
+                  if hasattr(field, 'input_formats'): 
+                    model_property['input_formats'] = field.input_formats
+                  if hasattr(row[1], 'max_length'): 
+                    model_property['max_length'] = field.max_length
+                  if hasattr(row[1], 'max_digits'): 
+                    model_property['max_digits'] = field.max_digits
+                  if hasattr(row[1], 'min_length'):
+                    model_property['min_length'] = field.min_length
+                  if hasattr(row[1], 'max_value'): 
+                    model_property['max_value'] = field.max_value
+                  if hasattr(row[1], 'min_value'): 
+                    model_property['min_value'] = field.min_value
+                  if hasattr(row[1], 'unpack_ipv4'): 
+                    model_property['unpack_ipv4'] = field.unpack_ipv4
+
 
                   eachmodel.append(model_property)
             self.models.append(eachmodel)
@@ -85,10 +99,22 @@ class TangoUserApplication:
                 form_property['tango_name'] = row[0]
                 form_property['tango_selector'] = "#id_" + form_property['tango_name']
                 form_property['tango_type'] = self.get_tango_type((row[1]))
+                form_property['initial'] = row[1].initial
+                form_property['required'] = row[1].required
+                if hasattr(row[1], 'input_formats'): 
+                    form_property['input_formats'] = row[1].input_formats
                 if hasattr(row[1], 'max_length'): 
                     form_property['max_length'] = row[1].max_length
+                if hasattr(row[1], 'max_digits'): 
+                    form_property['max_digits'] = row[1].max_digits
                 if hasattr(row[1], 'min_length') and row[1].min_length: 
                     form_property['min_length'] = row[1].min_length
+                if hasattr(row[1], 'max_value'): 
+                    form_property['max_value'] = row[1].max_value
+                if hasattr(row[1], 'min_value'): 
+                    form_property['min_value'] = row[1].min_value
+                if hasattr(row[1], 'unpack_ipv4'): 
+                    form_property['unpack_ipv4'] = row[1].unpack_ipv4
 
                 forms.append(form_property)
             self.forms.append(forms)
@@ -103,6 +129,11 @@ class TangoUserApplication:
         if type(djangoType) is django.forms.fields.FloatField: return TangoType.float
         if type(djangoType) is django.forms.fields.Decimal: return TangoType.decimal
         if type(djangoType) is django.forms.fields.BooleanField: return TangoType.boolean
+        if type(djangoType) is django.forms.fields.GenericIPAddressField: return TangoType.ipAddress
+        if type(djangoType) is django.forms.fields.Decimal: return TangoType.decimal
+        if type(djangoType) is django.forms.fields.TimeField: return TangoType.time
+        if type(djangoType) is django.forms.fields.URLField: return TangoType.url
+
 
     def get_subclasses(self, cls): 
         return cls.__subclasses__() + [g for s in cls.__subclasses__() 
@@ -127,4 +158,8 @@ class TangoType:
     decimal = 6
     float = 7
     boolean = 8
+    ipAddress = 9
+    decimal = 10
+    time = 11
+    url = 12
 
