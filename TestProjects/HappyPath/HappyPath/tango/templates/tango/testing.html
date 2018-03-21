@@ -8,38 +8,31 @@
 </head>
  
 <body>
-    <div class="uk-flex uk-flex-center">
-        <div class="uk-flex uk-flex-column data-uk-flex-margin">
-            <div class="uk-background uk-card uk-card-default uk-card-body uk-margin-top">
-                <div>
+    <div class="uk-container">
+        <div class="uk-grid">
+            <div class="">
+                <div class="uk-background uk-card uk-card-default uk-card-body uk-margin-top">
                     <button type="button" class="uk-button uk-button-primary uk-button-large uk-align-center uk-margin-auto-vertical" id="test-case-button">Run Next Case</button>
                     <div class="uk-grid uk-child-width-1-4@s uk-flex-center" uk-grid>
                         <button type="button" style="background-color:limegreen" class="uk-button uk-button-large uk-button-primary uk-margin-medium-left" id="pass-button">Pass</button>
                         <button type="button" class=" uk-button uk-button-large uk-button-danger uk-margin-left" id="fail-button" href="#case-fail-modal" uk-toggle>Fail</button>
-                    </div>
-                </div>   
-            </div>
- 
-            <div class="uk-card uk-card-default uk-card-body uk-margin-top">
-                <!--<div class="uk-grid-small uk-child-width-1-2@s uk-flex-center uk-text-center" uk-grid>-->
+                    </div>   
+                </div>
+                <div class="uk-card uk-card-default uk-card-body uk-margin-top">
                     <button type="button" class="uk-button uk-button-default uk-button-large" id="generate-cases-button">Generate New Cases</button>
                     <button type="button" class="uk-button uk-button-default uk-button-large" id="generate-manual-case-button" href="#case-custom-modal" uk-toggle>Generate Manually</button>
-                <!--</div>-->
-                <div id="current-case" style="padding-top: 15px;"></div>
-                <div id="results-table" style="padding-top: 10px;"></div>
+                    <div id="current-case" style="padding-top: 15px;"></div>
+                    <div id="results-table" style="padding-top: 10px;"></div>
+                </div>
             </div>
-        </div>
-        <div class="uk-flex uk-flex-column data-uk-flex-margin">
-            <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-margin-top">
-                <h3>Testing View: {{test_view_name}}</h3>
-                <div id="tango-testing-view">
-                    <iframe id="tango-frame" src="http://{{ request.get_host }}/{{test_view_name}}" ></iframe>
+            <div class="">
+                <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-margin-top">
+                    <h3>Testing View: {{test_view_name}}</h3>
+                    <iframe src="http://{{ request.get_host }}/{{test_view_name}}" width="500" height="500" frameborder="0" uk-responsive></iframe>
                 </div>
             </div>
         </div>
-        <button type="button" class="uk-button uk-button-default uk-button-large" id="edit-selectors-button">Selectors</button>
     </div>
-    
     <div id="case-fail-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <h3>Notes</h3>
@@ -79,6 +72,9 @@
             </div> 
         </div>
     </div>
+
+    <button type="button" class="uk-button uk-button-default" style="position: fixed; bottom: 4px; right: 10px;" id="edit-selectors-button">Selectors</button>
+
 
     <div id="case-custom-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">

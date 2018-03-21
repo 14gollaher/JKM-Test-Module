@@ -1,13 +1,13 @@
 
-#tango-testing-view {
+#tango-frame {
     height: 600px;
     width: 700px;
 }
 
-#tango-frame {
+/*#tango-frame {
     border-radius: 10px;
     top: 10%;
     right: 5%;
     height: 100%;
     width: 100%;
-}
+}*/
