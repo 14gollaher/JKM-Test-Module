@@ -44,10 +44,9 @@
     <Compile Include="HappyPath\urls.py" />
     <Compile Include="HappyPath\wsgi.py" />
     <Compile Include="tango\admin.py" />
-    <Compile Include="tango\apps.py" />
     <Compile Include="tango\migrations\__init__.py" />
     <Compile Include="tango\models.py" />
-    <Compile Include="tango\TangoComponents\TangoCaseGenerator.py">
+    <Compile Include="tango\TangoComponents\TangoPermutationGenerator.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tango\TangoComponents\TangoUserApplication.py" />
@@ -139,11 +138,6 @@
     <Content Include="tango\urls.pyc" />
     <Content Include="tango\views.pyc" />
     <Content Include="tango\__init__.pyc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="readme.html">
-      <SubType>WebBrowser</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">

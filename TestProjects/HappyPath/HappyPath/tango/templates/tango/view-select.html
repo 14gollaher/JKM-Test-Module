@@ -24,6 +24,5 @@
 <script>
     var views = JSON.parse('{{ views | escapejs | safe}}');
     var baseUrl = 'http://{{ request.get_host }}';
-    console.log(baseUrl);
 </script>
 {% endblock %}

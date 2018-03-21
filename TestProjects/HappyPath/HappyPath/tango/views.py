@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from TangoComponents.TangoRepository import *
 from TangoComponents.TangoUserApplication import *
-from TangoComponents.TangoCaseGenerator import *
+from TangoComponents.TangoPermutationGenerator import *
 from django.http import JsonResponse, HttpResponse
 import json
 import ast
@@ -9,16 +9,11 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 def testing(request, test_view_name):
     if test_view_name is None: test_view_name = ''
-
-    tangoUserApplication = TangoUserApplication()
     return render(
         request,
         'tango/testing.html',
         {
             'test_view_name': test_view_name,
-            #TODO: Don't want to call forms[0] here anymore, need to pick form based on test_view_name
-            # so we probably want a populate_views method
-            'form': json.dumps(list(tangoUserApplication.forms[0]), cls = DjangoJSONEncoder)
         }
     )
 
@@ -48,10 +43,8 @@ def get_cases(request):
     cases = tango_repository.get_cases(view_name)
     return JsonResponse(cases,  safe = False)
 
-def generate_cases(request):
-    form = ast.literal_eval(request.GET['form'])
+def generate_permutations(request):
+    tango_permutation_generator = TangoPermutationGenerator()
+    tango_permutation_generator.generate_permutations(request.GET['viewName'])
 
-    tango_cases_generator = TangoCaseGenerator()
-    tango_cases_generator.process_form_cases(form)
-
-    return JsonResponse(tango_cases_generator.cases)
+    return JsonResponse(tango_permutation_generator.permutations, safe = False)
