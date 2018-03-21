@@ -319,11 +319,12 @@ function updateSelectedPermutation(selectedPermutationIndex) {
     for (i in cases[selectedPermutationIndex]['test_data']) {
         html += '<tr>';
         html += '<td>' + cases[selectedPermutationIndex]['test_data'][i]['name'] + '</td>';
-        html += '<td class="uk-panel uk-panel-box uk-text-truncate">' + cases[selectedPermutationIndex]['test_data'][i]['test_value'] + '</td>';
-        html += '</tr>';
+        html += '<td> <input id="custom_value_' + i + '" class="uk-input" type="text" value="' + cases[selectedPermutationIndex]['test_data'][i]['test_value'] + '"></td>';
+        html += '</tr>'; 
     }
 
     html += '</table>';
+
     document.getElementById('selected-case-details').innerHTML = html;
 
     //html generated for the footer of the modal
@@ -332,6 +333,9 @@ function updateSelectedPermutation(selectedPermutationIndex) {
     html += '<button class="uk-button uk-button-default uk-modal-close" type= "button" > Close </button>'
 
     document.getElementById('selected-case-footer').innerHTML = html;
+    
+    let number = findImportanceNumber(selectedPermutationIndex);
+    $('#importanceRating' + number).prop('checked', true);
 }
 
 function updateSelectorsTable() {
@@ -382,10 +386,18 @@ function updateFailedCase() {
 
 function updateSelectedCase(data) {
     cases[data]['importance'] = $("input[name=importanceRating]:checked").val()
+    for (i in cases[data]['test_data']) {
+        cases[data]['test_data'][i]['test_value'] = document.getElementById("custom_value_" + i).value;
+    }
     updateCasesTable();
     updateStoredCases();
+    updateCurrentCase();
 }
 
 function updateCurrentNote(data) {
     cases[data]['notes']  = $('#notes-textarea').val();
+}
+
+function findImportanceNumber(data) {
+    return cases[data]['importance'];
 }
