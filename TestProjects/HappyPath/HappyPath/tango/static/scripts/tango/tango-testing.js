@@ -113,6 +113,20 @@ function runTestCase() {
     for (i in cases[0]['test_data']) {
         $("#tango-frame").contents().find(cases[0]['test_data'][i]['selector']).val(cases[0]['test_data'][i]['test_value']);
     }
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+
+    let yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    today = dd + '/' + mm + '/' + yyyy;
+    cases[0]['last_ran'] = today
+
 }
 
 function updateCases() {
