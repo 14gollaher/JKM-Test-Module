@@ -65,7 +65,6 @@ $("#edit-selectors-button").click(function () {
     updateSelectorsTable();
 });
 
-
 UIkit.util.on('#generate-cases-button', 'click', function (e) {
     e.preventDefault();
     e.target.blur();
@@ -153,7 +152,7 @@ function getStoredCases() {
             cases = data;
             updateCasesTable();
             updateCurrentCase();
-            if (cases.length) $("#test-case-button").prop('disabled', false);
+            if (cases.length) updateCasesExist()
         });
 }
 
@@ -164,15 +163,26 @@ function createCustomCase() {
     newTestCase['notes'] = "";
     newTestCase['status'] = "Not Ran";
     newTestCase['save'] = false;
+    return newTestCase["id"];
+}
 
-    for (i in cases[selectedPermutationIndex]['test_data']) {
-        let html = '<tr>';
-        html += '<td>' + cases[selectedPermutationIndex]['test_data'][i]['name'] + '</td>';
-        html += '<td class="uk-panel uk-panel-box uk-text-truncate">' + cases[selectedPermutationIndex]['test_data'][i]['test_value'] + '</td>';
+function createCustomCaseTable(caseId) {
+    let html = '<h3 class="uk-heading-divider">Selected Case - ' + caseId + '</h1>';
+    html += '<table class="uk-table uk-table-striped">';
+
+    html += '<tr>';
+    html += '<th>Field Name</th>';
+    html += '<th>Value</th>';
+    html += '</tr>';
+    for (i in newTestCase['test_data']) {
+        html += '<tr>';
+        html += '<td>' + i + '</td>';
+        html += '<td> <input id="custom_value_' + i + '" class="uk-input" type="text" placeholder="Input"> </td>';
         html += '</tr>';
     }
 
-    return newTestCase["id"];
+    html += '</table>';
+    document.getElementById('custom-case-details').innerHTML = html;
 }
 
 function createCases(permutations) {
@@ -206,7 +216,13 @@ function createCases(permutations) {
                 test_input['test_value'] = ''
             }
             test_input['name'] = permutations[i]['name'];
-            test_input['selector'] = permutations[i]['selector'];
+
+            if (cases.length > 0) {
+                test_input['selector'] = cases[0]['test_data'][i]['selector'];
+            }
+            else {
+                test_input['selector'] = permutations[i]['selector'];
+            }
             test_data.push(test_input);
             permutations[i]['test_values'].shift();
         }
@@ -247,6 +263,7 @@ function openNotesModal(data) {
     UIkit.modal('#case-notes-modal').show();
 }
 
+// TODO EDIT MEEE!!!
 function submitCustomCase() {
     for (let i = 0; i < components.length; i++) {
         newTestCase[component[i]['name']] = $('#custom_value_' + component[i]['name']).val();
@@ -341,14 +358,14 @@ function updateSelectedPermutation(selectedPermutationIndex) {
 
     document.getElementById('selected-case-details').innerHTML = html;
 
-    //html generated for the footer of the modal
+    // generated for the footer of the modal
     html = '<button onclick="deleteCase()" style="float: left" class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button">Delete Case</button>'
     html += ' <button style="margin-right:10px" onclick= "updateSelectedCase(' + selectedPermutationIndex + ')" class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-case-button" > Apply</button >'
     html += '<button class="uk-button uk-button-default uk-modal-close" type= "button" > Close </button>'
 
     document.getElementById('selected-case-footer').innerHTML = html;
     
-    let number = findImportanceNumber(selectedPermutationIndex);
+    let number = cases[selectedPermutationIndex]['importance'];
     $('#importanceRating' + number).prop('checked', true);
 }
 
@@ -362,11 +379,16 @@ function updateSelectorsTable() {
     for (i in cases[0]['test_data']) {
         html += '<tr>';
         html += '<td>' + cases[0]['test_data'][i]['name'] + '</td>';
-        html += '<td>' + cases[0]['test_data'][i]['selector'] + '</td>';
+        html += '<td> <input id="custom_selector' + i + '" class="uk-input" type="text" value="' + cases[0]['test_data'][i]['selector'] + '"></td>';
         html += '</tr>';
     }
     html += '</table>';
     document.getElementById('selectors-table').innerHTML = html;
+
+    //TODO: Move me to HTML since I'm static
+    html = '<button style="margin-right:10px" onclick= "updateSelectors()" class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-case-button" > Apply</button >'
+    html += '<button class="uk-button uk-button-default uk-modal-close" type= "button" > Close </button>'
+    document.getElementById('edit-selectors-footer').innerHTML = html;
 }
 
 function deleteCase() {
@@ -409,9 +431,17 @@ function updateSelectedCase(data) {
 }
 
 function updateCurrentNote(data) {
-    cases[data]['notes']  = $('#notes-textarea').val();
+    cases[data]['notes'] = $('#notes-textarea').val();
 }
 
-function findImportanceNumber(data) {
-    return cases[data]['importance'];
+function updateSelectors() {
+    for (i in cases) {
+        for (j in cases[i]['test_data']) {
+            cases[i]['test_data'][j]['selector'] = document.getElementById("custom_selector" + j).value;
+        }
+    }
+
+    updateCasesTable();
+    updateStoredCases();
+    updateCurrentCase();
 }
