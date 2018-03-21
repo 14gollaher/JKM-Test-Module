@@ -39,6 +39,36 @@ $("#update-fail-button").click(function () {
     failedCaseNotification();
 });
 
+$("#add-case-button").click(function () {
+    submitCustomCase();
+    updateCasesTable();
+    updateCurrentCase();
+    $("#test-case-button").prop('disabled', false);
+});
+
+$("#update-notes-button").click(function () {
+    updateCurrentNote();
+});
+
+$("#results-table").on("click", "tr", function () {
+    selectedPermutationIndex = $(this).index() - 1;
+    updateSelectedPermutation(selectedPermutationIndex);
+});
+
+$("#delete-case-button").on("click", function () {
+    cases.splice(selectedPermutationIndex, 1);
+    updateCasesTable();
+    updateStoredCases();
+    updateCurrentCase();
+    $("#test-case-button").prop('disabled', true);
+    if (cases.length) $("#test-case-button").prop('disabled', false);
+});
+
+$("#generate-manual-case-button").click(function () {
+    let newCaseId = createCustomCase();
+    createCustomCaseTable(newCaseId);
+});
+
 UIkit.util.on('#generate-cases-button', 'click', function (e) {
     e.preventDefault();
     e.target.blur();
@@ -61,41 +91,8 @@ function generatePermutationsAjax() {
             updateCasesTable();
             updateCurrentCase();
             $("#test-case-button").prop('disabled', false);
-     });
+        });
 }
-
-
-
-$("#add-case-button").click(function () {
-    submitCustomCase();
-    updateCasesTable();
-    updateCurrentCase();
-    $("#test-case-button").prop('disabled', false);
-});
-
-$("#update-notes-button").click(function () {
-    updateCurrentNote();
-});
-
-$("#results-table").on("click", "tr", function () {
-    selectedPermutationIndex = $(this).index() - 1;
-    updateSelectedPermutation(selectedPermutationIndex);
-});
-
-$("#delete-case-button").click(function () {
-    cases.splice(selectedPermutationIndex, 1);
-    updateCasesTable();
-    updateStoredCases();
-    updateCurrentCase();
-    $("#test-case-button").prop('disabled', true);
-    if (cases.length) $("#test-case-button").prop('disabled', false);
-    
-});
-
-$("#generate-manual-case-button").click(function () {
-    let newCaseId = createCustomCase();
-    createCustomCaseTable(newCaseId);
-});
 
 function passedCaseNotification() {
     UIkit.notification({
