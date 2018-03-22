@@ -272,13 +272,13 @@ class TangoPermutationGenerator:
         permutation['selector'] = "#id_" + permutation['name'];
         permutation['test_values'] = []
 
-        # True
-        permutation['test_values'].append(True)
+        ## True
+        #permutation['test_values'].append(True)
 
-        # False
-        permutation['test_values'].append(False)
+        ## False
+        #permutation['test_values'].append(False)
 
-        # Blank
-        permutation['test_values'].append('')
+        ## Blank
+        #permutation['test_values'].append('')
 
         self.permutations.append(permutation)

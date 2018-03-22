@@ -22,6 +22,8 @@ def sample_form(request):
             return HttpResponseRedirect('/thanks/')
     else:
         form = HappyPathForm()
+        #form = HappyPathForm(auto_id="custom_%s")
+
 
     return render(request, 'sample-form.html', {'form': form})
 
