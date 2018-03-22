@@ -113,6 +113,8 @@ class TangoUserApplication:
                     form_property['max_value'] = row[1].max_value
                 if hasattr(row[1], 'min_value'): 
                     form_property['min_value'] = row[1].min_value
+                if hasattr(row[1], 'decimal_places'): 
+                    form_property['decimal_places'] = row[1].decimal_places
                 if hasattr(row[1], 'unpack_ipv4'): 
                     form_property['unpack_ipv4'] = row[1].unpack_ipv4
                 if hasattr(row[1], 'min_length') and row[1].max_length: 
@@ -128,10 +130,9 @@ class TangoUserApplication:
         if type(djangoType) is django.forms.fields.DateField: return TangoType.date
         if type(djangoType) is django.forms.fields.DateTimeField: return TangoType.date_time
         if type(djangoType) is django.forms.fields.FloatField: return TangoType.float
-        if type(djangoType) is django.forms.fields.Decimal: return TangoType.decimal
+        if type(djangoType) is django.forms.fields.DecimalField: return TangoType.decimal
         if type(djangoType) is django.forms.fields.BooleanField: return TangoType.boolean
         if type(djangoType) is django.forms.fields.GenericIPAddressField: return TangoType.ipAddress
-        if type(djangoType) is django.forms.fields.Decimal: return TangoType.decimal
         if type(djangoType) is django.forms.fields.TimeField: return TangoType.time
         if type(djangoType) is django.forms.fields.URLField: return TangoType.url
 
