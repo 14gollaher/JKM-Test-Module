@@ -21,7 +21,7 @@
 
 </script>
 {% load staticfiles %}
-<script src="{% static 'scripts/tango/tango-view-select.js' %}"></script>
+<script src="{% static 'scripts/tango/view-select.js' %}"></script>
 <script>
     var views = JSON.parse('{{ views | escapejs | safe}}');
     var baseUrl = 'http://{{ request.get_host }}';

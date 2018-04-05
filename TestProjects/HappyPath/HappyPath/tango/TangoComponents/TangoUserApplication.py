@@ -14,22 +14,22 @@ class TangoUserApplication:
         self.populate_forms()
         self.populate_views()
 
-    def get_view_field_names(self, view_name):
+    def get_fields(self, view_name):
         for view in self.views:
             if view['name'] == view_name:
                 test_view = view
                 break
         
-        view_field_names = []
+        fields = []
         for component in test_view['components']:
             for form in self.forms:
                 if form['name'] == component['name']:
                     for property in form['properties']:
-                        view_field_names.append(property['name'])
+                        fields.append({'name': property['name'], 'selector': "#id_" + property['name']})
             for model in self.models:
                 pass # TODO
 
-        return view_field_names
+        return fields
 
     def populate_views(self):
         self.views = []
@@ -124,17 +124,17 @@ class TangoUserApplication:
             self.forms.append(form)
 
     def get_type(self, djangoType):
-        if type(djangoType) is django.forms.fields.CharField: return TangoType.string
-        if type(djangoType) is django.forms.fields.EmailField: return TangoType.email
-        if type(djangoType) is django.forms.fields.IntegerField: return TangoType.integer
-        if type(djangoType) is django.forms.fields.DateField: return TangoType.date
-        if type(djangoType) is django.forms.fields.DateTimeField: return TangoType.date_time
-        if type(djangoType) is django.forms.fields.FloatField: return TangoType.float
-        if type(djangoType) is django.forms.fields.DecimalField: return TangoType.decimal
-        if type(djangoType) is django.forms.fields.BooleanField: return TangoType.boolean
-        if type(djangoType) is django.forms.fields.GenericIPAddressField: return TangoType.ipAddress
-        if type(djangoType) is django.forms.fields.TimeField: return TangoType.time
-        if type(djangoType) is django.forms.fields.URLField: return TangoType.url
+        if type(djangoType) == django.forms.fields.CharField: return TangoType.string
+        if type(djangoType) == django.forms.fields.EmailField: return TangoType.email
+        if type(djangoType) == django.forms.fields.IntegerField: return TangoType.integer
+        if type(djangoType) == django.forms.fields.DateField: return TangoType.date
+        if type(djangoType) == django.forms.fields.DateTimeField: return TangoType.date_time
+        if type(djangoType) == django.forms.fields.FloatField: return TangoType.float
+        if type(djangoType) == django.forms.fields.DecimalField: return TangoType.decimal
+        if type(djangoType) == django.forms.fields.BooleanField: return TangoType.boolean
+        if type(djangoType) == django.forms.fields.GenericIPAddressField: return TangoType.ipAddress
+        if type(djangoType) == django.forms.fields.TimeField: return TangoType.time
+        if type(djangoType) == django.forms.fields.URLField: return TangoType.url
 
 
     def get_subclasses(self, cls): 

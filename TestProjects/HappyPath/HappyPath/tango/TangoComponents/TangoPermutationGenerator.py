@@ -29,37 +29,31 @@ class TangoPermutationGenerator:
                     break
             for model in tangoUserApplication.models:
                 pass # TODO
+        return self.permutations
 
     def generate_form_permutations(self, properties):
         for property in properties:
             type = property['type']
-            if type is TangoType.string: self.process_string_attribute(property)
-            elif type is TangoType.email: self.process_email_attribute(property)
-            elif type is TangoType.integer: self.process_integer_attribute(property)
-            elif type is TangoType.date: self.process_date_attribute(property)
-            elif type is TangoType.date_time: self.process_date_time_attribute(property)
-            elif type is TangoType.decimal: self.process_decimal_attribute(property)
-            elif type is TangoType.float: self.process_float_attribute(property)
-            elif type is TangoType.boolean: self.process_boolean_attribute(property)
-            elif type is TangoType.time: self.process_time_attribute(property)
-            elif type is TangoType.url: self.process_url_attribute(property)
-            elif type is TangoType.ipAddress: self.process_ipaddress_attribute(property)
-
-
+            if type == TangoType.string: self.process_string_attribute(property)
+            elif type == TangoType.email: self.process_email_attribute(property)
+            elif type == TangoType.integer: self.process_integer_attribute(property)
+            elif type == TangoType.date: self.process_date_attribute(property)
+            elif type == TangoType.date_time: self.process_date_time_attribute(property)
+            elif type == TangoType.decimal: self.process_decimal_attribute(property)
+            elif type == TangoType.float: self.process_float_attribute(property)
+            #elif type == TangoType.boolean: self.process_boolean_attribute(property)
+            elif type == TangoType.time: self.process_time_attribute(property)
+            elif type == TangoType.url: self.process_url_attribute(property)
+            elif type == TangoType.ipAddress: self.process_ipaddress_attribute(property)
 
     def process_ipaddress_attribute(self, property):
         permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name'];
+        permutation['field_name'] = property['name']
         permutation['test_values'] = []
         
         #Happy path example
         permutation['test_values'].append(self.fake.ipv6(network=False))
         permutation['test_values'].append(self.fake.ipv4(network=False))
-        #add other ip address fomrujlas
-
-        #support length later
-
 
         #Blank
         permutation['test_values'].append('') 
@@ -68,15 +62,11 @@ class TangoPermutationGenerator:
 
     def process_url_attribute(self, property):
         permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name'];
+        permutation['field_name'] = property['name']
         permutation['test_values'] = []
         
         #Happy path example
         permutation['test_values'].append(self.fake.uri())
-
-        #support length later
-
 
         #Blank
         permutation['test_values'].append('') 
@@ -85,8 +75,7 @@ class TangoPermutationGenerator:
 
     def process_date_attribute(self, property):
         permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name'];
+        permutation['field_name'] = property['name']
         permutation['test_values'] = []
         
         #Happy path example
@@ -94,34 +83,25 @@ class TangoPermutationGenerator:
         permutation['test_values'].append(self.fake.date(pattern="%m-%d-%Y", end_datetime=None))
         permutation['test_values'].append(self.fake.date(pattern="%d-%m-%Y", end_datetime=None))
 
-
         #Blank
         permutation['test_values'].append('') 
         self.permutations.append(permutation)
 
     def process_time_attribute(self, property):
         permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name'];
+        permutation['field_name'] = property['name']
         permutation['test_values'] = []
         
         #Happy path example
         permutation['test_values'].append(self.fake.time(pattern="%H:%M:%S", end_datetime=None))
-        #permutation['test_values'].append(self.fake.time(pattern="%h:%m:%s", end_datetime=None))
-        #permutation['test_values'].append(self.fake.time(pattern="%s:%M:%H", end_datetime=None))
-
-
 
         #Blank
         permutation['test_values'].append('') 
         self.permutations.append(permutation)
 
-
-
     def process_decimal_attribute(self, property):
         permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name'];
+        permutation['field_name'] = property['name']
         permutation['test_values'] = []
 
         #Happy path example
@@ -142,26 +122,14 @@ class TangoPermutationGenerator:
         
         #Zero
         permutation['test_values'].append('0') 
-
-        #DecimalPlaces #TODO
-        #if 'decimal_places' in property:
-         #   permutation['test_values'].append(property['decimal_places'])
-          #  permutation['test_values'].append(self.fake.finance.amount(fake.random_int(1,10000), fake.random_int(10001, 50000), property['decimal_places'] + 1))
-
-        #MaxDigits #TODO
-        #if 'max_digits' in property:
-         #   permutation['test_values'].append(property['max_digits'])
-          #  range_start = 10**(property['max_digits'])
-           # range_end = (10**property['max_digits'])-1
-           # permutation['test_values'] = randint(range_start, range_end)
 
         self.permutations.append(permutation)
 
 
     def process_float_attribute(self, property):
         permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name'];
+        permutation['field_name'] = property['name']
+
         permutation['test_values'] = []
 
         #Happy path example
@@ -185,14 +153,10 @@ class TangoPermutationGenerator:
         
         self.permutations.append(permutation)
 
-
-
-
-
     def process_string_attribute(self, property):
         permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name'];
+        permutation['field_name'] = property['name']
+
         permutation['test_values'] = []
 
         # Happy path example
@@ -218,8 +182,7 @@ class TangoPermutationGenerator:
         
     def process_integer_attribute(self, property):
         permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name']
+        permutation['field_name'] = property['name']
         permutation['test_values'] = []
 
         # Happy path example
@@ -245,8 +208,8 @@ class TangoPermutationGenerator:
 
     def process_email_attribute(self, property):
         permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name'];
+        permutation['field_name'] = property['name']
+
         permutation['test_values'] = []
 
         # Happy path
@@ -266,19 +229,18 @@ class TangoPermutationGenerator:
 
         self.permutations.append(permutation)
 
-    def process_boolean_attribute(self, property):
-        permutation = {}
-        permutation['name'] = property['name']
-        permutation['selector'] = "#id_" + permutation['name'];
-        permutation['test_values'] = []
+    #def process_boolean_attribute(self, property):
+    #    permutation = {}
+    #    permutation['name'] = property['name']
+    #    permutation['test_values'] = []
 
-        ## True
-        #permutation['test_values'].append(True)
+    #    ## True
+    #    #permutation['test_values'].append(True)
 
-        ## False
-        #permutation['test_values'].append(False)
+    #    ## False
+    #    #permutation['test_values'].append(False)
 
-        ## Blank
-        #permutation['test_values'].append('')
+    #    ## Blank
+    #    #permutation['test_values'].append('')
 
-        self.permutations.append(permutation)
+    #    self.permutations.append(permutation)

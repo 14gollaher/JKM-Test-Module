@@ -4,7 +4,7 @@ $(function () {
 
 function updateViewList() {
     if (views.length === 0) {
-        document.getElementById('view-table').innerHTML = "No Views found";
+        $('#view-table').html = "No Views found";
         return;
     }
 
@@ -18,5 +18,5 @@ function updateViewList() {
         html += '</a>';
     }
 
-    document.getElementById('view-table').innerHTML = html;
+    $('#view-table').html = html;
 }

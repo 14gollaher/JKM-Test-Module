@@ -26,8 +26,8 @@
             </div>
             <div class="">
                 <div class="uk-card uk-card-default uk-card-body uk-margin-left uk-margin-top">
-                    <h3>Testing View: {{test_view_name}}</h3>
-                    <iframe id="tango-frame" src="http://{{ request.get_host }}/{{test_view_name}}" width="500" height="500" frameborder="0" uk-responsive></iframe>
+                    <h3 id="tango-frame-header"></h3>
+                    <iframe id="tango-frame" width="500" height="500" frameborder="0" uk-responsive></iframe>
                 </div>
             </div>
         </div>
@@ -105,7 +105,8 @@
             </div>   
             <div class="uk-modal-footer uk-text-right">
                 <div id="edit-selectors-footer" style="padding-top: 10px;"></div>
-                <!--Html generated in tango-testing.js-->
+                    <button style="margin-right:10px" onclick= "updateSelectors()" class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-case-button" >Apply</button >
+                    <button class="uk-button uk-button-default uk-modal-close" type= "button" > Close </button>
             </div> 
         </div>
     </div>
@@ -115,12 +116,11 @@
 {% block scripts %}
 
 <script>
-    var cases = [];
-    var viewName = '{{test_view_name}}' || 'index';
-    var fieldNames = JSON.parse('{{ field_names | escapejs | safe}}');
+    var tangoPage = JSON.parse('{{ tango_page | escapejs | safe }}');
     var selectedPermutationIndex = 0;
     var newTestCase = {};
+    var baseUrl = 'http://{{ request.get_host }}/'
 </script>
 {% load staticfiles %}
-<script src="{% static 'scripts/tango/tango-testing.js' %}"></script>
+<script src="{% static 'scripts/tango/view-test.js' %}"></script>
 {% endblock %}
