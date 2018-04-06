@@ -170,14 +170,18 @@ function saveTangoPage() {
 }
 
 function toggleCasesSave() {
-    for (i in tangoPage['cases']) {
-        if (tangoPage['cases'][i]['save'] == "False") {
-            saveAllCases()
-            return;
-        }
+    if (allCasesSaved()) {
+        unsaveAllCases()
+        return;
     }
-    unsaveAllCases();
+    saveAllCases();
+}
 
+function allCasesSaved() {
+    for (i in tangoPage['cases']) {
+        if (tangoPage['cases'][i]['save'] == "False") return false;
+    }
+    return true;
 }
 
 function saveAllCases() {
@@ -290,6 +294,7 @@ function updateCaseSaveStatus(data) {
     if (data[0].checked) tangoPage['cases'][caseIndex]['save'] = "True";
     else tangoPage['cases'][caseIndex]['save'] = "False";
 
+    updateCasesTableSaveAllButton();
     saveTangoPage();
 }
 
@@ -343,6 +348,16 @@ function openNotesModal(data) {
     UIkit.modal('#case-notes-modal').show();
 }
 
+function updateCasesTableSaveAllButton() {
+    if (!allCasesSaved()) {
+        html = '<button type="button" onclick="toggleAllSavesButtonClick()" class="uk-button uk-button-primary uk-button-small uk-float-right" uk-toggle>Check All</button>'
+    }
+    else {
+        html = '<button type="button" onclick="toggleAllSavesButtonClick()" class="uk-button uk-button-primary uk-button-small uk-float-right" uk-toggle>Uncheck All</button>'
+    }
+    $('#toggle-all-saves').html(html);
+}
+
 function updateCasesTable() {
     if (tangoPage['cases'].length === 0) {
         $('#results-table').html("");
@@ -386,8 +401,7 @@ function updateCasesTable() {
     html += '</table>';
     $('#results-table').html(html);
 
-    html = '<button type="button" onclick="toggleAllSavesButtonClick()" class="uk-button uk-button-primary uk-button-small uk-float-right" uk-toggle>Toggle Save</button>'
-    $('#toggle-all-saves').html(html);
+    updateCasesTableSaveAllButton();
 }
 
 function updateCurrentCase() {
