@@ -301,15 +301,15 @@ function updateCaseSaveStatus(data) {
 function submitCustomCase() {
     let newTestData = [];
 
-    for (i in fieldNames) {
+    for (i in tangoPage['fields']) {
         let newFieldValue = {};
-        newFieldValue['field_name'] = fieldNames[i];
+        newFieldValue['field_name'] = tangoPage['fields'][i]['name'];
         newFieldValue['test_value'] = $('#custom-case-new-' + newFieldValue['field_name']).val();
  
         newTestData.push(newFieldValue);
     }
     newTestCase['test_data'] = newTestData;
-    cases.unshift(newTestCase);
+    tangoPage['cases'].unshift(newTestCase);
     newTestCase = {};
 }
 
@@ -489,10 +489,10 @@ function createCustomCaseTable(caseId) {
     html += '<th>Field Name</th>';
     html += '<th>Value</th>';
     html += '</tr>';
-    for (i in fieldNames) {
+    for (i in tangoPage['fields']) {
         html += '<tr>';
-        html += '<td>' + fieldNames[i] + '</td>';
-        html += '<td> <input id="custom-case-new-' + fieldNames[i] + '" class="uk-input" type="text" placeholder="Input"> </td>';
+        html += '<td>' + tangoPage['fields'][i]['name'] + '</td>';
+        html += '<td> <input id="custom-case-new-' + tangoPage['fields'][i]['name']+ '" class="uk-input" type="text" placeholder="Input"> </td>';
         html += '</tr>';
     }
 
