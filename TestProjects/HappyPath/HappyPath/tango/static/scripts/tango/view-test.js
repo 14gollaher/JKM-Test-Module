@@ -67,11 +67,18 @@ $("#edit-selectors-button").click(function () {
     updateSelectorsTable();
 });
 
+$("#toggle-all-saves-button").click(function () {
+    debugger;
+    toggleCasesSave();
+    saveTangoPage();
+    updateCasesTable();
+});
+
 UIkit.util.on('#generate-cases-button', 'click', function (e) {
     e.preventDefault();
     e.target.blur();
     if (tangoPage['cases'].length > 0) {
-        UIkit.modal.confirm('Previous unsaved cases will be overwritten!').then(function () {
+        UIkit.modal.confirm('Unsaved cases will be overwritten!').then(function () {
             generatePermutationsAjax();
         }, function () {
         });
@@ -122,12 +129,9 @@ async function runTestCase() {
     let mm = today.getMonth() + 1;
 
     let yyyy = today.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+    
     today = dd + '/' + mm + '/' + yyyy;
     tangoPage['cases'][0]['last_ran'] = today
 
@@ -154,17 +158,49 @@ function getSelector(fieldName) {
 }
 
 function updateCases() {
-    tangoPage['cases'].push(tangoPage['cases'].splice(0, 1)[0]); // Moves array position 0 to back
+    tangoPage['cases'].push(tangoPage['cases'].splice(0, 1)[0]); 
     updateCasesTable();
     saveTangoPage();
 }
 
-// TODO: Make this work as a POST
 function saveTangoPage() {
     let saveTangoPage = Object.assign({}, tangoPage); 
     saveTangoPage['cases'] = saveTangoPage['cases'].filter(function (item) { return item['save'] === "true"; });
     let requestUrl = window.location.origin + "/tango/save-tango-page";
-    $.get(requestUrl, { 'tangoPage': JSON.stringify(saveTangoPage) })
+    $.get(requestUrl, { 'tangoPage': JSON.stringify(saveTangoPage) }) // TODO: Make this work as a POST
+}
+
+function toggleCasesSave() {
+    for (i in tangoPage['cases']) {
+        if (!tangoPage['cases'][i]['save']) {
+            saveAllCases()
+            return;
+        }
+    }
+    unsaveAllCases();
+
+}
+
+function saveAllCases() {
+    for (i in tangoPage['cases']) {
+        tangoPage['cases'][i]['save'] = 'True';
+    }
+    saveTangoPage();
+}
+
+function unsaveAllCases() {
+    for (i in tangoPage['cases']) {
+        tangoPage['cases'][i]['save'] = 'False';
+    }
+    saveTangoPage();
+}
+
+function updateSelectors() {
+    for (i in tangoPage['fields']) {
+        tangoPage['fields'][i]['selector'] = $("#custom-selector" + i).val();
+    }
+
+    saveTangoPage();
 }
 
 function createCustomCase() {
@@ -175,25 +211,6 @@ function createCustomCase() {
     newTestCase['status'] = "Not Ran";
     newTestCase['save'] = false;
     return newTestCase["id"];
-}
-
-function createCustomCaseTable(caseId) {
-    let html = '<h3 class="uk-heading-divider">New Case - ' + caseId + '</h1>';
-    html += '<table class="uk-table uk-table-striped">';
-
-    html += '<tr>';
-    html += '<th>Field Name</th>';
-    html += '<th>Value</th>';
-    html += '</tr>';
-    for (i in fieldNames) {
-        html += '<tr>';
-        html += '<td>' + fieldNames[i] + '</td>';
-        html += '<td> <input id="custom-case-new-' + fieldNames[i] + '" class="uk-input" type="text" placeholder="Input"> </td>';
-        html += '</tr>';
-    }
-
-    html += '</table>';
-    $('#custom-case-details').html(html);
 }
 
 function createCases(permutations) {
@@ -243,6 +260,31 @@ function createCases(permutations) {
     }
 }
 
+function updateFailedCase() {
+    tangoPage['cases'][tangoPage['cases'].length - 1]['importance']
+        = $("input[name=importance-rating]:checked").val();
+    tangoPage['cases'][tangoPage['cases'].length - 1]['notes'] = $("#case-fail-notes").val();
+}
+
+function updateSelectedCase(data) {
+    tangoPage['cases'][data]['importance'] = $("input[name=importance-rating]:checked").val();
+
+    tangoPage['cases'][data]['status'] = $("input[name=status-selection]:checked").val();
+
+    for (i in tangoPage['cases'][data]['test_data']) {
+        tangoPage['cases'][data]['test_data'][i]['test_value']
+            = $("#custom-case-update-" + tangoPage['cases'][data]['test_data'][i]['field_name']).val();
+    }
+    updateCasesTable();
+    saveTangoPage();
+    updateCurrentCase();
+}
+
+function updateCurrentNote(data) {
+
+    tangoPage['cases'][data]['notes'] = $('#notes-textarea').val();
+}
+
 function updateCaseSaveStatus(data) {
     let caseIndex = data.parent().parent().index() - 1;
 
@@ -250,20 +292,6 @@ function updateCaseSaveStatus(data) {
     else tangoPage['cases'][caseIndex]['save'] = "false";
 
     saveTangoPage();
-}
-
-function openNotesModal(data) {
-    var caseIndex = data.parent().parent().index() - 1;
-    let html = '<h3 class="uk-heading-divider">Notes for Case - ' + tangoPage['cases'][caseIndex]['id'] + '</h1>';
-    $('#notes-text').html(html);
-
-    html = ' <button onclick= "updateCurrentNote(' + caseIndex + ')" style= "float: left"class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-notes-button" > Update</button >';
-    html += ' <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>';
-    $('#notes-footer').html(html);
-
-    $('#notes-textarea').val(tangoPage['cases'][caseIndex]['notes']);
-
-    UIkit.modal('#case-notes-modal').show();
 }
 
 function submitCustomCase() {
@@ -281,14 +309,50 @@ function submitCustomCase() {
     newTestCase = {};
 }
 
+function deleteCase() {
+    tangoPage['cases'].splice(selectedPermutationIndex, 1);
+    updateCasesTable();
+    saveTangoPage();
+    updateCurrentCase();
+    updateCasesExist();
+    if (cases.length) updateNoCases();
+}
+
+function updateNoCases() {
+    $("#test-case-button").prop('disabled', true);
+}
+
+function updateCasesExist() {
+    $("#test-case-button").prop('disabled', false);
+}
+
+function createNewId() {
+    return Math.random().toString(36).substr(2, 8);
+}
+
+function openNotesModal(data) {
+    var caseIndex = data.parent().parent().index() - 1;
+    let html = '<h3 class="uk-heading-divider">Notes for Case - ' + tangoPage['cases'][caseIndex]['id'] + '</h1>';
+    $('#notes-text').html(html);
+
+    html = ' <button onclick= "updateCurrentNote(' + caseIndex + ')" style= "float: left"class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-notes-button" > Update</button >';
+    html += ' <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>';
+    $('#notes-footer').html(html);
+
+    $('#notes-textarea').val(tangoPage['cases'][caseIndex]['notes']);
+
+    UIkit.modal('#case-notes-modal').show();
+}
+
 function updateCasesTable() {
     if (tangoPage['cases'].length === 0) {
         $('#results-table').html("");
+        $('#toggle-all-saves').html("");
         return;
     }
 
     var html = '<h3 class="uk-heading-divider">All Cases</h1>';
-    html += '<table class="uk-table uk-table-striped ">';
+    html += '<table class="uk-table uk-table-striped all-cases-table">';
 
     html += '<tr>';
     html += '<th>ID</th>';
@@ -322,6 +386,9 @@ function updateCasesTable() {
 
     html += '</table>';
     $('#results-table').html(html);
+
+    html = '<button type="button" id="toggle-all-saves-button" class="uk-button uk-button-primary uk-button-small uk-float-right" uk-toggle>Toggle Save</button>'
+    $('#toggle-all-saves').html(html);
 }
 
 function updateCurrentCase() {
@@ -341,7 +408,7 @@ function updateCurrentCase() {
         html += '<tr>';
         html += '<td>' + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['field_name'] + '</td>';
         html += '<td class="uk-panel uk-panel-box uk-text-truncate">'
-                 + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['test_value'] + '</td>';
+            + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['test_value'] + '</td>';
         html += '</tr>';
     }
     html += '</table>';
@@ -350,7 +417,7 @@ function updateCurrentCase() {
 
 function updateSelectedPermutation(selectedPermutationIndex) {
     var html = '<h3 class="uk-heading-divider">Selected Case - '
-               + tangoPage['cases'][selectedPermutationIndex]['id'] + '</h1>';
+        + tangoPage['cases'][selectedPermutationIndex]['id'] + '</h1>';
     html += '<table class="uk-table uk-table-striped">';
 
     html += '<tr>';
@@ -365,9 +432,8 @@ function updateSelectedPermutation(selectedPermutationIndex) {
             + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['field_name']
             + '" class="uk-input" type="text" value="'
             + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['test_value'] + '"></td>';
-        html += '</tr>'; 
+        html += '</tr>';
     }
-
     html += '</table>';
     $('#selected-case-details').html(html);
 
@@ -375,9 +441,13 @@ function updateSelectedPermutation(selectedPermutationIndex) {
     html += ' <button style="margin-right:10px" onclick= "updateSelectedCase(' + selectedPermutationIndex + ')" class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-case-button" > Apply</button >'
     html += '<button class="uk-button uk-button-default uk-modal-close" type= "button" > Close </button>'
     $('#selected-case-footer').html(html);
-    
-    let number = tangoPage['cases'][selectedPermutationIndex]['importance'];
-    $('#importanceRating' + number).prop('checked', true);
+
+    $('#importance-rating' + tangoPage['cases'][selectedPermutationIndex]['importance']).prop('checked', true);
+
+    let status = tangoPage['cases'][selectedPermutationIndex]['status'];
+    if (status === 'Pass') $('#pass-status').prop('checked', true);
+    else if (status === 'Fail') $('#fail-status').prop('checked', true);
+    else $('#not-ran-status').prop('checked', true);
 }
 
 function updateSelectorsTable() {
@@ -398,53 +468,21 @@ function updateSelectorsTable() {
     $('#selectors-table').html(html)
 }
 
-function deleteCase() {
-    tangoPage['cases'].splice(selectedPermutationIndex, 1);
-    updateCasesTable();
-    saveTangoPage();
-    updateCurrentCase();
-    updateCasesExist();
-    if (cases.length) updateNoCases();
-}
+function createCustomCaseTable(caseId) {
+    let html = '<h3 class="uk-heading-divider">New Case - ' + caseId + '</h1>';
+    html += '<table class="uk-table uk-table-striped">';
 
-function updateNoCases() {
-    $("#test-case-button").prop('disabled', true);
-}
-
-function updateCasesExist() {
-    $("#test-case-button").prop('disabled', false);
-}
-
-function createNewId() {
-    return Math.random().toString(36).substr(2, 8);
-}
-
-function updateFailedCase() {
-    tangoPage['cases'][tangoPage['cases'].length - 1]['importance']
-        = $("input[name=importanceRating]:checked").val()
-    tangoPage['cases'][tangoPage['cases'].length - 1]['notes'] = $("#case-fail-notes").val()
-}
-
-function updateSelectedCase(data) {
-    tangoPage['cases'][data]['importance'] = $("input[name=importanceRating]:checked").val()
-    for (i in tangoPage['cases'][data]['test_data']) {
-        tangoPage['cases'][data]['test_data'][i]['test_value']
-            = $("#custom-case-update-"
-              + tangoPage['cases'][data]['test_data'][i]['field_name']).val();
-    }
-    updateCasesTable();
-    saveTangoPage();
-    updateCurrentCase();
-}
-
-function updateCurrentNote(data) {
-    tangoPage['cases'][data]['notes'] = $('#notes-textarea').val();
-}
-
-function updateSelectors() {
-    for (i in tangoPage['fields']) {
-        tangoPage['fields'][i]['selector'] = $("#custom-selector" + i).val();
+    html += '<tr>';
+    html += '<th>Field Name</th>';
+    html += '<th>Value</th>';
+    html += '</tr>';
+    for (i in fieldNames) {
+        html += '<tr>';
+        html += '<td>' + fieldNames[i] + '</td>';
+        html += '<td> <input id="custom-case-new-' + fieldNames[i] + '" class="uk-input" type="text" placeholder="Input"> </td>';
+        html += '</tr>';
     }
 
-    saveTangoPage();
+    html += '</table>';
+    $('#custom-case-details').html(html);
 }

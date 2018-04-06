@@ -75,6 +75,7 @@
     <Folder Include="tango\migrations\" />
     <Folder Include="tango\static\" />
     <Folder Include="tango\static\lib\" />
+    <Folder Include="tango\static\content\" />
     <Folder Include="tango\static\scripts\" />
     <Folder Include="tango\static\scripts\tango\" />
     <Folder Include="tango\TangoComponents\" />
@@ -112,6 +113,9 @@
     <Content Include="tango\admin.pyc" />
     <Content Include="tango\migrations\__init__.pyc" />
     <Content Include="tango\models.pyc" />
+    <Content Include="tango\static\content\site.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="tango\static\lib\jquery-3.3.1.min.js" />
     <Content Include="tango\static\lib\uikit-icons.min.js" />
     <Content Include="tango\static\lib\uikit.min.css" />

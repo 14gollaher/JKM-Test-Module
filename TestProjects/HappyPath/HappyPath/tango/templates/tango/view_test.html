@@ -4,6 +4,7 @@
 <html> 
 <head>
     {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'content/site.css' %}" />
 </head>
  
 <body>
@@ -20,8 +21,9 @@
                 <div class="uk-card uk-card-default uk-card-body uk-margin-top">
                     <button type="button" class="uk-button uk-button-default uk-button-large" id="generate-cases-button">Generate New Cases</button>
                     <button type="button" class="uk-button uk-button-default uk-button-large" id="generate-manual-case-button" href="#case-custom-modal" uk-toggle>Generate Manually</button>
-                    <div id="current-case" style="padding-top: 15px;"></div>
-                    <div id="results-table" style="padding-top: 10px;"></div>
+                    <div id="current-case" style="padding-top: 15px;"><!--Html generated in view-test.js--></div>
+                    <div id="results-table" style="padding-top: 10px;"><!--Html generated in view-test.js--></div>
+                    <div id="toggle-all-saves"><!--Html generated in view-test.js--></div>
                 </div>
             </div>
             <div class="">
@@ -35,14 +37,14 @@
     <div id="case-fail-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <h3>Notes</h3>
-                <textarea id="case-fail-notes"class="uk-textarea" rows="5" placeholder="Please enter the results of the test..."></textarea>
+            <textarea id="case-fail-notes"class="uk-textarea" rows="5" placeholder="Please enter the results of the test..."></textarea>
             <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                 <h5>Importance: </h5>
-                <label><input class="uk-radio" type="radio" name="importanceRating" value ="1" checked> 1</label>
-                <label><input class="uk-radio" type="radio" name="importanceRating" value ="2"> 2</label>
-                <label><input class="uk-radio" type="radio" name="importanceRating" value ="3"> 3</label>
-                <label><input class="uk-radio" type="radio" name="importanceRating" value ="4"> 4</label>
-                <label><input class="uk-radio" type="radio" name="importanceRating" value ="5"> 5</label>
+                <label><input class="uk-radio" type="radio" name="importance-rating" value ="1" checked> 1</label>
+                <label><input class="uk-radio" type="radio" name="importance-rating" value ="2"> 2</label>
+                <label><input class="uk-radio" type="radio" name="importance-rating" value ="3"> 3</label>
+                <label><input class="uk-radio" type="radio" name="importance-rating" value ="4"> 4</label>
+                <label><input class="uk-radio" type="radio" name="importance-rating" value ="5"> 5</label>
             </div>
             <div class="uk-modal-footer uk-text-right">
                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
@@ -53,27 +55,30 @@
 
     <div id="case-details-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-            <div style="display: inline">
-            </div>
             <div id="selected-case-details" style="padding-top: 10px;"></div>  
-                <!--Html generated in tango-testing.js-->
+                <!--Html generated in view-test.js-->
                 <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                     <h5>Importance: </h5>
-                    <label><input class="uk-radio" type="radio" id="importanceRating1" name="importanceRating" value="1"> 1</label>
-                    <label><input class="uk-radio" type="radio" id="importanceRating2" name="importanceRating" value="2"> 2</label>
-                    <label><input class="uk-radio" type="radio" id="importanceRating3" name="importanceRating" value="3"> 3</label>
-                    <label><input class="uk-radio" type="radio" id="importanceRating4" name="importanceRating" value="4"> 4</label>
-                    <label><input class="uk-radio" type="radio" id="importanceRating5" name="importanceRating" value="5"> 5</label>
+                    <label><input class="uk-radio" type="radio" id="importance-rating1" name="importance-rating" value="1">&nbsp;1</label>
+                    <label><input class="uk-radio" type="radio" id="importance-rating2" name="importance-rating" value="2">&nbsp;2</label>
+                    <label><input class="uk-radio" type="radio" id="importance-rating3" name="importance-rating" value="3">&nbsp;3</label>
+                    <label><input class="uk-radio" type="radio" id="importance-rating4" name="importance-rating" value="4">&nbsp;4</label>
+                    <label><input class="uk-radio" type="radio" id="importance-rating5" name="importance-rating" value="5">&nbsp;5</label>
+                </div>
+                <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+                    <h5>Status: </h5>
+                    <label><input class="uk-radio" type="radio" id="pass-status" name="status-selection" value="Pass">&nbsp;Pass</label>
+                    <label><input class="uk-radio" type="radio" id="fail-status" name="status-selection" value="Fail">&nbsp;Fail</label>
+                    <label><input class="uk-radio" type="radio" id="not-ran-status" name="status-selection" value="Not Ran">&nbsp;Not Ran</label>
                 </div>
             <div class="uk-modal-footer uk-text-right">
                 <div id="selected-case-footer" style="padding-top: 10px;"></div>
-                <!--Html generated in tango-testing.js-->
+                <!--Html generated in view-test.js-->
             </div> 
         </div>
     </div>
 
     <button type="button" class="uk-button uk-button-default" style="position: fixed; bottom: 4px; right: 10px;" id="edit-selectors-button">Selectors</button>
-
 
     <div id="case-custom-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
@@ -89,11 +94,11 @@
     <div id="case-notes-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <div id="notes-text"style="display: inline">
-                <!--Html generated in tango-testing.js-->
+                <!--Html generated in view-test.js-->
             </div>   
             <textarea id="notes-textarea" class="uk-textarea" rows="5" placeholder="No notes to show"></textarea>
             <div id="notes-footer" class="uk-modal-footer uk-text-right">
-                <!--Html generated in tango-testing.js-->
+                <!--Html generated in view-test.js-->
             </div>    
         </div>
             
@@ -101,7 +106,7 @@
     <div id="edit-selectors-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <div id="selectors-table" style="display: inline">
-                <!--Html generated in tango-testing.js-->
+                <!--Html generated in view-test.js-->
             </div>   
             <div class="uk-modal-footer uk-text-right">
                 <div id="edit-selectors-footer" style="padding-top: 10px;"></div>
