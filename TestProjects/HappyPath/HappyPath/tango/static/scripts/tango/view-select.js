@@ -18,5 +18,5 @@ function updateViewList() {
         html += '</a>';
     }
 
-    $('#view-table').html = html;
+    $('#view-table')[0].innerHTML = html;
 }
