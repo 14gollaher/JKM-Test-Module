@@ -67,13 +67,6 @@ $("#edit-selectors-button").click(function () {
     updateSelectorsTable();
 });
 
-$("#toggle-all-saves-button").click(function () {
-    debugger;
-    toggleCasesSave();
-    saveTangoPage();
-    updateCasesTable();
-});
-
 UIkit.util.on('#generate-cases-button', 'click', function (e) {
     e.preventDefault();
     e.target.blur();
@@ -87,6 +80,12 @@ UIkit.util.on('#generate-cases-button', 'click', function (e) {
         generatePermutationsAjax();
     }
 });
+
+function toggleAllSavesButtonClick() {
+    toggleCasesSave();
+    saveTangoPage();
+    updateCasesTable();
+};
 
 function generatePermutationsAjax() {
     let requestUrl = window.location.origin + "/tango/generate-permutations";
@@ -165,14 +164,14 @@ function updateCases() {
 
 function saveTangoPage() {
     let saveTangoPage = Object.assign({}, tangoPage); 
-    saveTangoPage['cases'] = saveTangoPage['cases'].filter(function (item) { return item['save'] === "true"; });
+    saveTangoPage['cases'] = saveTangoPage['cases'].filter(function (item) { return item['save'] === "True"; });
     let requestUrl = window.location.origin + "/tango/save-tango-page";
     $.get(requestUrl, { 'tangoPage': JSON.stringify(saveTangoPage) }) // TODO: Make this work as a POST
 }
 
 function toggleCasesSave() {
     for (i in tangoPage['cases']) {
-        if (!tangoPage['cases'][i]['save']) {
+        if (tangoPage['cases'][i]['save'] == "False") {
             saveAllCases()
             return;
         }
@@ -183,14 +182,14 @@ function toggleCasesSave() {
 
 function saveAllCases() {
     for (i in tangoPage['cases']) {
-        tangoPage['cases'][i]['save'] = 'True';
+        tangoPage['cases'][i]['save'] = "True";
     }
     saveTangoPage();
 }
 
 function unsaveAllCases() {
     for (i in tangoPage['cases']) {
-        tangoPage['cases'][i]['save'] = 'False';
+        tangoPage['cases'][i]['save'] = "False";
     }
     saveTangoPage();
 }
@@ -214,7 +213,7 @@ function createCustomCase() {
 }
 
 function createCases(permutations) {
-    tangoPage['cases'] = tangoPage['cases'].filter(function (item) { return item['save'] === "true"; });
+    tangoPage['cases'] = tangoPage['cases'].filter(function (item) { return item['save'] === "True"; });
 
     while (isMoreTestValues(permutations)) {
         for (i in permutations) {
@@ -224,7 +223,7 @@ function createCases(permutations) {
             testCase['importance'] = "1";
             testCase['notes'] = "";
             testCase['status'] = "Not Ran";
-            testCase['save'] = 'false';
+            testCase['save'] = 'False';
             testCase['test_data'] = getTestData(permutations);
             tangoPage['cases'].push(testCase);
         }
@@ -288,8 +287,8 @@ function updateCurrentNote(data) {
 function updateCaseSaveStatus(data) {
     let caseIndex = data.parent().parent().index() - 1;
 
-    if (data[0].checked) tangoPage['cases'][caseIndex]['save'] = "true";
-    else tangoPage['cases'][caseIndex]['save'] = "false";
+    if (data[0].checked) tangoPage['cases'][caseIndex]['save'] = "True";
+    else tangoPage['cases'][caseIndex]['save'] = "False";
 
     saveTangoPage();
 }
@@ -377,7 +376,7 @@ function updateCasesTable() {
         html += '<td>' + tangoPage['cases'][i]['importance'] + '</td>';
         html += '<td> <a uk-icon="warning" onclick= "openNotesModal($(this)); event.stopPropagation()" /> </td > ';
 
-        if (tangoPage['cases'][i]['save'] === "true") html += '<td> <input checked '
+        if (tangoPage['cases'][i]['save'] === "True") html += '<td> <input checked '
         else html += '<td> <input '
 
         html += 'class="uk-checkbox" type= "checkbox" onclick= "updateCaseSaveStatus($(this)); event.stopPropagation()" /> </td > ';
@@ -387,7 +386,7 @@ function updateCasesTable() {
     html += '</table>';
     $('#results-table').html(html);
 
-    html = '<button type="button" id="toggle-all-saves-button" class="uk-button uk-button-primary uk-button-small uk-float-right" uk-toggle>Toggle Save</button>'
+    html = '<button type="button" onclick="toggleAllSavesButtonClick()" class="uk-button uk-button-primary uk-button-small uk-float-right" uk-toggle>Toggle Save</button>'
     $('#toggle-all-saves').html(html);
 }
 
