@@ -25,5 +25,6 @@
 <script>
     var views = JSON.parse('{{ views | escapejs | safe}}');
     var baseUrl = 'http://{{ request.get_host }}';
+    var selectedCaseIndex = 0;
 </script>
 {% endblock %}

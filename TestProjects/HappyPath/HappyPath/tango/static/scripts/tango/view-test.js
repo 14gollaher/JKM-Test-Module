@@ -53,8 +53,8 @@ $("#update-notes-button").click(function () {
 });
 
 $("#results-table").on("click", "tr", function () {
-    selectedPermutationIndex = $(this).index() - 1;
-    updateSelectedPermutation(selectedPermutationIndex);
+    selectedCaseIndex = $(this).index() - 1;
+    updateSelectedCase(selectedCaseIndex);
 });
 
 $("#generate-manual-case-button").click(function () {
@@ -232,7 +232,7 @@ function createCases(permutations) {
         }
     }
 
-    function getTestData(permutations) {
+    function getTestData() {
         let test_data = []
 
         for (i in permutations) {
@@ -252,7 +252,7 @@ function createCases(permutations) {
         return test_data;
     }
 
-    function isMoreTestValues(permutations) {
+    function isMoreTestValues() {
         for (i in permutations) {
             if (permutations[i]['test_values'].length > 0) {
                 return true;
@@ -317,12 +317,18 @@ function submitCustomCase() {
 }
 
 function deleteCase() {
-    tangoPage['cases'].splice(selectedPermutationIndex, 1);
+    tangoPage['cases'].splice(selectedCaseIndex, 1);
     updateCasesTable();
     saveTangoPage();
     updateCurrentCase();
     updateCasesExist();
-    if (cases.length) updateNoCases();
+    if (tangoPage['cases'].length) updateNoCases();
+}
+
+function setCurrentCase() {
+    tangoPage['cases'][0] = tangoPage['cases'].splice(selectedCaseIndex, 1, tangoPage['cases'][0])[0];
+    updateCasesTable();
+    updateCurrentCase();
 }
 
 function updateNoCases() {
@@ -426,19 +432,19 @@ function updateCurrentCase() {
     html += '<th>Field Name</th>';
     html += '<th>Test Value</th>';
     html += '</tr>';
-    for (i in tangoPage['cases'][selectedPermutationIndex]['test_data']) {
+    for (i in tangoPage['cases'][selectedCaseIndex]['test_data']) {
         html += '<tr>';
-        html += '<td>' + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['field_name'] + '</td>';
+        html += '<td>' + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['field_name'] + '</td>';
         html += '<td class="uk-panel uk-panel-box uk-text-truncate">'
-            + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['test_value'] + '</td>';
+            + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['test_value'] + '</td>';
         html += '</tr>';
     }
     html += '</table>';
     $('#current-case').html(html);
 }
 
-function updateSelectedPermutation(selectedPermutationIndex) {
-    let html = '<h3 class="uk-heading-divider">Selected Case - ' + '<input class="uk-input uk-form-width-medium" type="text" id="case-id" value="' + tangoPage['cases'][selectedPermutationIndex]['id'] + '"/></h3>';
+function updateSelectedCase(selectedCaseIndex) {
+    let html = '<h3 class="uk-heading-divider">Selected Case - ' + '<input class="uk-input uk-form-width-medium" type="text" id="case-id" value="' + tangoPage['cases'][selectedCaseIndex]['id'] + '"/></h3>';
 
     html += '<table class="uk-table uk-table-striped">';
 
@@ -447,26 +453,21 @@ function updateSelectedPermutation(selectedPermutationIndex) {
     html += '<th>Test Value</th>';
     html += '</tr>';
 
-    for (i in tangoPage['cases'][selectedPermutationIndex]['test_data']) {
+    for (i in tangoPage['cases'][selectedCaseIndex]['test_data']) {
         html += '<tr>';
-        html += '<td>' + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['field_name'] + '</td>';
+        html += '<td>' + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['field_name'] + '</td>';
         html += '<td> <input id="custom-case-update-'
-            + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['field_name']
+            + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['field_name']
             + '" class="uk-input" type="text" value="'
-            + tangoPage['cases'][selectedPermutationIndex]['test_data'][i]['test_value'] + '"></td>';
+            + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['test_value'] + '"></td>';
         html += '</tr>';
     }
     html += '</table>';
     $('#selected-case-details').html(html);
 
-    html = '<button onclick="deleteCase()" style="float: left" class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button">Delete Case</button>'
-    html += ' <button style="margin-right:10px" onclick= "updateSelectedCase(' + selectedPermutationIndex + ')" class="uk-button uk-button-default uk-modal-close uk-button-primary" type= "button" id= "update-case-button" > Apply</button >'
-    html += '<button class="uk-button uk-button-default uk-modal-close" type= "button" > Close </button>'
-    $('#selected-case-footer').html(html);
+    $('#importance-rating' + tangoPage['cases'][selectedCaseIndex]['importance']).prop('checked', true);
 
-    $('#importance-rating' + tangoPage['cases'][selectedPermutationIndex]['importance']).prop('checked', true);
-
-    let status = tangoPage['cases'][selectedPermutationIndex]['status'];
+    let status = tangoPage['cases'][selectedCaseIndex]['status'];
     if (status === 'Pass') $('#pass-status').prop('checked', true);
     else if (status === 'Fail') $('#fail-status').prop('checked', true);
     else $('#not-ran-status').prop('checked', true);
