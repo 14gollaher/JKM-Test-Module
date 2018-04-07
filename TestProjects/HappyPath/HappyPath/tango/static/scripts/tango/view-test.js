@@ -268,14 +268,16 @@ function updateFailedCase() {
     tangoPage['cases'][tangoPage['cases'].length - 1]['notes'] = $("#case-fail-notes").val();
 }
 
-function updateSelectedCase(data) {
-    tangoPage['cases'][data]['importance'] = $("input[name=importance-rating]:checked").val();
+function updateSelectedCase(index) {
+    tangoPage['cases'][index]['id'] = $("#case-id").val();
 
-    tangoPage['cases'][data]['status'] = $("input[name=status-selection]:checked").val();
+    tangoPage['cases'][index]['importance'] = $("input[name=importance-rating]:checked").val();
 
-    for (i in tangoPage['cases'][data]['test_data']) {
-        tangoPage['cases'][data]['test_data'][i]['test_value']
-            = $("#custom-case-update-" + tangoPage['cases'][data]['test_data'][i]['field_name']).val();
+    tangoPage['cases'][index]['status'] = $("input[name=status-selection]:checked").val();
+
+    for (i in tangoPage['cases'][index]['test_data']) {
+        tangoPage['cases'][index]['test_data'][i]['test_value']
+            = $("#custom-case-update-" + tangoPage['cases'][index]['test_data'][i]['field_name']).val();
     }
     updateCasesTable();
     saveTangoPage();
@@ -298,7 +300,7 @@ function updateCaseSaveStatus(data) {
 }
 
 function submitCustomCase() {
-    newTestCase['id'] = $("#custom-case-id").val();
+    newTestCase['id'] = $("#case-id").val();
 
     let newTestData = [];
 
@@ -436,8 +438,8 @@ function updateCurrentCase() {
 }
 
 function updateSelectedPermutation(selectedPermutationIndex) {
-    var html = '<h3 class="uk-heading-divider">Selected Case - '
-        + tangoPage['cases'][selectedPermutationIndex]['id'] + '</h1>';
+    let html = '<h3 class="uk-heading-divider">Selected Case - ' + '<input class="uk-input uk-form-width-medium" type="text" id="case-id" value="' + tangoPage['cases'][selectedPermutationIndex]['id'] + '"/></h3>';
+
     html += '<table class="uk-table uk-table-striped">';
 
     html += '<tr>';
@@ -489,7 +491,7 @@ function updateSelectorsTable() {
 }
 
 function createCustomCaseTable(caseId) {
-    let html = '<h3 class="uk-heading-divider">New Case - ' + '<input class="uk-input uk-form-width-medium" type="text" id="custom-case-id" value="' + caseId + '"/></h3>';
+    let html = '<h3 class="uk-heading-divider">New Case - ' + '<input class="uk-input uk-form-width-medium" type="text" id="case-id" value="' + caseId + '"/></h3>';
     html += '<table class="uk-table uk-table-striped">';
 
     html += '<tr>';
