@@ -202,7 +202,6 @@ function updateSelectors() {
     for (i in tangoPage['fields']) {
         tangoPage['fields'][i]['selector'] = $("#custom-selector" + i).val();
     }
-
     saveTangoPage();
 }
 
@@ -299,6 +298,8 @@ function updateCaseSaveStatus(data) {
 }
 
 function submitCustomCase() {
+    newTestCase['id'] = $("#custom-case-id").val();
+
     let newTestData = [];
 
     for (i in tangoPage['fields']) {
@@ -331,7 +332,13 @@ function updateCasesExist() {
 }
 
 function createNewId() {
-    return Math.random().toString(36).substr(2, 8);
+    let maxId = 1;
+    for (i in tangoPage['cases']) {
+        if (parseInt(tangoPage['cases'][i]['id']) >= maxId) {
+            maxId = parseInt(tangoPage['cases'][i]['id']) + 1
+        } 
+    }
+    return maxId.toString();
 }
 
 function openNotesModal(data) {
@@ -482,7 +489,7 @@ function updateSelectorsTable() {
 }
 
 function createCustomCaseTable(caseId) {
-    let html = '<h3 class="uk-heading-divider">New Case - ' + caseId + '</h1>';
+    let html = '<h3 class="uk-heading-divider">New Case - ' + '<input class="uk-input uk-form-width-medium" type="text" id="custom-case-id" value="' + caseId + '"/></h3>';
     html += '<table class="uk-table uk-table-striped">';
 
     html += '<tr>';
