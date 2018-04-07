@@ -46,16 +46,18 @@ input.valid, textarea.valid {
     border: 2px solid green;
 }
 
-
-label {
+alignRight {
+    text-align: right; 
+}
+/*label {
     display: inline-block;
     float: left;
     clear: left;
     width: 250px;
     text-align: right;
-}
+}*/
 
-input {
+/*input {
     display: inline-block;
     float: left;
-}
+}*/
