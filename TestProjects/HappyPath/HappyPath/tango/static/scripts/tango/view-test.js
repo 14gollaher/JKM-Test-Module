@@ -374,7 +374,7 @@ function updateCasesTableSaveAllButton() {
 }
 
 function updateCasesTable() {
-    if (tangoPage['cases'].length === 0) {
+    if (!tangoPage['cases'].length) {
         $('#results-table').html("");
         $('#toggle-all-saves').html("");
         return;
@@ -420,7 +420,7 @@ function updateCasesTable() {
 }
 
 function updateCurrentCase() {
-    if (tangoPage['cases'].length === 0) {
+    if (!tangoPage['cases'].length) {
         $('#current-case').html("");
         return;
     }
