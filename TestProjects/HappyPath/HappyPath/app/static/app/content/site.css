@@ -46,18 +46,24 @@ input.valid, textarea.valid {
     border: 2px solid green;
 }
 
-alignRight {
-    text-align: right; 
-}
-/*label {
+label {
     display: inline-block;
-    float: left;
-    clear: left;
-    width: 250px;
     text-align: right;
-}*/
+    clear: right;
+    float: right;
+    margin-top: 20px;
+}
 
-/*input {
+input {
     display: inline-block;
-    float: left;
-}*/
+    margin-top: 10px;
+    float: right;
+}
+
+div.center {
+    text-align: center;
+}
+
+.grad {
+    background: linear-gradient(#84fab0, #8fd3f4);
+}
