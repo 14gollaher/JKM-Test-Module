@@ -3,9 +3,7 @@
 
 {% block content %}
 <form action="/sample-form/" method="post">
-
-            {% csrf_token %}
-            {% crispy form %}
-            <!--<input type="submit" class="btn btn-primary" style="margin-top: 10px; float:right" value="Submit" />-->
+    {% csrf_token %}
+    {% crispy form %}
 </form>
 {% endblock %}
