@@ -154,7 +154,7 @@ What Fields are Tested?
 >> ```
 >> | Case | Example |
 >> | --- | --- |
->> | Happy Path | http://<span></span>google.com |
+>> | Happy Path | http://<i></i>google.com |
 >> | Blank | |
 >> | Email | email<span></span>@gmail.com |
 
@@ -164,7 +164,7 @@ What Fields are Tested?
 >> ```
 >> | Case | Example |
 >> | --- | --- |
->> | Happy Path | http://<span></span>google.com |
+>> | Happy Path | http://<i></i>google.com |
 >> | Blank | |
 >> | Protocol IPv4 | 192.168.240.1 |
 >> | Protocol IPv6 | 2001:4860:4860::8888 |
