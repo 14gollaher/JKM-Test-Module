@@ -192,7 +192,7 @@ class TangoPermutationGenerator:
         permutation['test_values'].append('') 
 
         # SQL
-        permutation['test_values'].append(self.fake.first_name() + " OR 1=1")
+        permutation['test_values'].append(self.fake.random_number() + " OR 1=1")
 
         # Minimum value
         if 'min_length' in property:
