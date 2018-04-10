@@ -81,6 +81,13 @@ UIkit.util.on('#generate-cases-button', 'click', function (e) {
     }
 });
 
+function defaultSelectorsModal() {
+    UIkit.modal.confirm('Overwrite all selectors?').then(function () {
+        defaultSelectors();
+    }, function () {
+    });
+};
+
 function toggleAllSavesButtonClick() {
     toggleCasesSave();
     saveTangoPage();
@@ -201,6 +208,13 @@ function unsaveAllCases() {
 function updateSelectors() {
     for (i in tangoPage['fields']) {
         tangoPage['fields'][i]['selector'] = $("#custom-selector" + i).val();
+    }
+    saveTangoPage();
+}
+
+function defaultSelectors() {
+    for (i in tangoPage['fields']) {
+        tangoPage['fields'][i]['selector'] = '#id_' + tangoPage['fields'][i]['name'];
     }
     saveTangoPage();
 }
