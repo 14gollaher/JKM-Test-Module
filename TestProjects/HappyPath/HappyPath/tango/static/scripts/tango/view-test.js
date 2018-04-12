@@ -255,7 +255,7 @@ function createCases(permutations) {
                 test_input['test_value'] = permutations[i]['test_values'][0];
             }
             else {
-                test_input['test_value'] = ''
+                test_input['test_value'] = permutations[i]['default'];
             }
             test_input['field_name'] = permutations[i]['field_name'];
 

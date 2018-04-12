@@ -49,6 +49,9 @@ class TangoPermutationGenerator:
     def process_ipaddress_attribute(self, property):
         permutation = {}
         permutation['field_name'] = property['name']
+
+        permutation['default'] = self.fake.ipv4(network=False)
+
         permutation['test_values'] = []
         
         #Happy path example
@@ -57,12 +60,17 @@ class TangoPermutationGenerator:
 
         #Blank
         permutation['test_values'].append('') 
+
+
         self.permutations.append(permutation)
 
 
     def process_url_attribute(self, property):
         permutation = {}
         permutation['field_name'] = property['name']
+        
+        permutation['default'] = self.fake.uri()
+
         permutation['test_values'] = []
         
         #Happy path example
@@ -76,6 +84,9 @@ class TangoPermutationGenerator:
     def process_date_attribute(self, property):
         permutation = {}
         permutation['field_name'] = property['name']
+
+        permutation['default'] = self.fake.time(pattern="%H:%M:%S", end_datetime=None)
+
         permutation['test_values'] = []
         
         #Happy path example
@@ -90,8 +101,11 @@ class TangoPermutationGenerator:
     def process_time_attribute(self, property):
         permutation = {}
         permutation['field_name'] = property['name']
+
+        permutation['default'] = self.fake.time(pattern="%H:%M:%S", end_datetime=None)
+
         permutation['test_values'] = []
-        
+
         #Happy path example
         permutation['test_values'].append(self.fake.time(pattern="%H:%M:%S", end_datetime=None))
 
@@ -102,6 +116,9 @@ class TangoPermutationGenerator:
     def process_decimal_attribute(self, property):
         permutation = {}
         permutation['field_name'] = property['name']
+
+        permutation['default'] = self.fake.random_number()
+
         permutation['test_values'] = []
 
         #Happy path example
@@ -130,6 +147,10 @@ class TangoPermutationGenerator:
         permutation = {}
         permutation['field_name'] = property['name']
 
+        #default case
+        permutation['default'] = 1337.37
+
+
         permutation['test_values'] = []
 
         #Happy path example
@@ -157,6 +178,9 @@ class TangoPermutationGenerator:
         permutation = {}
         permutation['field_name'] = property['name']
 
+        #default case
+        permutation['default'] = self.fake.text(max_nb_chars=25, ext_word_list=None)
+
         permutation['test_values'] = []
 
         # Happy path example
@@ -183,6 +207,10 @@ class TangoPermutationGenerator:
     def process_integer_attribute(self, property):
         permutation = {}
         permutation['field_name'] = property['name']
+        
+        #default case
+        permutation['default'] = self.fake.random_number();
+   
         permutation['test_values'] = []
 
         # Happy path example
@@ -209,6 +237,9 @@ class TangoPermutationGenerator:
     def process_email_attribute(self, property):
         permutation = {}
         permutation['field_name'] = property['name']
+
+        #default case
+        permutation['default'] = self.fake.free_email()
 
         permutation['test_values'] = []
 
