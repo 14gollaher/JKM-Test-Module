@@ -54,7 +54,7 @@ $("#update-notes-button").click(function () {
 
 $("#results-table").on("click", "tr", function () {
     selectedCaseIndex = $(this).index() - 1;
-    updateSelectedCase(selectedCaseIndex);
+    updateSelectedCase();
 });
 
 $("#generate-manual-case-button").click(function () {
@@ -289,22 +289,6 @@ function updateFailedCase() {
     tangoPage['cases'][tangoPage['cases'].length - 1]['notes'] = $("#case-fail-notes").val();
 }
 
-function updateSelectedCase(index) {
-    tangoPage['cases'][index]['id'] = $("#case-id").val();
-
-    tangoPage['cases'][index]['importance'] = $("input[name=importance-rating]:checked").val();
-
-    tangoPage['cases'][index]['status'] = $("input[name=status-selection]:checked").val();
-
-    for (i in tangoPage['cases'][index]['test_data']) {
-        tangoPage['cases'][index]['test_data'][i]['test_value']
-            = $("#custom-case-update-" + tangoPage['cases'][index]['test_data'][i]['field_name']).val();
-    }
-    updateCasesTable();
-    saveTangoPage();
-    updateCurrentCase();
-}
-
 function updateCurrentNote(data) {
 
     tangoPage['cases'][data]['notes'] = $('#notes-textarea').val();
@@ -358,6 +342,20 @@ function updateNoCases() {
 
 function updateCasesExist() {
     $("#test-case-button").prop('disabled', false);
+}
+
+function updateModifiedCase(index) {
+    tangoPage['cases'][index]['importance'] = $("input[name=importance-rating]:checked").val();
+
+    tangoPage['cases'][index]['status'] = $("input[name=status-selection]:checked").val();
+
+    for (i in tangoPage['cases'][index]['test_data']) {
+        tangoPage['cases'][index]['test_data'][i]['test_value']
+            = $("#custom-case-update-" + tangoPage['cases'][index]['test_data'][i]['field_name']).val();
+    }
+    updateCasesTable();
+    saveTangoPage();
+    updateCurrentCase();
 }
 
 function createNewId() {
@@ -464,11 +462,9 @@ function updateCurrentCase() {
     $('#current-case').html(html);
 }
 
-function updateSelectedCase(selectedCaseIndex) {
+function updateSelectedCase() {
     let html = '<h3 class="uk-heading-divider">Selected Case - ' + '<input class="uk-input uk-form-width-medium" type="text" id="case-id" value="' + tangoPage['cases'][selectedCaseIndex]['id'] + '"/></h3>';
-
     html += '<table class="uk-table uk-table-striped">';
-
     html += '<tr>';
     html += '<th>Field Name</th>';
     html += '<th>Test Value</th>';
@@ -485,6 +481,12 @@ function updateSelectedCase(selectedCaseIndex) {
     }
     html += '</table>';
     $('#selected-case-details').html(html);
+
+    html = '<button onclick="setCurrentCase()" style="float: left;" class="uk-button uk-button-default uk-modal-close uk-button-primary" type="button">Set Next Case</button>';
+    html += '<button onclick="deleteCase()" style="float: left; margin-left: 5px;" class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button">Delete Case</button>';
+    html += '<button style="margin-right: 5px; float: right;" onclick="updateModifiedCase(' + selectedCaseIndex + ')" class="uk-button uk-button-default uk-modal-close uk-button-primary" type="button"> Apply</button >';
+    html += '<button style="margin-right: 5px; float: right;" class="uk-button uk-button-default uk-modal-close" type="button" > Close </button>';
+    $('#selected-case-footer').html(html);
 
     $('#importance-rating' + tangoPage['cases'][selectedCaseIndex]['importance']).prop('checked', true);
 
