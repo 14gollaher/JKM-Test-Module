@@ -10,8 +10,8 @@ class HappyPathForm(forms.Form):
 
 class SadPathForm(forms.Form):
     helper = FormHelper()
-    helper.label_class = 'col-xs-6 col-sm-6 col-md-6 col-lg-6'
-    helper.field_class = 'col-xs-4 col-sm-4 col-md-4 col-lg-4'
+    helper.label_class = 'col-xs-5 col-sm-5 col-md-5 col-lg-5'
+    helper.field_class = 'col-xs-5 col-sm-5 col-md-4 col-lg-3'
     firstName = forms.CharField(label='First name', max_length=50)
     age = forms.IntegerField(label='Age', min_value = 10, max_value=100)
     dog = forms.IntegerField(label='Age', min_value = 10, max_value=100)
@@ -28,7 +28,7 @@ class SadPathForm(forms.Form):
 class SuperForm(forms.Form):
     helper = FormHelper()
     helper.label_class = 'col-xs-5 col-sm-5 col-md-5 col-lg-5'
-    helper.field_class = 'col-xs-3 col-sm-3 col-md-3 col-lg-3'
+    helper.field_class = 'col-xs-5 col-sm-5 col-md-4 col-lg-3'
     Name = forms.CharField(label='Name', max_length=50, min_length=2, initial='Your name', required=False )
     Date = forms.DateField(label='Date')
     Decimal = forms.DecimalField(label='Decimal', max_value = 4224.2, min_value=23, max_digits=23, decimal_places=2)
@@ -53,8 +53,8 @@ class SuperForm(forms.Form):
 
 class ClassForm(forms.Form):
     helper = FormHelper()
-    helper.label_class = 'col-xs-6 col-sm-6 col-md-6 col-lg-6'
-    helper.field_class = 'col-xs-4 col-sm-4 col-md-4 col-lg-4'
+    helper.label_class = 'col-xs-5 col-sm-5 col-md-5 col-lg-5'
+    helper.field_class = 'col-xs-5 col-sm-5 col-md-4 col-lg-3'
     firstName = forms.CharField(label='First name', max_length=20, min_length=3, initial='Your name', required=False )
     dateStuff = forms.DateField(label='thedate')
     decimalStuff = forms.DecimalField(label='decimalstuff', max_value=4224.2, min_value=23, max_digits=23, decimal_places=2)
