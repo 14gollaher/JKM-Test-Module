@@ -54,7 +54,7 @@ $("#update-notes-button").click(function () {
 
 $("#results-table").on("click", "tr", function () {
     selectedCaseIndex = $(this).index() - 1;
-    updateSelectedCase();
+    if (selectedCaseIndex !== -1) updateSelectedCase();
 });
 
 $("#generate-manual-case-button").click(function () {
@@ -328,12 +328,16 @@ function submitCustomCase() {
 }
 
 function deleteCase() {
+    $('#test-case-button').show();
+    $('#pass-button').hide();
+    $('#fail-button').hide();
+
     tangoPage['cases'].splice(selectedCaseIndex, 1);
     updateCasesTable();
     saveTangoPage();
     updateCurrentCase();
     updateCasesExist();
-    if (tangoPage['cases'].length) updateNoCases();
+    if (!tangoPage['cases'].length) updateNoCases();
 }
 
 function setCurrentCase() {
@@ -465,7 +469,7 @@ function updateCurrentCase() {
         html += '<tr>';
         html += '<td>' + tangoPage['cases'][0]['test_data'][i]['field_name'] + '</td>';
         html += '<td class="uk-panel uk-panel-box uk-text-truncate">'
-            + tangoPage['cases'][0]['test_data'][i]['test_value'] + '</td>';
+                + tangoPage['cases'][0]['test_data'][i]['test_value'] + '</td>';
         html += '</tr>';
     }
     html += '</table>';
@@ -484,9 +488,9 @@ function updateSelectedCase() {
         html += '<tr>';
         html += '<td>' + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['field_name'] + '</td>';
         html += '<td> <input id="custom-case-update-'
-            + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['field_name']
-            + '" class="uk-input" type="text" value="'
-            + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['test_value'] + '"></td>';
+                + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['field_name']
+                + '" class="uk-input" type="text" value="'
+                + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['test_value'] + '"></td>';
         html += '</tr>';
     }
     html += '</table>';
