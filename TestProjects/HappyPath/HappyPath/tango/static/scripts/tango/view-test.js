@@ -136,17 +136,8 @@ async function runTestCase() {
         await setIFrameField();
         await sleep(125);
     }
-
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-
-    let yyyy = today.getFullYear();
-    if (dd < 10) dd = '0' + dd;
-    if (mm < 10) mm = '0' + mm;
     
-    today = dd + '/' + mm + '/' + yyyy;
-    tangoPage['cases'][0]['last_ran'] = today
+    tangoPage['cases'][0]['last_ran'] = getCurrentDateTime();
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -161,6 +152,21 @@ async function runTestCase() {
         for (i in tangoPage['cases'][0]['test_data']) {
             $("#tango-frame").contents().find(getSelector(tangoPage['cases'][0]['test_data'][i]['field_name'])).val('');
         }
+    }
+
+    function getCurrentDateTime() {
+        let now = new Date();
+
+        let hours = now.getHours();
+        hours = hours % 12;
+        hours = hours ? hours : 12; 
+
+        let minutes = now.getMinutes();
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+        let amOrPm = now.getHours() >= 12 ? 'pm' : 'am';
+
+        return now.getMonth() + 1 + '/' + now.getDate() + '/' + now.getFullYear() + ' ' + hours + ':' + minutes + ' ' + amOrPm;;
     }
 }
 
