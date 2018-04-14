@@ -71,12 +71,13 @@ UIkit.util.on('#generate-cases-button', 'click', function (e) {
     e.target.blur();
     if (tangoPage['cases'].length > 0) {
         UIkit.modal.confirm('Unsaved cases will be overwritten!').then(function () {
-               
+            generatePermutationsAjax();
         }, function () {
-            return;
         });
     }
-    generatePermutationsAjax();
+    else {
+        generatePermutationsAjax();
+    }
 });
 
 function defaultSelectorsModal() {
