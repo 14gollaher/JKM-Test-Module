@@ -355,6 +355,7 @@ function deleteCase() {
 }
 
 function setCurrentCase() {
+    updateModifiedCase();
     $('#pass-button').hide();
     $('#fail-button').hide();
     $('#test-case-button').show();
@@ -372,14 +373,13 @@ function updateCasesExist() {
     $("#test-case-button").prop('disabled', false);
 }
 
-function updateModifiedCase(index) {
-    tangoPage['cases'][index]['importance'] = $("input[name=importance-rating]:checked").val();
+function updateModifiedCase() {
+    tangoPage['cases'][selectedCaseIndex]['importance'] = $("input[name=importance-rating]:checked").val();
+    tangoPage['cases'][selectedCaseIndex]['status'] = $("input[name=status-selection]:checked").val();
 
-    tangoPage['cases'][index]['status'] = $("input[name=status-selection]:checked").val();
-
-    for (i in tangoPage['cases'][index]['test_data']) {
-        tangoPage['cases'][index]['test_data'][i]['test_value']
-            = $("#custom-case-update-" + tangoPage['cases'][index]['test_data'][i]['field_name']).val();
+    for (i in tangoPage['cases'][selectedCaseIndex]['test_data']) {
+        tangoPage['cases'][selectedCaseIndex]['test_data'][i]['test_value']
+            = $("#custom-case-update-" + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['field_name']).val();
     }
     updateCasesTable();
     saveTangoPage();
@@ -512,7 +512,7 @@ function updateSelectedCase() {
 
     html = '<button onclick="setCurrentCase()" style="float: left;" class="uk-button uk-button-default uk-modal-close uk-button-primary" type="button">Set Next Case</button>';
     html += '<button onclick="deleteCase()" style="float: left; margin-left: 5px;" class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button">Delete Case</button>';
-    html += '<button style="margin-right: 5px; float: right;" onclick="updateModifiedCase(' + selectedCaseIndex + ')" class="uk-button uk-button-default uk-modal-close uk-button-primary" type="button"> Apply</button >';
+    html += '<button style="margin-right: 5px; float: right;" onclick="updateModifiedCase()" class="uk-button uk-button-default uk-modal-close uk-button-primary" type="button"> Apply</button >';
     html += '<button style="margin-right: 5px; float: right;" class="uk-button uk-button-default uk-modal-close" type="button" > Close </button>';
     $('#selected-case-footer').html(html);
 

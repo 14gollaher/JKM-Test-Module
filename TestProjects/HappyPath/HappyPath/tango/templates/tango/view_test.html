@@ -56,8 +56,6 @@
     <div id="case-details-modal" class="uk-flex-top" uk-modal>
         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
             <div id="selected-case-details" style="padding-top: 10px;"><!--Html generated in view-test.js--></div>  
-                <button onclick="deleteCase()" style="float: left" class="uk-button uk-button-default uk-modal-close uk-button-primary" type="button">Run Next</button>
-                <br/>
                 <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                     <h5>Importance: </h5>
                     <label><input class="uk-radio" type="radio" id="importance-rating1" name="importance-rating" value="1">&nbsp;1</label>
@@ -74,7 +72,12 @@
                     <label><input class="uk-radio" type="radio" id="not-ran-status" name="status-selection" value="Not Ran">&nbsp;Not Ran</label>
                 </div>
             <div style="padding-left: 0px; padding-right: 0px;" class="uk-modal-footer uk-text-right">
-                <div id="selected-case-footer" style="padding-top: 10px; padding-bottom: 0px;"><!--Html generated in view-test.js--></div>
+                <div id="selected-case-footer" style="padding-top: 10px; padding-bottom: 0px;">
+                        <button onclick="setCurrentCase()" style="float: left;" class="uk-button uk-button-default uk-modal-close uk-button-primary" type="button">Set Next Case</button>
+                        <button onclick="deleteCase()" style="float: left; margin-left: 5px;" class="uk-button uk-button-default uk-modal-close uk-button-danger" type="button">Delete Case</button>
+                        <button style="margin-right: 5px; float: right;" onclick="updateModifiedCase()" class="uk-button uk-button-default uk-modal-close uk-button-primary" type="button"> Apply</button >
+                        <button style="margin-right: 5px; float: right;" class="uk-button uk-button-default uk-modal-close" type="button" > Close </button>
+                </div>
             </div> 
         </div>
     </div>
