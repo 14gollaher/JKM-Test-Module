@@ -15,7 +15,7 @@ def home(request):
         }
     )
 
-def sample_form(request):
+def sample_view(request):
     if request.method == 'POST':
         form = ClassForm(request.POST)
         if form.is_valid():
@@ -27,7 +27,7 @@ def sample_form(request):
 
     return render(request, 'sample-form.html', {'form': form})
 
-def super_form(request):
+def super_view(request):
     if request.method == 'POST':
         form = SuperForm(request.POST)
         if form.is_valid():
@@ -38,7 +38,7 @@ def super_form(request):
     return render(request, 'sample-form.html', {'form': form})
 
 
-def sad_form(request):
+def sad_view(request):
     if request.method == 'POST':
         form = SadPathForm(request.POST)
         if form.is_valid():

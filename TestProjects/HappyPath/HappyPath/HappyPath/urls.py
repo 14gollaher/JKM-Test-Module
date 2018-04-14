@@ -18,7 +18,7 @@ import tango.views
 urlpatterns = [
     url(r'^tango/', include('tango.urls', namespace="tango")),
     url(r'^$', app.views.home, name='home'),
-    url(r'^sample-form', app.views.sample_form, name='sample_form'),
-    url(r'^sad-form', app.views.sad_form, name='sad_form'),
-    url(r'^super-form', app.views.super_form, name='super_form')
+    url(r'^sample-view', app.views.sample_view, name='sample_view'),
+    url(r'^sad-view', app.views.sad_view, name='sad_view'),
+    url(r'^super-view', app.views.super_view, name='super_view')
 ]
