@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
+
 import os
 import json
 from TangoUserApplication import *
@@ -136,6 +139,17 @@ class TangoPermutationGenerator:
         if 'min_value' in property:
             abc = random.uniform(property['min_value'] - 42.21, property['min_value'])
             permutation['test_values'].append(random.uniform(property['min_value'] - 0.5, property['min_value']))
+
+        if 'decimal_places' in property:
+            permutation['test_values'].append(self.fake.pydecimal(self.fake.random_int(1, 5), property['decimal_places'], self.fake.pybool()))
+            permutation['test_values'].append(self.fake.pydecimal(self.fake.random_int(1, 5), property['decimal_places'] + 1, self.fake.pybool()))
+
+        if 'max_digits' in property:
+            digits = property['max_digits']
+            first = self.fake.random_int(1, digits)
+            second = digits - first
+            permutation['test_values'].append(self.fake.pydecimal(first, second, self.fake.pybool()))
+            permutation['test_values'].append(self.fake.pydecimal(first + 1, second, self.fake.pybool()))
         
         #Zero
         permutation['test_values'].append('0') 
@@ -148,13 +162,13 @@ class TangoPermutationGenerator:
         permutation['field_name'] = property['name']
 
         #default case
-        permutation['default'] = 1337.37
+        permutation['default'] = self.fake.pyfloat(left_digits=None, right_digits=None, positive=False)
 
-
+    
         permutation['test_values'] = []
 
         #Happy path example
-        permutation['test_values'].append(self.fake.random_number()) 
+        permutation['test_values'].append(self.fake.pyfloat(left_digits=None, right_digits=None, positive=False)) 
 
         #Blank
         permutation['test_values'].append('') 
@@ -178,6 +192,9 @@ class TangoPermutationGenerator:
         permutation = {}
         permutation['field_name'] = property['name']
 
+        maxLen = -1
+        minLen = -1
+
         #default case
         permutation['default'] = self.fake.text(max_nb_chars=25, ext_word_list=None)
 
@@ -194,13 +211,26 @@ class TangoPermutationGenerator:
 
         # Maximum length 
         if 'max_length' in property:
+            maxLen = property['max_length']
             permutation['test_values'].append(self.fake.pystr(property['max_length'], property['max_length'] ))
             permutation['test_values'].append(self.fake.pystr(property['max_length'] + 1, property['max_length'] + 1))
 
         # Minimum length 
         if 'min_length' in property:
+            minLen = property['min_length']
             permutation['test_values'].append(self.fake.pystr(property['min_length'], property['min_length'] ))
             permutation['test_values'].append(self.fake.pystr(property['min_length'] - 1, property['min_length'] - 1))
+
+        if(minLen == -1 and maxLen == -1):
+            endoded = self.fake.pystr(property['min_length'], property['max_length'] - 3)
+            enc = endoded + 'ñá'
+            permutation['test_values'].append(enc)
+        elif(maxLen > 2):
+            permutation['test_values'].append('ñá')
+            
+
+        # Special Encoding
+
 
         self.permutations.append(permutation)
         
@@ -209,12 +239,12 @@ class TangoPermutationGenerator:
         permutation['field_name'] = property['name']
         
         #default case
-        permutation['default'] = self.fake.random_number();
+        permutation['default'] = self.fake.pyint()
    
         permutation['test_values'] = []
 
         # Happy path example
-        permutation['test_values'].append(self.fake.random_number()) 
+        permutation['test_values'].append(fake.pyint()) 
         
         # Blank
         permutation['test_values'].append('') 
@@ -231,6 +261,7 @@ class TangoPermutationGenerator:
         if 'max_length' in property:
             permutation['test_values'].append(property['max_value'])
             permutation['test_values'].append(fake.random_int(min=property['max_value'] + 1, max=property['max_value'] + 1))
+
 
         self.permutations.append(permutation)
 
