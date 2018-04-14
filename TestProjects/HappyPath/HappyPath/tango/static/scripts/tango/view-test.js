@@ -58,8 +58,7 @@ $("#results-table").on("click", "tr", function () {
 });
 
 $("#generate-manual-case-button").click(function () {
-    let newCaseId = createCustomCase();
-    createCustomCaseTable(newCaseId);
+    generatePermutationAjax();
 });
 
 $("#edit-selectors-button").click(function () {
@@ -72,13 +71,12 @@ UIkit.util.on('#generate-cases-button', 'click', function (e) {
     e.target.blur();
     if (tangoPage['cases'].length > 0) {
         UIkit.modal.confirm('Unsaved cases will be overwritten!').then(function () {
-            generatePermutationsAjax();
+               
         }, function () {
+            return;
         });
     }
-    else {
-        generatePermutationsAjax();
-    }
+    generatePermutationsAjax();
 });
 
 function defaultSelectorsModal() {
@@ -102,6 +100,15 @@ function generatePermutationsAjax() {
             updateCasesTable();
             updateCurrentCase();
             updateCasesExist();
+        });
+}
+
+function generatePermutationAjax() {
+    let requestUrl = window.location.origin + "/tango/generate-permutations";
+    $.get(requestUrl, { viewName: tangoPage['view_name'] },
+        function (data) {
+            let newCaseId = createCustomCase();
+            updateCustomCaseTable(newCaseId, data);
         });
 }
 
@@ -505,7 +512,7 @@ function updateSelectorsTable() {
     $('#selectors-table').html(html)
 }
 
-function createCustomCaseTable(caseId) {
+function updateCustomCaseTable(caseId, permutation) {
     let html = '<h3 class="uk-heading-divider">New Case - ' + '<input class="uk-input uk-form-width-medium" type="text" id="case-id" value="' + caseId + '"/></h3>';
     html += '<table class="uk-table uk-table-striped">';
 
@@ -516,7 +523,7 @@ function createCustomCaseTable(caseId) {
     for (i in tangoPage['fields']) {
         html += '<tr>';
         html += '<td>' + tangoPage['fields'][i]['name'] + '</td>';
-        html += '<td> <input id="custom-case-new-' + tangoPage['fields'][i]['name']+ '" class="uk-input" type="text" placeholder="Input"> </td>';
+        html += '<td> <input id="custom-case-new-' + tangoPage['fields'][i]['name']+ '" class="uk-input" type="text" value="' + permutation[i]['test_values'][0] + '"/></td>';
         html += '</tr>';
     }
 
