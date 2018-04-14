@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
-from forms import HappyPathForm, SadPathForm, SuperForm, ClassForm
+from forms import SadPathForm, SuperForm, ClassForm
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
@@ -22,8 +22,6 @@ def sample_view(request):
             return HttpResponseRedirect('/thanks/')
     else:
         form = ClassForm()
-        #form = HappyPathForm(auto_id="custom_%s")
-
 
     return render(request, 'sample-form.html', {'form': form})
 

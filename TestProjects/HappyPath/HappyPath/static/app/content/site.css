@@ -45,3 +45,21 @@ input.invalid, textarea.invalid {
 input.valid, textarea.valid {
     border: 2px solid green;
 }
+
+label {
+    display: inline-block;
+    text-align: right;
+    clear: right;
+    float: right;
+    margin-top: 20px;
+}
+
+input {
+    display: inline-block;
+    margin-top: 10px;
+    float: right;
+}
+
+div.center {
+    text-align: center;
+}

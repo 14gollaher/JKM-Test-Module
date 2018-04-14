@@ -122,9 +122,6 @@
     <Content Include="tango\static\lib\uikit.min.js" />
     <Content Include="tango\static\scripts\tango\view-select.js" />
     <Content Include="tango\static\scripts\tango\view-test.js" />
-    <Content Include="tango\TangoComponents\TangoConfiguration.json">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="tango\templates\tango-layout.html" />
     <Content Include="tango\templates\tango\view-select.html" />
     <Content Include="tango\templates\tango\view_test.html" />

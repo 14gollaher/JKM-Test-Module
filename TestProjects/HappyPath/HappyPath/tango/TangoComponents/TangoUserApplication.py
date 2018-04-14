@@ -33,7 +33,7 @@ class TangoUserApplication:
 
     def populate_views(self):
         self.views = []
-        file_path = os.path.join(os.path.dirname(__file__)) + '\\TangoConfiguration.json'
+        file_path = os.path.join(os.path.dirname(__file__)) + '\\tango-configuration.json'
         
         with open(file_path) as data_file:    
             settings = json.load(data_file)

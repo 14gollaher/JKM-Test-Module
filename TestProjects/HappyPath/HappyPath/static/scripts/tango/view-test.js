@@ -34,8 +34,10 @@ $("#fail-button").click(function () {
 
 $("#update-fail-button").click(function () {
     tangoPage['cases'][0]['status'] = 'Fail';
-    updateFailedCase();
     updateCases();
+    updateFailedCase();
+    updateCasesTable();
+    saveTangoPage();
     failedCaseNotification();
 });
 
@@ -177,7 +179,6 @@ function getSelector(fieldName) {
 
 function updateCases() {
     tangoPage['cases'].push(tangoPage['cases'].splice(0, 1)[0]); 
-    console.log(tangoPage);
     updateCasesTable();
     saveTangoPage();
 }
@@ -194,7 +195,7 @@ function toggleCasesSave() {
         unsaveAllCases()
         return;
     }
-    saveAllCases(); 
+    saveAllCases();
 }
 
 function allCasesSaved() {
@@ -208,12 +209,14 @@ function saveAllCases() {
     for (i in tangoPage['cases']) {
         tangoPage['cases'][i]['save'] = "True";
     }
+    saveTangoPage();
 }
 
 function unsaveAllCases() {
     for (i in tangoPage['cases']) {
         tangoPage['cases'][i]['save'] = "False";
     }
+    saveTangoPage();
 }
 
 function updateSelectors() {
@@ -301,13 +304,14 @@ function createCases(permutations) {
 }
 
 function updateFailedCase() {
-    tangoPage['cases'][0]['importance'] = $("input[name=importance-rating]:checked").val();
-    tangoPage['cases'][0]['notes'] = $("#case-fail-notes").val();
+    tangoPage['cases'][tangoPage['cases'].length - 1]['importance']
+        = $("input[name=importance-rating]:checked").val();
+    tangoPage['cases'][tangoPage['cases'].length - 1]['notes'] = $("#case-fail-notes").val();
 }
 
 function updateCurrentNote(data) {
+
     tangoPage['cases'][data]['notes'] = $('#notes-textarea').val();
-    saveTangoPage();
 }
 
 function updateCaseSaveStatus(data) {
@@ -351,11 +355,14 @@ function deleteCase() {
 }
 
 function setCurrentCase() {
+    updateModifiedCase();
     $('#pass-button').hide();
     $('#fail-button').hide();
     $('#test-case-button').show();
     tangoPage['cases'][0] = tangoPage['cases'].splice(selectedCaseIndex, 1, tangoPage['cases'][0])[0];
     updateCasesTable();
+    saveTangoPage(); 
+    updateCurrentCase();
 }
 
 function updateNoCases() {
@@ -376,8 +383,8 @@ function updateModifiedCase() {
             = $("#custom-case-update-" + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['field_name']).val();
     }
     updateCasesTable();
-    updateCurrentCase();
     saveTangoPage();
+    updateCurrentCase();
 }
 
 function createNewId() {
