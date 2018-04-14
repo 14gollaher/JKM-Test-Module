@@ -245,18 +245,31 @@ function createCustomCase() {
 function createCases(permutations) {
     tangoPage['cases'] = tangoPage['cases'].filter(function (item) { return item['save'] === "True"; });
 
-    while (isMoreTestValues(permutations)) {
+    let amount = getLongestPermutationCount()
+
+    for (let i = 0; i < amount; i++) {
+        let testCase = {}
+        testCase['id'] = createNewId();
+        testCase['last_ran'] = "-";
+        testCase['importance'] = "1";
+        testCase['notes'] = "";
+        testCase['status'] = "Not Ran";
+        testCase['save'] = 'False';
+        testCase['test_data'] = getTestData(permutations);
+        tangoPage['cases'].push(testCase);
+    }
+    
+
+    function getLongestPermutationCount() {
+        let longest = 0
+
         for (i in permutations) {
-            let testCase = {}
-            testCase['id'] = createNewId();
-            testCase['last_ran'] = "-";
-            testCase['importance'] = "1";
-            testCase['notes'] = "";
-            testCase['status'] = "Not Ran";
-            testCase['save'] = 'False';
-            testCase['test_data'] = getTestData(permutations);
-            tangoPage['cases'].push(testCase);
+            if (permutations[i]['test_values'].length > longest)
+                longest = permutations[i]['test_values'].length
         }
+        
+        return longest;
+
     }
 
     function getTestData() {
