@@ -337,8 +337,12 @@ function deleteCase() {
 }
 
 function setCurrentCase() {
+    $('#pass-button').hide();
+    $('#fail-button').hide();
+    $('#test-case-button').show();
     tangoPage['cases'][0] = tangoPage['cases'].splice(selectedCaseIndex, 1, tangoPage['cases'][0])[0];
     updateCasesTable();
+    saveTangoPage(); 
     updateCurrentCase();
 }
 
@@ -457,11 +461,11 @@ function updateCurrentCase() {
     html += '<th>Field Name</th>';
     html += '<th>Test Value</th>';
     html += '</tr>';
-    for (i in tangoPage['cases'][selectedCaseIndex]['test_data']) {
+    for (i in tangoPage['cases'][0]['test_data']) {
         html += '<tr>';
-        html += '<td>' + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['field_name'] + '</td>';
+        html += '<td>' + tangoPage['cases'][0]['test_data'][i]['field_name'] + '</td>';
         html += '<td class="uk-panel uk-panel-box uk-text-truncate">'
-            + tangoPage['cases'][selectedCaseIndex]['test_data'][i]['test_value'] + '</td>';
+            + tangoPage['cases'][0]['test_data'][i]['test_value'] + '</td>';
         html += '</tr>';
     }
     html += '</table>';
