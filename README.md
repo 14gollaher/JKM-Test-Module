@@ -135,11 +135,11 @@
 >> | Blank | |
 >> | Zero | 0 |
 >> | Minimum Value | 45 | 
->> | Minimum Value - 42.21 | 2.79 |
+>> | Minimum Value - 1.1 | 43.9 |
 >> | Maximum Value | 4224.2 |
->> | Maximum Value + 12.42 | 4236.62 |
->> | Decmial Places Length | 200.99 |
->> | Decimal Places Length + 1 | 200.997 |
+>> | Maximum Value + 1.1 | 4225.3 |
+>> | Decimal Places | 200.99 |
+>> | Decimal Places + 1 | 200.997 |
 
 > ##### TimeField
 >> ``` none
